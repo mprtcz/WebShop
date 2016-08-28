@@ -6,8 +6,8 @@ import java.io.Serializable;
  * Created by Azet on 2016-08-27.
  */
 public enum UserProfileType implements Serializable {
-    USER("SELLER"),
-    DBA("CUSTOMER"),
+    SELLER("SELLER"),
+    CUSTOMER("CUSTOMER"),
     ADMIN("ADMIN");
 
     String userProfileType;

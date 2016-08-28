@@ -1,6 +1,5 @@
 package com.mprtcz.webshop.dao;
 
-//import com.websystique.springmvc.model.UserProfile;
 
 import com.mprtcz.webshop.model.usermodel.UserProfile;
 import org.hibernate.Criteria;

@@ -1,11 +1,15 @@
 package com.mprtcz.webshop.controller;
 
 import com.mprtcz.webshop.model.usermodel.User;
+import com.mprtcz.webshop.service.UserProfileService;
+import com.mprtcz.webshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +21,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class AppController {
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserProfileService userProfileService;
+
+    @Autowired
+    MessageSource messageSource;
+
+    @Autowired
+    PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
     @Autowired
     AuthenticationTrustResolver authenticationTrustResolver;

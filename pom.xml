@@ -10,7 +10,7 @@
 
   <properties>
     <springframework.version>4.2.5.RELEASE</springframework.version>
-    <hibernate.version>4.3.6.Final</hibernate.version>
+    <hibernate.version>4.3.11.Final</hibernate.version>
     <mysql.connector.version>5.1.31</mysql.connector.version>
     <springsecurity.version>4.0.4.RELEASE</springsecurity.version>
     <joda-time.version>2.3</joda-time.version>
