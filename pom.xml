@@ -12,6 +12,7 @@
     <springframework.version>4.2.5.RELEASE</springframework.version>
     <hibernate.version>4.3.6.Final</hibernate.version>
     <mysql.connector.version>5.1.31</mysql.connector.version>
+    <springsecurity.version>4.0.4.RELEASE</springsecurity.version>
     <joda-time.version>2.3</joda-time.version>
     <testng.version>6.9.4</testng.version>
     <mockito.version>1.10.19</mockito.version>
@@ -45,6 +46,23 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
       <version>${springframework.version}</version>
+    </dependency>
+
+    <!-- Spring Security -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${springsecurity.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${springsecurity.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>${springsecurity.version}</version>
     </dependency>
 
     <!-- Hibernate -->
