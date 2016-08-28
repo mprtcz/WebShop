@@ -1,5 +1,6 @@
 package com.mprtcz.webshop.controller;
 
+import com.mprtcz.webshop.model.usermodel.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +25,14 @@ public class AppController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage() {
         return "login";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registrationPage(ModelMap model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("edit", false);
+        //model.addAttribute("loggedinuser", getPrincipal());
+        return "registration";
     }
 }

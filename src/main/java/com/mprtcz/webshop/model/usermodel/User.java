@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name="APP_USER")
-public abstract class User implements Serializable {
+public class User implements Serializable {
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;

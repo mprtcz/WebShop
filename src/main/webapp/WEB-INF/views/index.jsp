@@ -8,16 +8,14 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-<body><center>
+<center>
 
     <div class="container-fluid">
         <h3>Welcome to this page. Select action:</h3></p>
 
         <div class="btn-group-vertical">
-            <a href="/login" type="submit" class="btn btn-primary" value="Log in"></a></p>
-            <a href="/"  type="submit" class="btn btn-primary" value="Register"></a></div></div>
+            <a href="/login" type="submit" class="btn btn-primary" value="Log in">Log in</a></p>
+            <a href="/register"  type="submit" class="btn btn-primary" value="Register">Register</a></div></div>
 </center>
-</body>
 </body>
 </html>
