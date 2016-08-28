@@ -1,13 +1,10 @@
 package com.mprtcz.webshop.model.usermodel;
 
-import com.mprtcz.webshop.model.itemmodel.Item;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -47,9 +44,6 @@ public abstract class User implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
     private Set<UserProfile> userProfiles = new HashSet<UserProfile>(); //set bcuz an user can have every role (admin and customer and...)
 
-    private List<Item> orderedItems = new ArrayList<>(); //TODO hook up table
-
-    private List<Item> purchaseHistory = new ArrayList<>(); // TODO hook up table
 
     public Integer getId() {
         return id;
@@ -79,13 +73,7 @@ public abstract class User implements Serializable {
         return userProfiles;
     }
 
-    public List<Item> getOrderedItems() {
-        return orderedItems;
-    }
 
-    public List<Item> getPurchaseHistory() {
-        return purchaseHistory;
-    }
 
     public void setId(Integer id) {
         this.id = id;
@@ -114,6 +102,18 @@ public abstract class User implements Serializable {
     public void setUserProfiles(Set<UserProfile> userProfiles) {
         this.userProfiles = userProfiles;
     }
+/*
+    private List<Item> orderedItems = new ArrayList<>(); //TODO hook up table
+
+    private List<Item> purchaseHistory = new ArrayList<>(); // TODO hook up table
+
+    public List<Item> getOrderedItems() {
+        return orderedItems;
+    }
+
+    public List<Item> getPurchaseHistory() {
+        return purchaseHistory;
+    }
 
     public void setOrderedItems(List<Item> orderedItems) {
         this.orderedItems = orderedItems;
@@ -122,6 +122,7 @@ public abstract class User implements Serializable {
     public void setPurchaseHistory(List<Item> purchaseHistory) {
         this.purchaseHistory = purchaseHistory;
     }
+    //*/
 
     @Override
     public boolean equals(Object o) {
@@ -156,8 +157,6 @@ public abstract class User implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", userProfiles=" + userProfiles +
-                ", orderedItems=" + orderedItems +
-                ", purchaseHistory=" + purchaseHistory +
                 '}';
     }
 }
