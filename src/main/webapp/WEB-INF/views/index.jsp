@@ -15,7 +15,8 @@
 
         <div class="btn-group-vertical">
             <a href="/login" type="submit" class="btn btn-primary" value="Log in">Log in</a></p>
-            <a href="/register"  type="submit" class="btn btn-primary" value="Register">Register</a></div></div>
+            <a href="/register"  type="submit" class="btn btn-primary" value="Register">Register</a></p>
+            <a href="/itemslist"  type="submit" class="btn btn-primary" value="Items List">Go to the items list</a></div></div>
 </center>
 </body>
 </html>

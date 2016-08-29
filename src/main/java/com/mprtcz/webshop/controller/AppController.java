@@ -1,8 +1,10 @@
 package com.mprtcz.webshop.controller;
 
+import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.usermodel.User;
-import com.mprtcz.webshop.service.UserProfileService;
-import com.mprtcz.webshop.service.UserService;
+import com.mprtcz.webshop.service.itemservice.ItemService;
+import com.mprtcz.webshop.service.userservice.UserProfileService;
+import com.mprtcz.webshop.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -15,6 +17,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 /**
  * Created by Azet on 2016-08-27.
  */
@@ -23,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AppController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    ItemService itemService;
 
     @Autowired
     UserProfileService userProfileService;
@@ -51,8 +58,19 @@ public class AppController {
         if (isCurrentAuthenticationAnonymous()) {
             return "login";
         } else {
-            return "redirect:/list";
+            return "redirect:/itemslist";
         }
+    }
+
+    /**
+     * This method will list all existing items.
+     */
+    @RequestMapping(value = {"/itemslist" }, method = RequestMethod.GET)
+    public String listItems(ModelMap model) {
+
+        List<Item> items = itemService.findAllItems();
+        model.addAttribute("items", items);
+        return "itemslist";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)

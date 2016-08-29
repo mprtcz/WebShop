@@ -1,6 +1,6 @@
-package com.mprtcz.webshop.service;
+package com.mprtcz.webshop.service.userservice;
 
-import com.mprtcz.webshop.dao.UserDao;
+import com.mprtcz.webshop.dao.userdao.UserDao;
 import com.mprtcz.webshop.model.usermodel.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

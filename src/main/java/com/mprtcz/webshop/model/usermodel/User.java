@@ -1,10 +1,13 @@
 package com.mprtcz.webshop.model.usermodel;
 
+import com.mprtcz.webshop.model.itemmodel.Item;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,6 +46,15 @@ public class User implements Serializable {
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
     private Set<UserProfile> userProfiles = new HashSet<UserProfile>(); //set bcuz an user can have every role (admin and customer and...)
+
+    @NotEmpty
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "APP_USER_ITEM",
+            joinColumns = { @JoinColumn(name = "USER_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "ITEM_ID") })
+    private List<Item> boughtItemsList = new ArrayList<>();
+
+
 
 
     public Integer getId() {
@@ -102,27 +114,14 @@ public class User implements Serializable {
     public void setUserProfiles(Set<UserProfile> userProfiles) {
         this.userProfiles = userProfiles;
     }
-/*
-    private List<Item> orderedItems = new ArrayList<>(); //TODO hook up table
 
-    private List<Item> purchaseHistory = new ArrayList<>(); // TODO hook up table
-
-    public List<Item> getOrderedItems() {
-        return orderedItems;
+    public List<Item> getBoughtItemsList() {
+        return boughtItemsList;
     }
 
-    public List<Item> getPurchaseHistory() {
-        return purchaseHistory;
+    public void setBoughtItemsList(List<Item> boughtItemsList) {
+        this.boughtItemsList = boughtItemsList;
     }
-
-    public void setOrderedItems(List<Item> orderedItems) {
-        this.orderedItems = orderedItems;
-    }
-
-    public void setPurchaseHistory(List<Item> purchaseHistory) {
-        this.purchaseHistory = purchaseHistory;
-    }
-    //*/
 
     @Override
     public boolean equals(Object o) {

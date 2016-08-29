@@ -1,4 +1,4 @@
-package com.mprtcz.webshop.dao;
+package com.mprtcz.webshop.dao.userdao;
 
 
 import com.mprtcz.webshop.model.usermodel.User;

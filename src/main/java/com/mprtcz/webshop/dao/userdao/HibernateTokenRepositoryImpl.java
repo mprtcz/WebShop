@@ -1,5 +1,6 @@
-package com.mprtcz.webshop.dao;
+package com.mprtcz.webshop.dao.userdao;
 
+import com.mprtcz.webshop.dao.AbstractDao;
 import com.mprtcz.webshop.model.usermodel.PersistentLogin;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;

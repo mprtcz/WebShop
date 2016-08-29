@@ -2,7 +2,7 @@ package com.mprtcz.webshop.security;
 
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.model.usermodel.UserProfile;
-import com.mprtcz.webshop.service.UserService;
+import com.mprtcz.webshop.service.userservice.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.mprtcz.webshop.service;
+package com.mprtcz.webshop.service.userservice;
 
 import com.mprtcz.webshop.model.usermodel.UserProfile;
 import org.springframework.stereotype.Service;

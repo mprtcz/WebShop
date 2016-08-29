@@ -1,6 +1,7 @@
-package com.mprtcz.webshop.dao;
+package com.mprtcz.webshop.dao.userdao;
 
 
+import com.mprtcz.webshop.dao.AbstractDao;
 import com.mprtcz.webshop.model.usermodel.UserProfile;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -11,7 +12,7 @@ import java.util.List;
 
 
 @Repository("userProfileDao")
-public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>implements UserProfileDao{
+public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implements UserProfileDao{
 
 	public UserProfile findById(int id) {
 		return getByKey(id);
