@@ -11,7 +11,7 @@ public interface ItemDao {
 
     Item findById(int id);
 
-    Item findBySellerId(Integer sellerId);
+    List<Item> findItemsByNameFragment(String nameFragment);
 
     void save(Item item);
 

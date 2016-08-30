@@ -24,9 +24,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item findBySellerId(Integer sellerId) {
-        Item item = itemDao.findBySellerId(sellerId);
-        return item;
+    public List<Item> findItemsBySellerId(Integer sellerId) {
+        return itemDao.findItemsBySellerId(sellerId);
     }
 
     @Override

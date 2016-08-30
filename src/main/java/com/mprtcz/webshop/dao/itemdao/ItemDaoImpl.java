@@ -20,10 +20,11 @@ public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
     }
 
     @Override
-    public Item findBySellerId(Integer sellerId) {
-        Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("SELLER_ID", sellerId));
-        return (Item) criteria.uniqueResult();
+    @SuppressWarnings("unchecked")
+    public List<Item> findItemsByNameFragment(String nameFragment) {
+        Criteria criteria = createEntityCriteria().add(Restrictions.like("name", nameFragment));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return (List<Item>) criteria.list();
     }
 
     @Override

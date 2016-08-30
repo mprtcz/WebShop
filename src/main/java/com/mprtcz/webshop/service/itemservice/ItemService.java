@@ -11,7 +11,7 @@ public interface ItemService {
 
     Item findById(int id);
 
-    Item findBySellerId(Integer sellerId);
+    List<Item> findItemsBySellerId(Integer sellerId);
 
     void saveItem(Item item);
 
