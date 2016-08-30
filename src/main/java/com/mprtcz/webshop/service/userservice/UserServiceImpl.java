@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Service("userService")
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService{
 
 	public boolean isUserSSOUnique(Integer id, String sso) {
 		User user = findBySSO(sso);
-		return ( user == null || ((id != null) && (user.getId() == id)));
+		return ( user == null || ((id != null) && (Objects.equals(user.getId(), id))));
 	}
 	
 }
