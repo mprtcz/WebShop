@@ -3,6 +3,7 @@ package com.mprtcz.webshop.model.itemmodel;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -22,19 +23,20 @@ public class Item implements Serializable {
     private
     String itemName;
 
-    @NotEmpty
-    @Column(name="PRICE", nullable=false)
+    @NotNull
+    @Column(name="PRICE", nullable=false, precision = 2)
     private
     BigInteger price;
 
-    @NotEmpty
+    @NotNull
+    @Column(name="STOCK", nullable = false)
+    private
+    BigInteger stock;
+
+    @NotNull
     @Column(name="SELLER_ID", nullable=false)
     private
     Integer sellerId;
-
-    @Column(name="BUYER_ID")
-    private
-    Integer buyerId;
 
     @Column(name="DESCRIPTION")
     private
@@ -56,12 +58,12 @@ public class Item implements Serializable {
         return sellerId;
     }
 
-    public Integer getBuyerId() {
-        return buyerId;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public BigInteger getStock() {
+        return stock;
     }
 
     public void setId(Integer id) {
@@ -76,12 +78,12 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
+    public void setStock(BigInteger stock) {
+        this.stock = stock;
     }
 
-    public void setBuyerId(Integer buyerId) {
-        this.buyerId = buyerId;
+    public void setSellerId(Integer sellerId) {
+        this.sellerId = sellerId;
     }
 
     public void setDescription(String description) {
@@ -114,7 +116,6 @@ public class Item implements Serializable {
                 ", itemName='" + itemName + '\'' +
                 ", price=" + price +
                 ", sellerId=" + sellerId +
-                ", buyerId=" + buyerId +
                 ", description='" + description + '\'' +
                 '}';
     }

@@ -90,19 +90,62 @@ public class AppController {
         return "registration";
     }
 
+    @RequestMapping(value = "/additem", method = RequestMethod.GET)
+    public String addItemPage(ModelMap model) {
+        Item item = new Item();
+        item.setSellerId(getUserId());
+        model.addAttribute("item", item);
+        model.addAttribute("edit", false);
+        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("sellerId", getUserId());
+        return "additem";
+    }
+
+    /**
+     * This method will be called on form submission, handling POST request for
+     * saving user in database. It also validates the user input
+     */
+    @RequestMapping(value = { "/additem" }, method = RequestMethod.POST)
+    public String saveUser(@Valid Item item, BindingResult result,
+                           ModelMap model) {
+        System.out.println("USER ID : " +getUserId());
+
+        item.setSellerId(getUserId());
+
+        System.out.println("Item to persist: " + item.toString());
+
+        if (result.hasErrors()) {
+            System.out.println("errors with result: " +result.toString());
+            return "additem";
+        }
+
+
+        itemService.saveItem(item);
+
+        model.addAttribute("success", "User " + item.getItemName() + " for "+ item.getPrice() + " registered successfully");
+        model.addAttribute("loggedinuser", getPrincipal());
+        return "additemsuccess";
+    }
+
     /**
      * This method returns the principal[user-name] of logged-in user.
      */
     private String getPrincipal(){
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if (principal instanceof UserDetails) {
             userName = ((UserDetails)principal).getUsername();
+
         } else {
             userName = principal.toString();
         }
         return userName;
+    }
+
+    private Integer getUserId(){
+        Integer userID = -1;
+        userID = userService.findBySSO(getPrincipal()).getId();
+        return userID;
     }
 
 
