@@ -12,4 +12,6 @@ public interface UserProfileService {
     UserProfile findById(Integer id);
 
     List<UserProfile> findAll();
+
+    UserProfile findByType(String type);
 }

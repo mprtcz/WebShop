@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Repository("itemDao")
 public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
+
     @Override
     public Item findById(int id) {
         return getByKey(id);

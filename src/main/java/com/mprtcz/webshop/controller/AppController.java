@@ -20,6 +20,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.Locale;
  */
 @Controller
 @RequestMapping("/")
+@SessionAttributes("roles")
 public class AppController {
     @Autowired
     UserService userService;
@@ -103,15 +105,6 @@ public class AppController {
         return userName;
     }
 
-    /*
-    @RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
-    public String newUser(ModelMap model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        model.addAttribute("edit", false);
-        model.addAttribute("loggedinuser", getPrincipal());
-        return "registration";
-    }//*/
 
     /**
      * This method will be called on form submission, handling POST request for
@@ -121,7 +114,7 @@ public class AppController {
     public String saveUser(@Valid User user, BindingResult result,
                            ModelMap model) {
         if (result.hasErrors()) {
-            System.out.println(result.toString());
+            System.out.println("errors with result: " +result.toString());
             return "registration";
         }
 
@@ -138,6 +131,8 @@ public class AppController {
             result.addError(ssoError);
             return "registration";
         }
+
+        System.out.println("User to persist: " + user.toString());
         userService.saveUser(user);
 
         model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");

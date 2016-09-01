@@ -20,11 +20,16 @@ public class UserProfileServiceImpl implements UserProfileService{
 
     @Override
     public UserProfile findById(Integer id) {
-        return new UserProfile();
+        return dao.findById(id);
     }
 
     @Override
     public List<UserProfile> findAll() {
         return dao.findAll();
+    }
+
+    @Override
+    public UserProfile findByType(String type) {
+        return dao.findByType(type);
     }
 }

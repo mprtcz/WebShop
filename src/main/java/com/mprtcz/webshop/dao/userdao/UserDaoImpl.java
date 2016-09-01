@@ -48,11 +48,12 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		/*
 		for(User user : users){
 			Hibernate.initialize(user.getUserProfiles());
-		}*/
+		}//*/
 		return users;
 	}
 
 	public void save(User user) {
+		System.out.println("user = [" + user.toString() + "]");
 		persist(user);
 	}
 

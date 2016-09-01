@@ -48,12 +48,11 @@ public class User implements Serializable {
     private Set<UserProfile> userProfiles = new HashSet<UserProfile>(); //set bcuz an user can have every role (admin and customer and...)
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "APP_USER_ITEM",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "ITEM_ID") })
     private List<Item> boughtItemsList = new ArrayList<>();
-
 
 
 
