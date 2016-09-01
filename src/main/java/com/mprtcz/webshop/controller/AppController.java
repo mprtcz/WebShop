@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by Azet on 2016-08-27.
@@ -97,7 +98,6 @@ public class AppController {
         model.addAttribute("item", item);
         model.addAttribute("edit", false);
         model.addAttribute("loggedinuser", getPrincipal());
-        model.addAttribute("sellerId", getUserId());
         return "additem";
     }
 
@@ -110,15 +110,14 @@ public class AppController {
                            ModelMap model) {
         System.out.println("USER ID : " +getUserId());
 
-        item.setSellerId(getUserId());
-
         System.out.println("Item to persist: " + item.toString());
 
-        if (result.hasErrors()) {
+        boolean isSellerIdConsistent = Objects.equals(item.getSellerId(), getUserId());
+
+        if (result.hasErrors() || !isSellerIdConsistent) {
             System.out.println("errors with result: " +result.toString());
             return "additem";
         }
-
 
         itemService.saveItem(item);
 
