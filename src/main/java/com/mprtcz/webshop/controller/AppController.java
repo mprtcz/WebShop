@@ -1,9 +1,7 @@
 package com.mprtcz.webshop.controller;
 
-import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.model.usermodel.UserProfile;
-import com.mprtcz.webshop.service.itemservice.ItemService;
 import com.mprtcz.webshop.service.userservice.UserProfileService;
 import com.mprtcz.webshop.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
@@ -35,9 +32,6 @@ import java.util.Locale;
 public class AppController {
     @Autowired
     UserService userService;
-
-    @Autowired
-    ItemService itemService;
 
     @Autowired
     UserProfileService userProfileService;
@@ -70,16 +64,6 @@ public class AppController {
         }
     }
 
-    /**
-     * This method will list all existing items.
-     */
-    @RequestMapping(value = {"/itemslist" }, method = RequestMethod.GET)
-    public String listItems(ModelMap model) {
-
-        List<Item> items = itemService.findAllItems();
-        model.addAttribute("items", items);
-        return "itemslist";
-    }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registrationPage(ModelMap model) {
@@ -90,35 +74,48 @@ public class AppController {
         return "registration";
     }
 
-    @RequestMapping(value = "/additem", method = RequestMethod.GET)
-    public String addItemPage(ModelMap model) {
-        Item item = new Item();
-        model.addAttribute("item", item);
-        model.addAttribute("edit", false);
-        model.addAttribute("loggedinuser", getPrincipal());
-        return "additem";
+
+    private Integer getUserId(){
+        Integer userID = -1;
+        userID = userService.findBySSO(getPrincipal()).getId();
+        return userID;
     }
 
     /**
      * This method will be called on form submission, handling POST request for
      * saving user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/additem" }, method = RequestMethod.POST)
-    public String saveUser(@Valid Item item, BindingResult result,
+    @RequestMapping(value = { "/register" }, method = RequestMethod.POST)
+    public String saveUser(@Valid User user, BindingResult result,
                            ModelMap model) {
-
-        System.out.println("Item to persist: " + item.toString());
-
         if (result.hasErrors()) {
             System.out.println("errors with result: " +result.toString());
-            return "additem";
+            return "registration";
         }
 
-        itemService.saveItem(item);
+        if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
+            FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
+            result.addError(ssoError);
+            return "registration";
+        }
 
-        model.addAttribute("success", "User " + item.getItemName() + " for "+ item.getPrice() + " registered successfully");
+        System.out.println("User to persist: " + user.toString());
+        userService.saveUser(user);
+
+        model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
         model.addAttribute("loggedinuser", getPrincipal());
-        return "additemsuccess";
+        //return "success";
+        return "registrationsuccess";
+    }
+
+
+    /**
+     * This method handles Access-Denied redirect.
+     */
+    @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+    public String accessDeniedPage(ModelMap model) {
+        model.addAttribute("loggedinuser", getPrincipal());
+        return "accessDenied";
     }
 
     /**
@@ -136,55 +133,55 @@ public class AppController {
         return userName;
     }
 
-    private Integer getUserId(){
-        Integer userID = -1;
-        userID = userService.findBySSO(getPrincipal()).getId();
-        return userID;
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            //new SecurityContextLogoutHandler().logout(request, response, auth);
+            persistentTokenBasedRememberMeServices.logout(request, response, auth);
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
+        return "redirect:/login?logout";
     }
 
 
+
+    @RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
+    public String deleteUser(@PathVariable String ssoId) {
+        userService.deleteUserBySSO(ssoId);
+        return "redirect:/list";
+    }
+
+    /**
+     * This method will provide the medium to update an existing user.
+     */
+    @RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.GET)
+    public String editUser(@PathVariable String ssoId, ModelMap model) {
+        User user = userService.findBySSO(ssoId);
+        model.addAttribute("user", user);
+        model.addAttribute("edit", true);
+        model.addAttribute("loggedinuser", getPrincipal());
+        return "registration";
+    }
+
     /**
      * This method will be called on form submission, handling POST request for
-     * saving user in database. It also validates the user input
+     * updating user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/register" }, method = RequestMethod.POST)
-    public String saveUser(@Valid User user, BindingResult result,
-                           ModelMap model) {
-        if (result.hasErrors()) {
-            System.out.println("errors with result: " +result.toString());
-            return "registration";
-        }
+    @RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
+    public String updateUser(@Valid User user, BindingResult result,
+                             ModelMap model, @PathVariable String ssoId) {
 
-		/*
-		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation
-		 * and applying it on field [sso] of Model class [User].
-		 *
-		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
-		 * framework as well while still using internationalized messages.
-		 *
-		 */
-        if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
-            FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
-            result.addError(ssoError);
+        if (result.hasErrors()) {
             return "registration";
         }
 
         System.out.println("User to persist: " + user.toString());
-        userService.saveUser(user);
+        userService.updateUser(user);
 
-        model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
+        model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
         model.addAttribute("loggedinuser", getPrincipal());
-        //return "success";
         return "registrationsuccess";
-    }
-
-    /**
-     * This method handles Access-Denied redirect.
-     */
-    @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
-    public String accessDeniedPage(ModelMap model) {
-        model.addAttribute("loggedinuser", getPrincipal());
-        return "accessDenied";
     }
 
     /**

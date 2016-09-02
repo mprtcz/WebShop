@@ -14,6 +14,8 @@
 
 <body>
  	<div class="generic-container">
+		<%@include file="authheader.jsp" %>
+
 		<div class="well lead">User Registration Form</div>
 	 	<form:form method="POST" modelAttribute="user" class="form-horizontal">
 			<form:input type="hidden" path="id" id="id"/>
