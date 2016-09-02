@@ -30,7 +30,7 @@
             <tr>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Seller ID</th>
+                <th>Stock</th>
                 <th>Description</th>
 
             </tr>
@@ -40,7 +40,7 @@
                 <tr>
                     <td>${item.itemName}</td>
                     <td>${item.price}</td>
-                    <td>${item.sellerId}</td>
+                    <td>${item.stock}</td>
                     <td>${item.description}</td>
                 </tr>
             </c:forEach>

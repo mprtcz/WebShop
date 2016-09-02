@@ -33,14 +33,10 @@ public class Item implements Serializable {
     private
     BigInteger stock;
 
-    @NotNull
-    @Column(name="SELLER_ID", nullable=false)
-    private
-    Integer sellerId;
-
     @Column(name="DESCRIPTION")
     private
     String description;
+
 
     public Integer getId() {
         return id;
@@ -52,10 +48,6 @@ public class Item implements Serializable {
 
     public BigInteger getPrice() {
         return price;
-    }
-
-    public Integer getSellerId() {
-        return sellerId;
     }
 
     public String getDescription() {
@@ -80,10 +72,6 @@ public class Item implements Serializable {
 
     public void setStock(BigInteger stock) {
         this.stock = stock;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
     }
 
     public void setDescription(String description) {
@@ -115,7 +103,6 @@ public class Item implements Serializable {
                 "id=" + id +
                 ", itemName='" + itemName + '\'' +
                 ", price=" + price +
-                ", sellerId=" + sellerId +
                 ", description='" + description + '\'' +
                 '}';
     }

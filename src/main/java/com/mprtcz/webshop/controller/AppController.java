@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  * Created by Azet on 2016-08-27.
@@ -94,7 +93,6 @@ public class AppController {
     @RequestMapping(value = "/additem", method = RequestMethod.GET)
     public String addItemPage(ModelMap model) {
         Item item = new Item();
-        item.setSellerId(getUserId());
         model.addAttribute("item", item);
         model.addAttribute("edit", false);
         model.addAttribute("loggedinuser", getPrincipal());
@@ -108,13 +106,10 @@ public class AppController {
     @RequestMapping(value = { "/additem" }, method = RequestMethod.POST)
     public String saveUser(@Valid Item item, BindingResult result,
                            ModelMap model) {
-        System.out.println("USER ID : " +getUserId());
 
         System.out.println("Item to persist: " + item.toString());
 
-        boolean isSellerIdConsistent = Objects.equals(item.getSellerId(), getUserId());
-
-        if (result.hasErrors() || !isSellerIdConsistent) {
+        if (result.hasErrors()) {
             System.out.println("errors with result: " +result.toString());
             return "additem";
         }

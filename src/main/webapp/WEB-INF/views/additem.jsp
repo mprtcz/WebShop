@@ -24,7 +24,7 @@
     <div class="well lead">Sell Item</div>
     <form:form method="POST" modelAttribute="item" class="form-horizontal">
         <form:input type="hidden" path="id" id="id" />
-        <form:input type="hidden" path="sellerId" id="sellerId" />
+
 
         <div class="row">
             <div class="form-group col-md-12">
@@ -56,7 +56,7 @@
                 <div class="col-md-7">
                     <c:choose>
                         <c:when test="${edit}">
-                            <form:input type="number" path="stock" id="ssoId" class="form-control input-sm" disabled="true"/>
+                            <form:input type="number" path="stock" id="stock" class="form-control input-sm" disabled="true"/>
                         </c:when>
                         <c:otherwise>
                             <form:input type="number" path="stock" id="stock" class="form-control input-sm" />
@@ -94,6 +94,7 @@
             </div>
         </div>
     </form:form>
+    <h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
 </div>
 </body>
 </html>

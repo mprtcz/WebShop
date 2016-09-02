@@ -40,7 +40,6 @@ public class ItemServiceImpl implements ItemService {
             entity.setId(item.getId());
             entity.setItemName(item.getItemName());
             entity.setPrice(item.getPrice());
-            entity.setSellerId(item.getSellerId());
             entity.setDescription(item.getDescription());
         }
     }
