@@ -41,6 +41,7 @@
 						<td>${user.lastName}</td>
 						<td>${user.email}</td>
 						<td>${user.ssoId}</td>
+						<td><a href="<c:url value='/view-user-${user.ssoId}' />" class="btn btn-success custom-width">View</a></td>
 					    <sec:authorize access="hasRole('ADMIN')">
 							<td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">edit</a></td>
 				        </sec:authorize>

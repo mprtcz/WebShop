@@ -64,6 +64,17 @@ public class AppController {
         }
     }
 
+    /**
+     * This method will list all existing users.
+     */
+    @RequestMapping(value = { "/userslist" }, method = RequestMethod.GET)
+    public String listUsers(ModelMap model) {
+
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        model.addAttribute("loggedinuser", getPrincipal());
+        return "userslist";
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registrationPage(ModelMap model) {
@@ -150,6 +161,15 @@ public class AppController {
     public String deleteUser(@PathVariable String ssoId) {
         userService.deleteUserBySSO(ssoId);
         return "redirect:/list";
+    }
+
+    @RequestMapping(value = { "/view-user-{ssoId}" }, method = RequestMethod.GET)
+    public String viewUser(@PathVariable String ssoId, ModelMap model) {
+        User user = userService.findBySSO(ssoId);
+        model.addAttribute("user", user);
+        model.addAttribute("edit", false);
+        model.addAttribute("loggedinuser", getPrincipal());
+        return "userprofile";
     }
 
     /**
