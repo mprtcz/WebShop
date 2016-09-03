@@ -6,9 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Azet on 2016-08-27.
@@ -41,11 +39,12 @@ public class User implements Serializable {
     private String email;
 
     @NotEmpty
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "APP_USER_USER_PROFILE",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>(); //set bcuz an user can have every role (admin and customer and...)
+    private
+    UserProfile userProfile; //set bcuz an user can have every role (admin and customer and...)
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -80,8 +79,8 @@ public class User implements Serializable {
         return email;
     }
 
-    public Set<UserProfile> getUserProfiles() {
-        return userProfiles;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
 
@@ -110,8 +109,8 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public void setUserProfiles(Set<UserProfile> userProfiles) {
-        this.userProfiles = userProfiles;
+    public void setUserProfile (UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     public List<Item> getBoughtItemsList() {
@@ -154,7 +153,7 @@ public class User implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", userProfiles=" + userProfiles +
+                ", userProfile=" + userProfile +
                 '}';
     }
 }
