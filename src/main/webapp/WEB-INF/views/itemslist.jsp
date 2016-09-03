@@ -42,10 +42,10 @@
                     <td>${item.stock}</td>
                     <td>${item.description}</td>
                     <sec:authorize access="hasRole('ADMIN')">
-                        <td><a href="<c:url value='/edit-item-${item.id}' />" class="btn btn-success custom-width">edit</a></td>
+                        <td><a href="<c:url value='/item/${item.id}/edit' />" class="btn btn-success custom-width">edit</a></td>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ADMIN')">
-                        <td><a href="<c:url value='/delete-item-${item.id}' />" class="btn btn-danger custom-width">delete</a></td>
+                        <td><a href="<c:url value='/item/${item.id}/delete' />" class="btn btn-danger custom-width">delete</a></td>
                     </sec:authorize>
                 </tr>
             </c:forEach>

@@ -29,7 +29,7 @@ public class ItemController {
     /**
      * This method will list all existing items.
      */
-    @RequestMapping(value = {"/itemslist" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/items" }, method = RequestMethod.GET)
     public String listItems(ModelMap model) {
 
         List<Item> items = itemService.findAllItems();
@@ -38,7 +38,7 @@ public class ItemController {
         return "itemslist";
     }
 
-    @RequestMapping(value = "/additem", method = RequestMethod.GET)
+    @RequestMapping(value = "/item/add", method = RequestMethod.GET)
     public String addItemPage(ModelMap model) {
         Item item = new Item();
         model.addAttribute("item", item);
@@ -51,7 +51,7 @@ public class ItemController {
      * This method will be called on form submission, handling POST request for
      * saving user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/additem" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "/item/add" }, method = RequestMethod.POST)
     public String saveUser(@Valid Item item, BindingResult result,
                            ModelMap model) {
 
@@ -69,16 +69,16 @@ public class ItemController {
         return "additemsuccess";
     }
 
-    @RequestMapping(value = { "/delete-item-{id}" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/item/{id}/delete" }, method = RequestMethod.GET)
     public String deleteItem(@PathVariable Integer id) {
         itemService.deleteItemById(id);
-        return "redirect:/itemslist";
+        return "redirect:/items";
     }
 
     /**
      * This method will provide the medium to update an existing user.
      */
-    @RequestMapping(value = { "/edit-item-{id}" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/item/{id}/edit" }, method = RequestMethod.GET)
     public String editItem(@PathVariable Integer id, ModelMap model) {
         Item item = itemService.findById(id);
         model.addAttribute("item", item);
@@ -91,7 +91,7 @@ public class ItemController {
      * This method will be called on form submission, handling POST request for
      * updating user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/edit-item-{id}" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "/item/{id}/edit" }, method = RequestMethod.POST)
     public String updateItem(@Valid Item item, BindingResult result,
                              ModelMap model, @PathVariable Integer id) {
 

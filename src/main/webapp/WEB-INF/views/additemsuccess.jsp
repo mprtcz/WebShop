@@ -22,7 +22,7 @@
     </div>
 
     <span class="well floatRight">
-			Go to <a href="<c:url value='/itemslist' />">Items List</a>
+			Go to <a href="<c:url value='/items' />">Items List</a>
 		</span></p>
     <a href="<c:url value="/" />">Back to the main page</a>
 </div>

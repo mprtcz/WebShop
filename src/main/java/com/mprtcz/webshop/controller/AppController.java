@@ -61,14 +61,14 @@ public class AppController {
         if (isCurrentAuthenticationAnonymous()) {
             return "login";
         } else {
-            return "redirect:/itemslist";
+            return "redirect:/items";
         }
     }
 
     /**
      * This method will list all existing users.
      */
-    @RequestMapping(value = {"/userslist"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/users"}, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
 
         List<User> users = userService.findAllUsers();
@@ -158,13 +158,13 @@ public class AppController {
     }
 
 
-    @RequestMapping(value = {"/delete-user-{ssoId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/delete/{ssoId}"}, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String ssoId) {
         userService.deleteUserBySSO(ssoId);
         return "redirect:/list";
     }
 
-    @RequestMapping(value = {"/view-user-{ssoId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/{ssoId}"}, method = RequestMethod.GET)
     public String viewUser(@PathVariable String ssoId, ModelMap model) {
         User user = userService.findBySSO(ssoId);
         model.addAttribute("user", user);
@@ -173,10 +173,19 @@ public class AppController {
         return "userprofile";
     }
 
+    @RequestMapping(value = {"/user"}, method = RequestMethod.GET)
+    public String viewCurrentUser(ModelMap model){
+        if(isCurrentAuthenticationAnonymous()){
+            return loginPage();
+        } else {
+            return viewUser(getPrincipal(), model);
+        }
+    }
+
     /**
      * This method will provide the medium to update an existing user.
      */
-    @RequestMapping(value = {"/edit-user-{ssoId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/{ssoId}/edit"}, method = RequestMethod.GET)
     public String editUser(@PathVariable String ssoId, ModelMap model) {
         User user = userService.findBySSO(ssoId);
         model.addAttribute("user", user);
@@ -189,7 +198,7 @@ public class AppController {
      * This method will be called on form submission, handling POST request for
      * updating user in database. It also validates the user input
      */
-    @RequestMapping(value = {"/edit-user-{ssoId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/{ssoId}/edit"}, method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result,
                              ModelMap model, @PathVariable String ssoId) {
 

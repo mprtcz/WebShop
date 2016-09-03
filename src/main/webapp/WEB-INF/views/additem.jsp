@@ -85,10 +85,10 @@
             <div class="form-actions floatRight">
                 <c:choose>
                     <c:when test="${edit}">
-                        <input type="submit" value="Update" class="btn btn-primary btn-sm"/> or <a href="<c:url value='/itemslist' />">Cancel</a>
+                        <input type="submit" value="Update" class="btn btn-primary btn-sm"/> or <a href="<c:url value='/items' />">Cancel</a>
                     </c:when>
                     <c:otherwise>
-                        <input type="submit" value="Add Item" class="btn btn-primary btn-sm"/> or <a href="<c:url value='/itemslist' />">Cancel</a>
+                        <input type="submit" value="Add Item" class="btn btn-primary btn-sm"/> or <a href="<c:url value='/items' />">Cancel</a>
                     </c:otherwise>
                 </c:choose>
             </div>

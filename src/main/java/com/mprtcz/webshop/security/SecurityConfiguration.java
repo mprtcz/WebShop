@@ -37,11 +37,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-                .antMatchers("/edit-user-*", "/delete-user-*")
+                .antMatchers("/user/*/edit", "/user/delete/*")
 				    .access("hasRole('ADMIN')")
-				.antMatchers("/edit-item-*", "/delete-item-*", "/additem")
+				.antMatchers("/item/*/edit/*", "/item/*/delete", "/item/add")
 				.access("hasRole('ADMIN')")
-                .antMatchers("/buyitem", "/userslist")
+                .antMatchers("/buyitem", "/users")
 				    .access("hasRole('ADMIN') or hasRole('CUSTOMER')")
                 .and().formLogin().loginPage("/login")
 				.loginProcessingUrl("/login").usernameParameter("ssoId").passwordParameter("password").and()

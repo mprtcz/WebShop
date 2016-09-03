@@ -41,12 +41,12 @@
 						<td>${user.lastName}</td>
 						<td>${user.email}</td>
 						<td>${user.ssoId}</td>
-						<td><a href="<c:url value='/view-user-${user.ssoId}' />" class="btn btn-success custom-width">View</a></td>
+						<td><a href="<c:url value='/user/${user.ssoId}' />" class="btn btn-success custom-width">View</a></td>
 					    <sec:authorize access="hasRole('ADMIN')">
-							<td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">edit</a></td>
+							<td><a href="<c:url value='/user/${ssoId}/edit' />" class="btn btn-success custom-width">edit</a></td>
 				        </sec:authorize>
 				        <sec:authorize access="hasRole('ADMIN')">
-							<td><a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger custom-width">delete</a></td>
+							<td><a href="<c:url value='/user/delete/${user.ssoId}' />" class="btn btn-danger custom-width">delete</a></td>
         				</sec:authorize>
 					</tr>
 				</c:forEach>
