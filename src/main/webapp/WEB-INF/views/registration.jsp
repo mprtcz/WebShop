@@ -89,7 +89,7 @@
                 </div>
             </div>
         </div>
-<%--
+        <
         <sec:authorize access="hasRole('ADMIN')">
             <div class="row">
                 <div class="form-group col-md-12">
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </sec:authorize>
---%>
+
         <div class="row">
             <div class="form-actions floatRight">
                 <c:choose>

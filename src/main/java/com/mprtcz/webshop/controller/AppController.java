@@ -93,7 +93,6 @@ public class AppController {
         return userID;
     }
 
-
     /**
      * This method will be called on form submission, handling POST request for
      * saving user in database. It also validates the user input
