@@ -64,7 +64,7 @@ public class ItemController {
 
         itemService.saveItem(item);
 
-        model.addAttribute("success", "User " + item.getItemName() + " for "+ item.getPrice() + " registered successfully");
+        model.addAttribute("success", "Item " + item.getItemName() + " for "+ item.getPrice() + " registered successfully");
         model.addAttribute("loggedinuser", getPrincipal());
         return "additemsuccess";
     }

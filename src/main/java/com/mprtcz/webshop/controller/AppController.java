@@ -112,6 +112,20 @@ public class AppController {
             return "registration";
         }
 
+        /*
+        User currentUser = userService.findBySSO(getPrincipal());
+        UserProfile userProfile = new UserProfile();
+        userProfile.setType("CUSTOMER");
+        if (currentUser == null) {
+            System.out.println("Current User: null");
+            user.setUserProfile(userProfile);
+        } else if (!Objects.equals(currentUser.getUserProfile().getType(), "ADMIN")){
+            System.out.println("Current user profile: " + currentUser.getUserProfile().getType());
+            user.setUserProfile(userProfile);
+        } else {
+            System.out.println("Current user profile: " + currentUser.getUserProfile().getType());
+        }
+//*/
         System.out.println("User to persist: " + user.toString());
         userService.saveUser(user);
 
@@ -161,7 +175,7 @@ public class AppController {
     @RequestMapping(value = {"/user/delete/{ssoId}"}, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String ssoId) {
         userService.deleteUserBySSO(ssoId);
-        return "redirect:/list";
+        return "redirect:/users";
     }
 
     @RequestMapping(value = {"/user/{ssoId}"}, method = RequestMethod.GET)
@@ -174,8 +188,8 @@ public class AppController {
     }
 
     @RequestMapping(value = {"/user"}, method = RequestMethod.GET)
-    public String viewCurrentUser(ModelMap model){
-        if(isCurrentAuthenticationAnonymous()){
+    public String viewCurrentUser(ModelMap model) {
+        if (isCurrentAuthenticationAnonymous()) {
             return loginPage();
         } else {
             return viewUser(getPrincipal(), model);

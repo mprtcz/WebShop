@@ -40,12 +40,12 @@ public class User implements Serializable {
     private String email;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinTable(name = "APP_USER_USER_PROFILE",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
     private
-    UserProfile userProfile; //set bcuz an user can have every role (admin and customer and...)
+    UserProfile userProfile;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
