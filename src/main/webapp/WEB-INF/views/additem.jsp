@@ -20,7 +20,7 @@
 </head>
 
 <body>
-<div class="generic-container">
+<p class="generic-container">
     <div class="well lead">Sell Item</div>
     <form:form method="POST" modelAttribute="item" class="form-horizontal">
         <form:input type="hidden" path="id" id="id" />
@@ -94,7 +94,9 @@
             </div>
         </div>
     </form:form>
+</p>
     <h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
+    <a href="<c:url value="/" />">Back to the main page</a></span>
 </div>
 </body>
 </html>

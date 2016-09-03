@@ -8,8 +8,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Users List</title>
-	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
-	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet">
+	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
 </head>
 
 <body>
@@ -21,11 +21,11 @@
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
-				        <th>Firstname</th>
-				        <th>Lastname</th>
+				        <th>First Name</th>
+				        <th>Last Name</th>
 				        <th>Email</th>
 				        <th>SSO ID</th>
-				        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+				        <sec:authorize access="hasRole('ADMIN')">
 				        	<th width="100"></th>
 				        </sec:authorize>
 				        <sec:authorize access="hasRole('ADMIN')">
@@ -52,6 +52,7 @@
 				</c:forEach>
 	    		</tbody>
 	    	</table>
+			<a href="<c:url value="/" />">Back to the main page</a>
 		</div>
    	</div>
 </body>

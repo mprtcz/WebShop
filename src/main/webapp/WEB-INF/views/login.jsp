@@ -51,6 +51,6 @@
 				</div>
 			</div>
 		</div>
-
+		<a href="<c:url value="/" />">Back to the main page</a>
 	</body>
 </html>

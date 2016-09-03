@@ -46,8 +46,9 @@ public class AppController {
     AuthenticationTrustResolver authenticationTrustResolver;
 
 
-    @RequestMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String helloPage(ModelMap model) {
+        model.addAttribute("isanonymus", isCurrentAuthenticationAnonymous());
         return "index";
     }
 
@@ -67,7 +68,7 @@ public class AppController {
     /**
      * This method will list all existing users.
      */
-    @RequestMapping(value = { "/userslist" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/userslist"}, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
 
         List<User> users = userService.findAllUsers();
@@ -87,7 +88,7 @@ public class AppController {
     }
 
 
-    private Integer getUserId(){
+    private Integer getUserId() {
         Integer userID = -1;
         userID = userService.findBySSO(getPrincipal()).getId();
         return userID;
@@ -97,16 +98,16 @@ public class AppController {
      * This method will be called on form submission, handling POST request for
      * saving user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/register" }, method = RequestMethod.POST)
+    @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
     public String saveUser(@Valid User user, BindingResult result,
                            ModelMap model) {
         if (result.hasErrors()) {
-            System.out.println("errors with result: " +result.toString());
+            System.out.println("errors with result: " + result.toString());
             return "registration";
         }
 
-        if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
-            FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
+        if (!userService.isUserSSOUnique(user.getId(), user.getSsoId())) {
+            FieldError ssoError = new FieldError("user", "ssoId", messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
             result.addError(ssoError);
             return "registration";
         }
@@ -114,7 +115,7 @@ public class AppController {
         System.out.println("User to persist: " + user.toString());
         userService.saveUser(user);
 
-        model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
+        model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " registered successfully");
         model.addAttribute("loggedinuser", getPrincipal());
         //return "success";
         return "registrationsuccess";
@@ -133,11 +134,11 @@ public class AppController {
     /**
      * This method returns the principal[user-name] of logged-in user.
      */
-    private String getPrincipal(){
+    private String getPrincipal() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
+            userName = ((UserDetails) principal).getUsername();
 
         } else {
             userName = principal.toString();
@@ -145,10 +146,10 @@ public class AppController {
         return userName;
     }
 
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
+        if (auth != null) {
             //new SecurityContextLogoutHandler().logout(request, response, auth);
             persistentTokenBasedRememberMeServices.logout(request, response, auth);
             SecurityContextHolder.getContext().setAuthentication(null);
@@ -157,14 +158,13 @@ public class AppController {
     }
 
 
-
-    @RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/delete-user-{ssoId}"}, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String ssoId) {
         userService.deleteUserBySSO(ssoId);
         return "redirect:/list";
     }
 
-    @RequestMapping(value = { "/view-user-{ssoId}" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/view-user-{ssoId}"}, method = RequestMethod.GET)
     public String viewUser(@PathVariable String ssoId, ModelMap model) {
         User user = userService.findBySSO(ssoId);
         model.addAttribute("user", user);
@@ -176,7 +176,7 @@ public class AppController {
     /**
      * This method will provide the medium to update an existing user.
      */
-    @RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit-user-{ssoId}"}, method = RequestMethod.GET)
     public String editUser(@PathVariable String ssoId, ModelMap model) {
         User user = userService.findBySSO(ssoId);
         model.addAttribute("user", user);
@@ -189,7 +189,7 @@ public class AppController {
      * This method will be called on form submission, handling POST request for
      * updating user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
+    @RequestMapping(value = {"/edit-user-{ssoId}"}, method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result,
                              ModelMap model, @PathVariable String ssoId) {
 
@@ -200,7 +200,7 @@ public class AppController {
         System.out.println("User to persist: " + user.toString());
         userService.updateUser(user);
 
-        model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
+        model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
         model.addAttribute("loggedinuser", getPrincipal());
         return "registrationsuccess";
     }

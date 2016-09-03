@@ -16,14 +16,15 @@
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
 </head>
 <body>
-<div class="generic-container">
+<p class="generic-container">
     <div class="alert alert-success lead">
         ${success}
     </div>
 
     <span class="well floatRight">
 			Go to <a href="<c:url value='/itemslist' />">Items List</a>
-		</span>
+		</span></p>
+    <a href="<c:url value="/" />">Back to the main page</a>
 </div>
 </body>
 </html>

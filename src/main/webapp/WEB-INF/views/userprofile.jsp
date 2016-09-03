@@ -41,6 +41,7 @@
             <a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger">Delete</a></td>
         </div>
         </sec:authorize>
+        <a href="<c:url value="/" />">Back to the main page</a>
     </div>
 </div>
 </body>
