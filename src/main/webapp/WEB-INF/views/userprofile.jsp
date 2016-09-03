@@ -37,8 +37,6 @@
         </dl>
 
         <div class="btn-toolbar text-center" role="toolbar">
-            <button type="button" class="btn btn-primary">Expandable</button>
-            <button type="button" class="btn btn-primary">ERROR <span class="caret"></span></button>
         <sec:authorize access="hasRole('ADMIN')">
             <button type="button" class="btn btn-danger">Delete</button>
             <a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger">Delete</a></td>
