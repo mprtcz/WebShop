@@ -82,8 +82,10 @@ public class AppController {
         model.addAttribute("user", user);
         model.addAttribute("edit", false);
         model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("userProfiles", "CUSTOMER");
         return "registration";
     }
+
 
 
     private Integer getUserId(){

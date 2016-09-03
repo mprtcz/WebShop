@@ -21,7 +21,6 @@
 
 <body>
 <div class="generic-container">
-    <!-- include authheader when you finally understand what is it for -->
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading"><span class="lead">List of Items </span></div>
