@@ -20,7 +20,7 @@
     <div class="well lead">User Registration Form</div>
     <form:form method="POST" modelAttribute="user" class="form-horizontal">
         <form:input type="hidden" path="id" id="id"/>
-        <form:input type="hidden" path="userProfiles" id="userProfiles"/>
+        <form:input type="hidden" path="userProfile" value="${userProfile}"/>
 
         <div class="row">
             <div class="form-group col-md-12">
@@ -89,23 +89,23 @@
                 </div>
             </div>
         </div>
-
+<%--
         <sec:authorize access="hasRole('ADMIN')">
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label class="col-md-3 control-lable" for="userProfiles">Roles</label>
+                    <label class="col-md-3 control-lable" for="userProfile">Role</label>
                     <div class="col-md-7">
-                        <form:select path="userProfiles" items="${roles}" multiple="false" itemValue="id"
+                        <form:select path="userProfile" items="${roles}" multiple="false" itemValue="id"
                                      itemLabel="type"
                                      class="form-control input-sm"/>
                         <div class="has-error">
-                            <form:errors path="userProfiles" class="help-inline"/>
+                            <form:errors path="userProfile" class="help-inline"/>
                         </div>
                     </div>
                 </div>
             </div>
         </sec:authorize>
-
+--%>
         <div class="row">
             <div class="form-actions floatRight">
                 <c:choose>

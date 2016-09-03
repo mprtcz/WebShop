@@ -82,10 +82,9 @@ public class AppController {
         model.addAttribute("user", user);
         model.addAttribute("edit", false);
         model.addAttribute("loggedinuser", getPrincipal());
-        model.addAttribute("userProfiles", "CUSTOMER");
+        model.addAttribute("userProfile", "2");
         return "registration";
     }
-
 
 
     private Integer getUserId(){
@@ -93,6 +92,7 @@ public class AppController {
         userID = userService.findBySSO(getPrincipal()).getId();
         return userID;
     }
+
 
     /**
      * This method will be called on form submission, handling POST request for

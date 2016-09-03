@@ -4,6 +4,7 @@ import com.mprtcz.webshop.model.itemmodel.Item;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,8 @@ public class User implements Serializable {
     @Column(name="EMAIL", nullable=false)
     private String email;
 
-    @NotEmpty
-    @OneToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "APP_USER_USER_PROFILE",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
@@ -52,7 +53,6 @@ public class User implements Serializable {
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "ITEM_ID") })
     private List<Item> boughtItemsList = new ArrayList<>();
-
 
 
     public Integer getId() {

@@ -33,12 +33,11 @@
             <dt>Email:</dt>
             <dd>${user.email}.</dd>
             <dt>SSO ID:</dt>
-            <dd>F${user.ssoId}</dd>
+            <dd>${user.ssoId}</dd>
         </dl>
 
         <div class="btn-toolbar text-center" role="toolbar">
         <sec:authorize access="hasRole('ADMIN')">
-            <button type="button" class="btn btn-danger">Delete</button>
             <a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger">Delete</a></td>
         </div>
         </sec:authorize>
