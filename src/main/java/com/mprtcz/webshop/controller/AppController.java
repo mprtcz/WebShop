@@ -2,6 +2,7 @@ package com.mprtcz.webshop.controller;
 
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.model.usermodel.UserProfile;
+import com.mprtcz.webshop.service.itemservice.ItemService;
 import com.mprtcz.webshop.service.userservice.UserProfileService;
 import com.mprtcz.webshop.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,14 @@ public class AppController {
     @Autowired
     AuthenticationTrustResolver authenticationTrustResolver;
 
+    @Autowired
+    ItemService itemService;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String helloPage(ModelMap model) {
         model.addAttribute("isanonymus", isCurrentAuthenticationAnonymous());
+        model.addAttribute("itemslist", itemService.getRandomItemsWithPictures(6));
         return "index";
     }
 

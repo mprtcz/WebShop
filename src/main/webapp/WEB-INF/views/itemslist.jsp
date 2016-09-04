@@ -53,6 +53,9 @@
         </table>
         <h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
         <a href="<c:url value="/" />">Back to the main page</a></span>
+        <sec:authorize access="hasRole('ADMIN')">
+            <td><a href="<c:url value='/item/add' />" class="btn btn-success custom-width">Add another item</a></td>
+        </sec:authorize>
     </div>
 </div>
 </body>

@@ -12,24 +12,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Azet on 2016-09-04.
  */
 @Service("imageService")
 public class ImageServiceImpl implements ImageService {
-    private static final String PROJECT_LOCATION = System.getProperty("user.dir").replace("\\", "/");;
+    private static final String PROJECT_LOCATION = "C:/Users/Azet/Documents/SpringTutorial/WebShop";
     private static final String UPLOAD_LOCATION = PROJECT_LOCATION + "/IMAGES/";
 
     @Override
     public void saveUploadedImage(FileBucket fileBucket, Item item) throws IOException {
         if (!fileBucket.getFile().isEmpty()) {
-            if(!Files.exists(Paths.get(UPLOAD_LOCATION))){
+            if (!Files.exists(Paths.get(UPLOAD_LOCATION))) {
                 File dir = new File(UPLOAD_LOCATION);
                 dir.mkdirs();
             }
-            String fileName = item.getId() + "." +(fileBucket.getFile().getOriginalFilename().split("\\.")[1]);
+            String fileName = item.getId() + "." + (fileBucket.getFile().getOriginalFilename().split("\\.")[1]);
             FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File(UPLOAD_LOCATION + fileName));
         }
     }
@@ -37,12 +39,12 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public boolean saveLinkedImage(String link, Item item) {
         URL url = null;
-        if(item.getId()==null){
+        if (item.getId() == null) {
             item.setId(1);
         }
-        String writePath = UPLOAD_LOCATION + String.valueOf(item.getId()) +".png";
+        String writePath = UPLOAD_LOCATION + String.valueOf(item.getId()) + ".png";
         System.out.println(writePath);
-        if(!Files.exists(Paths.get(UPLOAD_LOCATION))){
+        if (!Files.exists(Paths.get(UPLOAD_LOCATION))) {
             File dir = new File(UPLOAD_LOCATION);
             dir.mkdirs();
         }
@@ -62,16 +64,16 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void deleteImage(Integer id){
+    public void deleteImage(Integer id) {
         File folder = new File(UPLOAD_LOCATION);
         File[] listOfFiles = folder.listFiles();
         System.out.println(Arrays.toString(listOfFiles));
 
-        if(listOfFiles!= null && listOfFiles.length > 0) {
+        if (listOfFiles != null && listOfFiles.length > 0) {
             for (File file1 : listOfFiles) {
                 if (file1.isFile()) {
-                    String name = id+".";
-                    System.out.println("Name: " +name);
+                    String name = id + ".";
+                    System.out.println("Name: " + name);
                     if (file1.getName().contains(name)) {
                         System.out.println("CONTAINS!");
                         File file = new File(file1.getPath());
@@ -82,5 +84,33 @@ public class ImageServiceImpl implements ImageService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<File> getImagesByItemsNames(List<Item> itemsList) {
+        List<File> filesList = new ArrayList<>();
+        for (Item i : itemsList) {
+            filesList.add(getFileByName(String.valueOf(i.getId())));
+        }
+        return filesList;
+    }
+
+    private File getFileByName(String name) {
+        File folder = new File(UPLOAD_LOCATION);
+        File[] listOfFiles = folder.listFiles();
+        System.out.println(Arrays.toString(listOfFiles));
+
+        if (listOfFiles != null && listOfFiles.length > 0) {
+            for (File file1 : listOfFiles) {
+                if (file1.isFile()) {
+                    String fileName = file1.getName().split("\\.")[0];
+                    if (fileName.equals(name)) {
+                        return new File(file1.getPath());
+                    }
+                }
+            }
+        }
+        String filePath = UPLOAD_LOCATION + "null.png";
+        return new File(filePath);
     }
 }

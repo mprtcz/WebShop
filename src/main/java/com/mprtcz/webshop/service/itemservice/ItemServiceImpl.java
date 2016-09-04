@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 /**
  * Created by Azet on 2016-08-29.
@@ -52,5 +53,12 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> findAllItems() {
         return itemDao.findAllItems();
+    }
+
+    @Override
+    public Map<Item, File> getRandomItemsWithPictures(int amount) {
+        List<Item> allItemsList = findAllItems();
+        Map<Item, File> map = new HashMap<>();
+        List<Item> pickedItems = new ArrayList<>();
     }
 }

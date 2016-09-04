@@ -153,9 +153,4 @@ public class ItemController {
         }
         return userName;
     }
-
-    public void init(){
-        System.out.println("SERVLET INITIALIZED");
-    }
-
 }

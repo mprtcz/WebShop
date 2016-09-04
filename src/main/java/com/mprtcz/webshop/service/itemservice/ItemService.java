@@ -20,4 +20,6 @@ public interface ItemService {
     void deleteItemById(Integer id);
 
     List<Item> findAllItems();
+
+    List<Item> getRandomItemsWithPictures(int amount);
 }
