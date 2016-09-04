@@ -1,19 +1,24 @@
 package com.mprtcz.webshop.controller;
 
+import com.mprtcz.webshop.model.itemmodel.FileBucket;
 import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.service.itemservice.ItemService;
+import com.mprtcz.webshop.validators.FileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -22,14 +27,24 @@ import java.util.List;
 @Controller
 @SessionAttributes("roles")
 public class ItemController {
+    private static final String RESOURCES_LOCATION = ItemController.class.getResource("/").getPath().substring(1);
+    private static final String UPLOAD_LOCATION = RESOURCES_LOCATION + "com/mprtcz/webshop/resources/itemspics/";
 
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    FileValidator fileValidator;
+
+    @InitBinder("fileBucket")
+    protected void initBinderFileBucket(WebDataBinder binder) {
+        binder.setValidator(fileValidator);
+    }
+
     /**
      * This method will list all existing items.
      */
-    @RequestMapping(value = {"/items" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/items"}, method = RequestMethod.GET)
     public String listItems(ModelMap model) {
 
         List<Item> items = itemService.findAllItems();
@@ -41,8 +56,10 @@ public class ItemController {
     @RequestMapping(value = "/item/add", method = RequestMethod.GET)
     public String addItemPage(ModelMap model) {
         Item item = new Item();
+        FileBucket fileModel = new FileBucket();
         model.addAttribute("item", item);
         model.addAttribute("edit", false);
+        model.addAttribute("fileBucket", fileModel);
         model.addAttribute("loggedinuser", getPrincipal());
         return "additem";
     }
@@ -51,25 +68,35 @@ public class ItemController {
      * This method will be called on form submission, handling POST request for
      * saving user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/item/add" }, method = RequestMethod.POST)
-    public String saveUser(@Valid Item item, BindingResult result,
-                           ModelMap model) {
+    @RequestMapping(value = {"/item/add"}, method = RequestMethod.POST)
+    public String saveItem(ModelMap model, @Valid @ModelAttribute("fileBucket") FileBucket fileBucket, BindingResult result2,
+                           @Valid Item item, BindingResult result) throws IOException {
 
         System.out.println("Item to persist: " + item.toString());
 
-        if (result.hasErrors()) {
-            System.out.println("errors with result: " +result.toString());
+        if (result.hasErrors() || result2.hasErrors()) {
+            model.addAttribute("isfileerror", true);
+            model.addAttribute("errorMsg", result2.getFieldError().getCode());
             return "additem";
         }
 
         itemService.saveItem(item);
 
-        model.addAttribute("success", "Item " + item.getItemName() + " for "+ item.getPrice() + " registered successfully");
+        if (!fileBucket.getFile().isEmpty()) {
+            if(!Files.exists(Paths.get(UPLOAD_LOCATION))){
+                File dir = new File(UPLOAD_LOCATION);
+                dir.mkdirs();
+            }
+            String fileName = item.getId() + "." +(fileBucket.getFile().getOriginalFilename().split("\\.")[1]);
+            FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File(UPLOAD_LOCATION + fileName));
+        }
+
+        model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " registered successfully");
         model.addAttribute("loggedinuser", getPrincipal());
         return "additemsuccess";
     }
 
-    @RequestMapping(value = { "/item/{id}/delete" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/item/{id}/delete"}, method = RequestMethod.GET)
     public String deleteItem(@PathVariable Integer id) {
         itemService.deleteItemById(id);
         return "redirect:/items";
@@ -78,7 +105,7 @@ public class ItemController {
     /**
      * This method will provide the medium to update an existing user.
      */
-    @RequestMapping(value = { "/item/{id}/edit" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/item/{id}/edit"}, method = RequestMethod.GET)
     public String editItem(@PathVariable Integer id, ModelMap model) {
         Item item = itemService.findById(id);
         model.addAttribute("item", item);
@@ -91,7 +118,7 @@ public class ItemController {
      * This method will be called on form submission, handling POST request for
      * updating user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/item/{id}/edit" }, method = RequestMethod.POST)
+    @RequestMapping(value = {"/item/{id}/edit"}, method = RequestMethod.POST)
     public String updateItem(@Valid Item item, BindingResult result,
                              ModelMap model, @PathVariable Integer id) {
 
@@ -102,20 +129,24 @@ public class ItemController {
         System.out.println("Item to persist: " + item.toString());
         itemService.updateItem(item);
 
-        model.addAttribute("success", "Item " + item.getItemName() + " for "+ item.getPrice() + " updated successfully");
+        model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " updated successfully");
         model.addAttribute("loggedinuser", getPrincipal());
         return "additemsuccess";
     }
 
-    private String getPrincipal(){
+    private String getPrincipal() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
+            userName = ((UserDetails) principal).getUsername();
 
         } else {
             userName = principal.toString();
         }
         return userName;
+    }
+
+    public void init(){
+        System.out.println("SERVLET INITIALIZED");
     }
 }

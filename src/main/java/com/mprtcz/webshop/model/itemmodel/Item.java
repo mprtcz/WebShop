@@ -1,6 +1,7 @@
 package com.mprtcz.webshop.model.itemmodel;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,6 +37,9 @@ public class Item implements Serializable {
     @Column(name="DESCRIPTION")
     private
     String description;
+
+    @Transient
+    private MultipartFile file;
 
 
     public Integer getId() {
@@ -78,6 +82,15 @@ public class Item implements Serializable {
         this.description = description;
     }
 
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,4 +119,6 @@ public class Item implements Serializable {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+
 }
