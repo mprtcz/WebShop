@@ -2,6 +2,7 @@ package com.mprtcz.webshop.controller;
 
 import com.mprtcz.webshop.model.itemmodel.FileBucket;
 import com.mprtcz.webshop.model.itemmodel.Item;
+import com.mprtcz.webshop.service.itemservice.ImageService;
 import com.mprtcz.webshop.service.itemservice.ItemService;
 import com.mprtcz.webshop.validators.FileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +10,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -27,11 +24,12 @@ import java.util.List;
 @Controller
 @SessionAttributes("roles")
 public class ItemController {
-    private static final String RESOURCES_LOCATION = ItemController.class.getResource("/").getPath().substring(1);
-    private static final String UPLOAD_LOCATION = RESOURCES_LOCATION + "com/mprtcz/webshop/resources/itemspics/";
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    ImageService imageService;
 
     @Autowired
     FileValidator fileValidator;
@@ -82,14 +80,7 @@ public class ItemController {
 
         itemService.saveItem(item);
 
-        if (!fileBucket.getFile().isEmpty()) {
-            if(!Files.exists(Paths.get(UPLOAD_LOCATION))){
-                File dir = new File(UPLOAD_LOCATION);
-                dir.mkdirs();
-            }
-            String fileName = item.getId() + "." +(fileBucket.getFile().getOriginalFilename().split("\\.")[1]);
-            FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File(UPLOAD_LOCATION + fileName));
-        }
+        imageService.saveImage(fileBucket, item);
 
         model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " registered successfully");
         model.addAttribute("loggedinuser", getPrincipal());
@@ -99,6 +90,7 @@ public class ItemController {
     @RequestMapping(value = {"/item/{id}/delete"}, method = RequestMethod.GET)
     public String deleteItem(@PathVariable Integer id) {
         itemService.deleteItemById(id);
+        imageService.deleteImage(id);
         return "redirect:/items";
     }
 
@@ -108,9 +100,12 @@ public class ItemController {
     @RequestMapping(value = {"/item/{id}/edit"}, method = RequestMethod.GET)
     public String editItem(@PathVariable Integer id, ModelMap model) {
         Item item = itemService.findById(id);
+        FileBucket fileModel = new FileBucket();
+
         model.addAttribute("item", item);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("fileBucket", fileModel);
         return "additem";
     }
 
@@ -119,15 +114,19 @@ public class ItemController {
      * updating user in database. It also validates the user input
      */
     @RequestMapping(value = {"/item/{id}/edit"}, method = RequestMethod.POST)
-    public String updateItem(@Valid Item item, BindingResult result,
-                             ModelMap model, @PathVariable Integer id) {
+    public String updateItem(@Valid @ModelAttribute("fileBucket") FileBucket fileBucket, BindingResult result2,
+                             @Valid Item item, BindingResult result,
+                             ModelMap model, @PathVariable Integer id) throws IOException {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors() || result2.hasErrors()) {
+            model.addAttribute("isfileerror", true);
+            model.addAttribute("errorMsg", result2.getFieldError().getCode());
             return "additem";
         }
 
-        System.out.println("Item to persist: " + item.toString());
         itemService.updateItem(item);
+
+        imageService.saveImage(fileBucket, item);
 
         model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " updated successfully");
         model.addAttribute("loggedinuser", getPrincipal());
@@ -149,4 +148,5 @@ public class ItemController {
     public void init(){
         System.out.println("SERVLET INITIALIZED");
     }
+
 }

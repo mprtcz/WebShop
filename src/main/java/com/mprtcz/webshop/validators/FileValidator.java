@@ -21,17 +21,16 @@ public class FileValidator implements Validator {
         FileBucket file = (FileBucket) obj;
 
         System.out.println(", isEmpty=" + file.getFile().isEmpty());
-
-        if (file.getFile() != null) {
+        if (!file.getFile().isEmpty()) {
+/* //enable if picture is required
             if (file.getFile().getSize() == 0) {
                 errors.rejectValue("file", "File is missing");
             }
-///*
+//*/
             if(!containsExtension(file.getFile().getOriginalFilename())){
                 System.out.println("wrong.extension");
                 errors.rejectValue("file", "Wrong extension!");
             }
-            //*/
         }
     }
 
