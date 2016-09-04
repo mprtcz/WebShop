@@ -93,6 +93,17 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="col-md-3 control-lable">Link to a picture (Optional)</label>
+            <div class="col-md-7">
+                <input type="text" name="imageAddress" class="form-control input-sm"/>
+                <c:if test="${islinkerror}">
+                    ${errorLinkMsg}
+                </c:if>
+            </div>
+        </div>
     </div>
 
     <div class="row">

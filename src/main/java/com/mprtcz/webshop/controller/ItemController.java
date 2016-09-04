@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Azet on 2016-09-02.
@@ -55,9 +56,11 @@ public class ItemController {
     public String addItemPage(ModelMap model) {
         Item item = new Item();
         FileBucket fileModel = new FileBucket();
+        String imageAddress = "";
         model.addAttribute("item", item);
-        model.addAttribute("edit", false);
         model.addAttribute("fileBucket", fileModel);
+        model.addAttribute("imageAddress", imageAddress);
+        model.addAttribute("edit", false);
         model.addAttribute("loggedinuser", getPrincipal());
         return "additem";
     }
@@ -68,9 +71,10 @@ public class ItemController {
      */
     @RequestMapping(value = {"/item/add"}, method = RequestMethod.POST)
     public String saveItem(ModelMap model, @Valid @ModelAttribute("fileBucket") FileBucket fileBucket, BindingResult result2,
-                           @Valid Item item, BindingResult result) throws IOException {
+                           @Valid Item item, BindingResult result, String imageAddress) throws IOException {
 
         System.out.println("Item to persist: " + item.toString());
+        System.out.println("Image address: " +imageAddress);
 
         if (result.hasErrors() || result2.hasErrors()) {
             model.addAttribute("isfileerror", true);
@@ -80,7 +84,12 @@ public class ItemController {
 
         itemService.saveItem(item);
 
-        imageService.saveImage(fileBucket, item);
+        if(fileBucket.getFile().isEmpty()){
+            if(!Objects.equals(imageAddress, ""))
+            imageService.saveLinkedImage(imageAddress, item);
+        } else {
+            imageService.saveUploadedImage(fileBucket, item);
+        }
 
         model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " registered successfully");
         model.addAttribute("loggedinuser", getPrincipal());
@@ -126,7 +135,7 @@ public class ItemController {
 
         itemService.updateItem(item);
 
-        imageService.saveImage(fileBucket, item);
+        imageService.saveUploadedImage(fileBucket, item);
 
         model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " updated successfully");
         model.addAttribute("loggedinuser", getPrincipal());
