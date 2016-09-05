@@ -28,4 +28,9 @@ public class ImageServiceImplTest {
     }
 
 
+    public static void main(String[] args) {
+        String RESOURCES_LOCATION = ImageServiceImpl.class.getResource("/").getPath().substring(1);
+        String UPLOAD_LOCATION = RESOURCES_LOCATION + "com/mprtcz/webshop/resources/itemspics/";
+        System.out.println(System.getProperty("catalina.base"));
+    }
 }

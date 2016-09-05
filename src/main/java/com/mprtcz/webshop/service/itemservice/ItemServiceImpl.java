@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Azet on 2016-08-29.
@@ -18,6 +19,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     ItemDao itemDao;
+
+    @Autowired
+    ImageService imageService;
 
     @Override
     public Item findById(int id) {
@@ -56,9 +60,16 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Map<Item, File> getRandomItemsWithPictures(int amount) {
+    public List<Item> getRandomItemsWithPictures(int amount) {
         List<Item> allItemsList = findAllItems();
-        Map<Item, File> map = new HashMap<>();
         List<Item> pickedItems = new ArrayList<>();
+        Collections.shuffle(allItemsList);
+
+        for (int i = 0; i < amount; i++) {
+            Item item = allItemsList.get(i);
+            item.setFile(imageService.getImagesByItemId(item.getId()));
+            pickedItems.add(item);
+        }
+        return pickedItems;
     }
 }

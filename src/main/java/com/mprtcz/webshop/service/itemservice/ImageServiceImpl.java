@@ -22,7 +22,10 @@ import java.util.List;
 @Service("imageService")
 public class ImageServiceImpl implements ImageService {
     private static final String PROJECT_LOCATION = "C:/Users/Azet/Documents/SpringTutorial/WebShop";
+    private static final String RESOURCES_LOCATION = ImageServiceImpl.class.getResource("/").getPath().substring(1);
     private static final String UPLOAD_LOCATION = PROJECT_LOCATION + "/IMAGES/";
+    private static final String TARGET_UPLOAD_LOCATION = RESOURCES_LOCATION + "com/mprtcz/webshop/resources/itemspics/";
+    private static final String DEFAULT_IMAGE_LOCATION = "C:/Users/Azet/Documents/SpringTutorial/WebShop/IMAGES/null.png";
 
     @Override
     public void saveUploadedImage(FileBucket fileBucket, Item item) throws IOException {
@@ -87,6 +90,12 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public File getImagesByItemId(Integer id) {
+        System.out.println("ImageServiceImpl.getImagesByItemId");
+        return getFileByName(String.valueOf(id));
+    }
+
+
     public List<File> getImagesByItemsNames(List<Item> itemsList) {
         List<File> filesList = new ArrayList<>();
         for (Item i : itemsList) {
@@ -96,9 +105,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private File getFileByName(String name) {
+
         File folder = new File(UPLOAD_LOCATION);
         File[] listOfFiles = folder.listFiles();
-        System.out.println(Arrays.toString(listOfFiles));
 
         if (listOfFiles != null && listOfFiles.length > 0) {
             for (File file1 : listOfFiles) {
@@ -111,6 +120,8 @@ public class ImageServiceImpl implements ImageService {
             }
         }
         String filePath = UPLOAD_LOCATION + "null.png";
+
         return new File(filePath);
     }
+
 }

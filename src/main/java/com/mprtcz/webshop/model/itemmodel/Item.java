@@ -1,10 +1,10 @@
 package com.mprtcz.webshop.model.itemmodel;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -39,7 +39,7 @@ public class Item implements Serializable {
     String description;
 
     @Transient
-    private MultipartFile file;
+    private File file;
 
 
     public Integer getId() {
@@ -82,11 +82,11 @@ public class Item implements Serializable {
         this.description = description;
     }
 
-    public MultipartFile getFile() {
+    public File getFile() {
         return file;
     }
 
-    public void setFile(MultipartFile file) {
+    public void setFile(File file) {
         this.file = file;
     }
 

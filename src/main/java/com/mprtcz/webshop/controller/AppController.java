@@ -1,5 +1,6 @@
 package com.mprtcz.webshop.controller;
 
+import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.model.usermodel.UserProfile;
 import com.mprtcz.webshop.service.itemservice.ItemService;
@@ -52,9 +53,11 @@ public class AppController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String helloPage(ModelMap model) {
+        List<Item> itemsList = itemService.getRandomItemsWithPictures(6);
         model.addAttribute("isanonymus", isCurrentAuthenticationAnonymous());
-        model.addAttribute("itemslist", itemService.getRandomItemsWithPictures(6));
-        return "index";
+        model.addAttribute("itemslist", itemsList);
+        return "experimental";
+        //return "index";
     }
 
     /**

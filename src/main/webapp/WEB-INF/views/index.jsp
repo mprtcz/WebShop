@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Azet
@@ -70,7 +73,7 @@
         <div class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-body"><img src="<c:out value="${itemslist[0].getFile().getAbsolutePath()}"/>" class="img-responsive" style="width:100%" alt="Image"></div>
                 <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
             </div>
         </div>
