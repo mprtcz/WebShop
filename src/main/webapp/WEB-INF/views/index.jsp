@@ -72,23 +72,26 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="<c:out value="${itemslist[0].getFile().getAbsolutePath()}"/>" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                <div class="panel-heading"><c:out value="${itemslist[0].getItemName()}"/></div>
+                <div class="panel-body"><img src="<c:url value="/item/${itemslist[0].getId()}/image"/>"
+                                             class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-footer"><c:out value="${itemslist[0].getDescription()}"/></div>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-danger">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><c:out value="${itemslist[1].getItemName()}"/></div>
+                <div class="panel-body"><img src="<c:url value="/item/${itemslist[1].getId()}/image"/>"
+                                             class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-footer"><c:out value="${itemslist[1].getDescription()}"/></div>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-success">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><c:out value="${itemslist[2].getItemName()}"/></div>
+                <div class="panel-body"><img src="<c:url value="/item/${itemslist[2].getId()}/image"/>"
+                                             class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-footer"><c:out value="${itemslist[2].getDescription()}"/></div>
             </div>
         </div>
     </div>
@@ -98,23 +101,26 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                <div class="panel-heading"><c:out value="${itemslist[3].getItemName()}"/></div>
+                <div class="panel-body"><img src="<c:url value="/item/${itemslist[3].getId()}/image"/>"
+                                             class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-footer"><c:out value="${itemslist[3].getDescription()}"/></div>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                <div class="panel-heading"><c:out value="${itemslist[4].getItemName()}"/></div>
+                <div class="panel-body"><img src="<c:url value="/item/${itemslist[4].getId()}/image"/>"
+                                             class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-footer"><c:out value="${itemslist[4].getDescription()}"/></div>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">BLACK FRIDAY DEAL</div>
-                <div class="panel-body"><img src="http://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>
+                <div class="panel-heading"><c:out value="${itemslist[5].getItemName()}"/></div>
+                <div class="panel-body"><img src="<c:url value="/item/${itemslist[5].getId()}/image"/>"
+                                             class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-footer"><c:out value="${itemslist[5].getDescription()}"/></div>
             </div>
         </div>
     </div>

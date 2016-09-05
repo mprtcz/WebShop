@@ -21,5 +21,5 @@ public interface ItemService {
 
     List<Item> findAllItems();
 
-    List<Item> getRandomItemsWithPictures(int amount);
+    List<Item> getRandomItems(int amount);
 }

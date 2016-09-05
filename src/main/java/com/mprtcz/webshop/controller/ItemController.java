@@ -14,8 +14,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -152,5 +156,27 @@ public class ItemController {
             userName = principal.toString();
         }
         return userName;
+    }
+
+    @RequestMapping("/item/{id}/image")
+    public void getItemImage(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
+        Item item = itemService.findById(id);
+
+        byte[] image = null;
+
+        String imagePath = imageService.getImagePathByItemId(item.getId());
+
+        System.out.println(imagePath);
+
+        // open a file and read it as a byte array
+        image = Files.readAllBytes(Paths.get(imagePath));
+
+
+        OutputStream out = response.getOutputStream();
+        response.setContentType("image/png");
+
+        out.write(image);
+        out.flush();
+        out.close();
     }
 }

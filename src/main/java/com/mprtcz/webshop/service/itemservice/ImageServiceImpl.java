@@ -90,9 +90,14 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public File getImagesByItemId(Integer id) {
-        System.out.println("ImageServiceImpl.getImagesByItemId");
+    public File getImageByItemId(Integer id) {
+        System.out.println("ImageServiceImpl.getImageByItemId");
         return getFileByName(String.valueOf(id));
+    }
+
+    @Override
+    public String getImagePathByItemId(Integer id) {
+        return getImageByItemId(id).getAbsolutePath();
     }
 
 

@@ -16,5 +16,7 @@ public interface ImageService {
 
     void deleteImage(Integer id);
 
-    File getImagesByItemId(Integer id);
+    File getImageByItemId(Integer id);
+
+    String getImagePathByItemId(Integer id);
 }

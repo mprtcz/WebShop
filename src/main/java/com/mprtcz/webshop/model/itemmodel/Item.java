@@ -15,6 +15,9 @@ import java.math.BigInteger;
 @Table(name="ITEMS")
 public class Item implements Serializable {
 
+    @Transient
+    private static final String IMAGES_LOCATION = "C:/Users/Azet/Documents/SpringTutorial/WebShop/IMAGES/";
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
@@ -39,7 +42,7 @@ public class Item implements Serializable {
     String description;
 
     @Transient
-    private File file;
+    private File file = new File(IMAGES_LOCATION + id +".png");
 
 
     public Integer getId() {

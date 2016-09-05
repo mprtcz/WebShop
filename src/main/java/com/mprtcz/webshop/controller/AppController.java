@@ -53,11 +53,10 @@ public class AppController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String helloPage(ModelMap model) {
-        List<Item> itemsList = itemService.getRandomItemsWithPictures(6);
+        List<Item> itemsList = itemService.getRandomItems(6);
         model.addAttribute("isanonymus", isCurrentAuthenticationAnonymous());
         model.addAttribute("itemslist", itemsList);
-        return "experimental";
-        //return "index";
+        return "index";
     }
 
     /**

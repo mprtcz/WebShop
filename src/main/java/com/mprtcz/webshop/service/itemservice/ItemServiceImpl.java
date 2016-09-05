@@ -60,14 +60,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getRandomItemsWithPictures(int amount) {
+    public List<Item> getRandomItems(int amount) {
         List<Item> allItemsList = findAllItems();
         List<Item> pickedItems = new ArrayList<>();
         Collections.shuffle(allItemsList);
 
         for (int i = 0; i < amount; i++) {
             Item item = allItemsList.get(i);
-            item.setFile(imageService.getImagesByItemId(item.getId()));
             pickedItems.add(item);
         }
         return pickedItems;
