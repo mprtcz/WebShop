@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>Epic Shop</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -40,8 +40,8 @@
 
 <div class="jumbotron">
     <div class="container text-center">
-        <h1>Web Shop</h1>
-        <p>Buy items and shut up</p>
+        <h1>Epic Shop</h1>
+        <p>Buy items and feel glorious</p>
     </div>
 </div>
 
@@ -53,7 +53,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">WebShop</a>
+            <a class="navbar-brand" href="#">Epic Shop</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
@@ -71,63 +71,92 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <a href="/item/${itemslist[0].getId()}">
-                <div class="panel panel-primary">
-                    <div class="panel-heading"><c:out value="${itemslist[0].getItemName()}"/></div>
-                    <div class="panel-body"><img src="<c:url value="/item/${itemslist[0].getId()}/image"/>"
-                                                 class="img-responsive" style="width:100%" alt="Image"></div>
-                    <div class="panel-footer"><c:out value="${itemslist[0].getDescription()}"/></div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <a href="/item/${itemslist[0].getId()}/">
+                        <c:out value="${itemslist[0].getItemName()}"/>
+                    </a>
                 </div>
-            </a>
+                <div class="panel-body">
+                    <img src="<c:url value="/item/${itemslist[0].getId()}/image"/>"
+                                             class="img-responsive" style="width:100%" alt="Image">
+                </div>
+                <div class="panel-footer"><c:out value="${itemslist[0].getDescription()}"/></div>
+            </div>
         </div>
         <div class="col-sm-4">
-            <a href="/item/${itemslist[1].getId()}">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><c:out value="${itemslist[1].getItemName()}"/></div>
-                <div class="panel-body"><img src="<c:url value="/item/${itemslist[1].getId()}/image"/>"
-                                             class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <a href="/item/${itemslist[1].getId()}/">
+                        <c:out value="${itemslist[1].getItemName()}"/>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <img src="<c:url value="/item/${itemslist[1].getId()}/image"/>"
+                         class="img-responsive" style="width:100%" alt="Image">
+                </div>
                 <div class="panel-footer"><c:out value="${itemslist[1].getDescription()}"/></div>
             </div>
         </div>
         <div class="col-sm-4">
-            <a href="/item/${itemslist[2].getId()}">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><c:out value="${itemslist[2].getItemName()}"/></div>
-                <div class="panel-body"><img src="<c:url value="/item/${itemslist[2].getId()}/image"/>"
-                                             class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <a href="/item/${itemslist[2].getId()}/">
+                        <c:out value="${itemslist[2].getItemName()}"/>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <img src="<c:url value="/item/${itemslist[2].getId()}/image"/>"
+                         class="img-responsive" style="width:100%" alt="Image">
+                </div>
                 <div class="panel-footer"><c:out value="${itemslist[2].getDescription()}"/></div>
             </div>
         </div>
-    </div>
+</div>
 </div>
 <br>
 
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <a href="/item/${itemslist[3].getId()}">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><c:out value="${itemslist[3].getItemName()}"/></div>
-                <div class="panel-body"><img src="<c:url value="/item/${itemslist[3].getId()}/image"/>"
-                                             class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <a href="/item/${itemslist[3].getId()}/">
+                        <c:out value="${itemslist[3].getItemName()}"/>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <img src="<c:url value="/item/${itemslist[3].getId()}/image"/>"
+                         class="img-responsive" style="width:100%" alt="Image">
+                </div>
                 <div class="panel-footer"><c:out value="${itemslist[3].getDescription()}"/></div>
             </div>
         </div>
         <div class="col-sm-4">
-            <a href="/item/${itemslist[4].getId()}">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><c:out value="${itemslist[4].getItemName()}"/></div>
-                <div class="panel-body"><img src="<c:url value="/item/${itemslist[4].getId()}/image"/>"
-                                             class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <a href="/item/${itemslist[4].getId()}/">
+                        <c:out value="${itemslist[4].getItemName()}"/>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <img src="<c:url value="/item/${itemslist[4].getId()}/image"/>"
+                         class="img-responsive" style="width:100%" alt="Image">
+                </div>
                 <div class="panel-footer"><c:out value="${itemslist[4].getDescription()}"/></div>
             </div>
         </div>
         <div class="col-sm-4">
-            <a href="/item/${itemslist[5].getId()}">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><c:out value="${itemslist[5].getItemName()}"/></div>
-                <div class="panel-body"><img src="<c:url value="/item/${itemslist[5].getId()}/image"/>"
-                                             class="img-responsive" style="width:100%" alt="Image"></div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <a href="/item/${itemslist[5].getId()}/">
+                        <c:out value="${itemslist[5].getItemName()}"/>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <img src="<c:url value="/item/${itemslist[5].getId()}/image"/>"
+                         class="img-responsive" style="width:100%" alt="Image">
+                </div>
                 <div class="panel-footer"><c:out value="${itemslist[5].getDescription()}"/></div>
             </div>
         </div>
