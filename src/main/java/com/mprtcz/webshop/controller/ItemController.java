@@ -179,4 +179,13 @@ public class ItemController {
         out.flush();
         out.close();
     }
+
+    @RequestMapping(value = {"/item/{id}"}, method = RequestMethod.GET)
+    public String viewItem(@PathVariable String id , ModelMap model) {
+        Item item = itemService.findById(Integer.parseInt(id));
+        model.addAttribute("item", item);
+        model.addAttribute("edit", false);
+        model.addAttribute("loggedinuser", getPrincipal());
+        return "item";
+    }
 }
