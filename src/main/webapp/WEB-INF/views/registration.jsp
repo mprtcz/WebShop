@@ -20,7 +20,7 @@
     <div class="well lead">User Registration Form</div>
     <form:form method="POST" modelAttribute="user" class="form-horizontal">
         <form:input type="hidden" path="id" id="id"/>
-        <form:input type="hidden" path="userProfile" items="${roles.get(1)}" itemValue="id"/>
+        <input type="hidden" name="userProfile" value="2"/> <%-- needs fixing!!! --%>
 
         <div class="row">
             <div class="form-group col-md-12">
@@ -89,7 +89,6 @@
                 </div>
             </div>
         </div>
-Roles: ${roles}
         <sec:authorize access="hasRole('ADMIN')">
             <div class="row">
                 <div class="form-group col-md-12">

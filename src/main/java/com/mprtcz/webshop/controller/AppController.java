@@ -90,7 +90,7 @@ public class AppController {
         model.addAttribute("user", user);
         model.addAttribute("edit", false);
         model.addAttribute("loggedinuser", getPrincipal());
-        model.addAttribute("userProfile", "2");
+        model.addAttribute("userProfileType", "2");
         return "registration";
     }
 
