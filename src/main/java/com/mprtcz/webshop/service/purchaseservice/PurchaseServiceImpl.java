@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  * Created by Azet on 2016-09-08.
@@ -31,10 +32,20 @@ public class PurchaseServiceImpl implements PurchaseService {
         if (amountBI.compareTo(item.getStock()) < 1) {
 
             BigInteger totalPrice = amountBI.multiply(item.getPrice());
-            if(user.getBalance().compareTo(totalPrice) > 1) {
+            System.out.println("totalPrice = " + totalPrice);
+            System.out.println("user.getBalance() = " + user.getBalance());
+            System.out.println("user.getBalance().compareTo(totalPrice)" +user.getBalance().compareTo(totalPrice));
+            if(user.getBalance().compareTo(totalPrice) > -1) {
 
                 BigInteger newBalance = (user.getBalance().subtract(item.getPrice()));
                 user.setBalance(newBalance);
+                BigInteger initialStock = item.getStock();
+                List<Item> itemsList = user.getBoughtItemsList();
+                item.setStock(amountBI);
+                itemsList.add(item);
+                user.setBoughtItemsList(itemsList);
+                BigInteger newStock = initialStock.subtract(amountBI);
+                item.setStock(newStock);
 
                 userService.updateUser(user);
                 itemService.updateItem(item);

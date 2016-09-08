@@ -46,7 +46,7 @@ public class User implements Serializable {
     private BigInteger balance;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinTable(name = "APP_USER_USER_PROFILE",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
@@ -54,7 +54,7 @@ public class User implements Serializable {
     UserProfile userProfile;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "APP_USER_ITEM",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "ITEM_ID") })
