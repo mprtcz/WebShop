@@ -63,8 +63,13 @@ public class PurchaseController {
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
         Item item = itemService.findById(purchase.getItemId());
+        Integer quantity = purchase.getQuantity();
 
-        String purchaseResult = purchaseService.purchase(currentUser, item, purchase.getQuantity());
+        System.out.println("quantity = " + quantity);
+        System.out.println("item = " + item);
+        System.out.println("currentUser = " + currentUser);
+
+        String purchaseResult = purchaseService.purchase(currentUser, item, quantity);
 
         model.addAttribute("item", item);
         model.addAttribute("quantity", purchase.getQuantity());

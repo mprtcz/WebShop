@@ -38,14 +38,23 @@ public class PurchaseServiceImpl implements PurchaseService {
             if(user.getBalance().compareTo(totalPrice) > -1) {
 
                 BigInteger newBalance = (user.getBalance().subtract(item.getPrice()));
+                System.out.println("newBalance = " + newBalance);
                 user.setBalance(newBalance);
+
                 BigInteger initialStock = item.getStock();
+                System.out.println("initialStock = " + initialStock);
+
                 List<Item> itemsList = user.getBoughtItemsList();
+                System.out.println("itemsList = " + itemsList.toString());
                 item.setStock(amountBI);
+                System.out.println("amountBI = " + amountBI);
                 itemsList.add(item);
+
                 user.setBoughtItemsList(itemsList);
                 BigInteger newStock = initialStock.subtract(amountBI);
+                System.out.println("newStock = " + newStock);
                 item.setStock(newStock);
+                System.out.println("item = " + item);
 
                 userService.updateUser(user);
                 itemService.updateItem(item);
