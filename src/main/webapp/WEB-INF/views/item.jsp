@@ -101,7 +101,7 @@
 <!-- Third Container (Grid) -->
 <div class="container-fluid bg-3 text-center">
     <h3 class="margin">Buy this item:</h3><br>
-    <a href="#" class="btn btn-default btn-lg">
+    <a href="<c:url value="/item/${item.id}/purchase"/>" class="btn btn-default btn-lg">
         <span class="glyphicon glyphicon-shopping-cart"></span> ${item.price}
     </a>
 </div>

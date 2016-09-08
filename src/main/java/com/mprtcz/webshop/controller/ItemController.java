@@ -4,10 +4,9 @@ import com.mprtcz.webshop.model.itemmodel.FileBucket;
 import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.service.itemservice.ImageService;
 import com.mprtcz.webshop.service.itemservice.ItemService;
+import com.mprtcz.webshop.service.security.PrincipalService;
 import com.mprtcz.webshop.validators.FileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -35,6 +34,9 @@ public class ItemController {
 
     @Autowired
     ImageService imageService;
+    
+    @Autowired
+    PrincipalService principalService;
 
     @Autowired
     FileValidator fileValidator;
@@ -52,7 +54,7 @@ public class ItemController {
 
         List<Item> items = itemService.findAllItems();
         model.addAttribute("items", items);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "itemslist";
     }
 
@@ -65,7 +67,7 @@ public class ItemController {
         model.addAttribute("fileBucket", fileModel);
         model.addAttribute("imageAddress", imageAddress);
         model.addAttribute("edit", false);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "additem";
     }
 
@@ -96,7 +98,7 @@ public class ItemController {
         }
 
         model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " registered successfully");
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "additemsuccess";
     }
 
@@ -117,7 +119,7 @@ public class ItemController {
 
         model.addAttribute("item", item);
         model.addAttribute("edit", true);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         model.addAttribute("fileBucket", fileModel);
         return "additem";
     }
@@ -142,21 +144,10 @@ public class ItemController {
         imageService.saveUploadedImage(fileBucket, item);
 
         model.addAttribute("success", "Item " + item.getItemName() + " for " + item.getPrice() + " updated successfully");
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "additemsuccess";
     }
-
-    private String getPrincipal() {
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
-    }
+    
 
     @RequestMapping("/item/{id}/image")
     public void getItemImage(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
@@ -185,7 +176,9 @@ public class ItemController {
         Item item = itemService.findById(Integer.parseInt(id));
         model.addAttribute("item", item);
         model.addAttribute("edit", false);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "item";
     }
+
+
 }

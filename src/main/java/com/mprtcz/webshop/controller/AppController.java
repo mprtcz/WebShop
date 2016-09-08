@@ -4,6 +4,7 @@ import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.model.usermodel.UserProfile;
 import com.mprtcz.webshop.service.itemservice.ItemService;
+import com.mprtcz.webshop.service.security.PrincipalService;
 import com.mprtcz.webshop.service.userservice.UserProfileService;
 import com.mprtcz.webshop.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,6 +37,9 @@ public class AppController {
 
     @Autowired
     UserProfileService userProfileService;
+    
+    @Autowired
+    PrincipalService principalService;
 
     @Autowired
     MessageSource messageSource;
@@ -80,7 +83,7 @@ public class AppController {
 
         List<User> users = userService.findAllUsers();
         model.addAttribute("users", users);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "userslist";
     }
 
@@ -89,7 +92,7 @@ public class AppController {
         User user = new User();
         model.addAttribute("user", user);
         model.addAttribute("edit", false);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         model.addAttribute("userProfileType", "2");
         return "registration";
     }
@@ -97,7 +100,7 @@ public class AppController {
 
     private Integer getUserId() {
         Integer userID = -1;
-        userID = userService.findBySSO(getPrincipal()).getId();
+        userID = userService.findBySSO(principalService.getPrincipal()).getId();
         return userID;
     }
 
@@ -120,7 +123,7 @@ public class AppController {
         }
 
         /*
-        User currentUser = userService.findBySSO(getPrincipal());
+        User currentUser = userService.findBySSO(principalService.getPrincipal());
         UserProfile userProfile = new UserProfile();
         userProfile.setType("CUSTOMER");
         if (currentUser == null) {
@@ -137,7 +140,7 @@ public class AppController {
         userService.saveUser(user);
 
         model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " registered successfully");
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         //return "success";
         return "registrationsuccess";
     }
@@ -148,24 +151,11 @@ public class AppController {
      */
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "accessDenied";
     }
 
-    /**
-     * This method returns the principal[user-name] of logged-in user.
-     */
-    private String getPrincipal() {
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
 
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
-    }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
@@ -190,7 +180,7 @@ public class AppController {
         User user = userService.findBySSO(ssoId);
         model.addAttribute("user", user);
         model.addAttribute("edit", false);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "userprofile";
     }
 
@@ -199,7 +189,7 @@ public class AppController {
         if (isCurrentAuthenticationAnonymous()) {
             return loginPage();
         } else {
-            return viewUser(getPrincipal(), model);
+            return viewUser(principalService.getPrincipal(), model);
         }
     }
 
@@ -211,7 +201,7 @@ public class AppController {
         User user = userService.findBySSO(ssoId);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "registration";
     }
 
@@ -231,7 +221,7 @@ public class AppController {
         userService.updateUser(user);
 
         model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "registrationsuccess";
     }
 

@@ -105,6 +105,20 @@
             </div>
         </sec:authorize>
 
+        <sec:authorize access="hasRole('ADMIN')">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="balance">Ballance</label>
+                    <div class="col-md-7">
+                        <form:input type="number" path="balance" id="balance" class="form-control input-sm"/>
+                        <div class="has-error">
+                            <form:errors path="balance" class="help-inline"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </sec:authorize>
+
         <div class="row">
             <div class="form-actions floatRight">
                 <c:choose>

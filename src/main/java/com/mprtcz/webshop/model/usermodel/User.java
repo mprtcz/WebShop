@@ -4,8 +4,10 @@ import com.mprtcz.webshop.model.itemmodel.Item;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,10 @@ public class User implements Serializable {
     @NotEmpty
     @Column(name="EMAIL", nullable=false)
     private String email;
+
+    @Column(name="BALANCE", nullable=false, precision=10, scale=2)
+    @DecimalMin("0")
+    private BigInteger balance;
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
@@ -121,6 +127,14 @@ public class User implements Serializable {
         this.boughtItemsList = boughtItemsList;
     }
 
+    public BigInteger getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigInteger balance) {
+        this.balance = balance;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -153,6 +167,7 @@ public class User implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", balance=" + balance +
                 ", userProfile=" + userProfile +
                 '}';
     }
