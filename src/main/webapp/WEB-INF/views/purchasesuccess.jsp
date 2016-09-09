@@ -96,13 +96,8 @@
                 </div>
             </div>
             </p>
-            <hr>
         </div>
         <div class="col-sm-2 sidenav">
-            <div class="well">
-            </div>
-            <div class="well">
-            </div>
         </div>
     </div>
 </div>
