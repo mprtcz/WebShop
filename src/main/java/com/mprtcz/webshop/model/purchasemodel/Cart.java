@@ -31,7 +31,7 @@ public class Cart {
     public BigInteger getAllItemsPrice(){
         BigInteger price = BigInteger.ZERO;
         for(Item i : itemsList){
-            price.add(i.getPrice());
+            price = price.add(i.getPrice());
         }
 
         return price;

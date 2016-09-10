@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <style>
         /* Remove the navbar's default rounded borders and increase the bottom margin */
         .navbar {
@@ -36,8 +37,9 @@
         }
     </style>
 </head>
-<body>
 
+
+<body>
 <div class="jumbotron">
     <div class="container text-center">
         <h1>Epic Shop</h1>

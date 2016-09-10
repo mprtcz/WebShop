@@ -48,7 +48,7 @@
         <div class="col-sm-2 sidenav">
         </div>
         <div class="col-sm-8 text-left">
-            <h1>Added to cart</h1>
+            <h1>User's cart</h1>
             <p>
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
@@ -68,14 +68,21 @@
                                 <td>${item.price}</td>
                             </tr>
                         </c:forEach>
+                        <tr>
+                            <td>Total items' value:</td>
+                            <td><c:out value="${itemsValue}"/></td>
+                        </tr>
                         </tbody>
                     </table>
-                    <h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
-            <a href="<c:url value="/" />">Back to the main page</a></span>
+            <c:if test="${accountBalance < itemsValue}"><p>Warning! Not enough money for all items!</p></c:if>
+            <p>Current account balance: ${accountBalance}</p>
+            <h5>
+                <p align="center">Logged as: <c:out value="${loggedinuser}"/></p>
+                <a href="<c:url value="/" />">Back to the main page</a>
+            </h5>
         </div>
-        </div>
-        <div class="col-sm-2 sidenav">
-        </div>
+    </div>
+    <div class="col-sm-2 sidenav">
     </div>
 </div>
 

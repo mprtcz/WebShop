@@ -14,7 +14,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Users List</title>
+    <title>Items List</title>
     <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet">
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
 </head>
@@ -44,9 +44,6 @@
 </nav>
 
 <div class="container-fluid text-center">
-    <div class="row content">
-        <div class="col-sm-2 sidenav">
-        </div>
         <!-- Default panel contents -->
         <div class="panel-heading"><span class="lead">List of Items </span></div>
         <table class="table table-hover">
@@ -56,7 +53,6 @@
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Description</th>
-
             </tr>
             </thead>
             <tbody>
@@ -70,9 +66,7 @@
                         <td><a href="<c:url value='/item/${item.id}/edit' />" class="btn btn-success custom-width">Edit</a></td>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ADMIN')">
-                        <td><a href="<c:url value='/item/${item.id}/delete' />" class="btn btn
-
-                        danger custom-width">Delete</a></td>
+                        <td><a href="<c:url value='/item/${item.id}/delete' />" class="btn btn-danger custom-width">Delete</a></td>
                     </sec:authorize>
                     <td><a href="<c:url value='/item/${item.id}' />" class="btn btn-success custom-width">View</a></td>
                 </tr>
@@ -80,14 +74,10 @@
             </tbody>
         </table>
         <h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
-        <a href="<c:url value="/" />">Back to the main page</a></span>
+        <a href="<c:url value="/" />">Back to the main page</a>
         <sec:authorize access="hasRole('ADMIN')">
-            <td><a href="<c:url value='/item/add' />" class="btn btn-success custom-width">Add another item</a></td>
+            <td><a href="<c:url value='/item/add' />" class="btn btn-success">Add another item</a></td>
         </sec:authorize>
-        <div class="col-sm-2 sidenav">
-        </div>
     </div>
-</div>
-
 </body>
 </html>

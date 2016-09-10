@@ -20,7 +20,7 @@
 </head>
 
 <body>
-<p class="generic-container">
+
 <div class="well lead">Add Items to sell</div>
 <form:form method="POST" modelAttribute="item" class="form-horizontal" enctype="multipart/form-data">
     <form:input type="hidden" path="id" id="id"/>

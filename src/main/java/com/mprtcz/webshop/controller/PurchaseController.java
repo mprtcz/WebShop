@@ -9,14 +9,18 @@ import com.mprtcz.webshop.service.purchaseservice.PurchaseService;
 import com.mprtcz.webshop.service.security.PrincipalService;
 import com.mprtcz.webshop.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.math.BigInteger;
+import java.util.Locale;
 
 /**
  * Created by Azet on 2016-09-08.
@@ -39,9 +43,14 @@ public class PurchaseController {
     @Autowired
     CartService cartService;
 
+    @Autowired
+    MessageSource messageSource;
+
     @RequestMapping(value = {"/item/{id}/purchase"}, method = RequestMethod.GET)
     public String prepareItemPurchase(@PathVariable Integer id, ModelMap model) {
-
+        if (principalService.isCurrentAuthenticationAnonymous()) {
+            return "login";
+        }
         Item item = itemService.findById(id);
         String userName = principalService.getPrincipal();
         User user = userService.findBySSO(userName);
@@ -57,7 +66,9 @@ public class PurchaseController {
     @RequestMapping(value = {"/item/{id}/purchase"}, method = RequestMethod.POST)
     public String purchaseItems(@PathVariable Integer id, @Valid Purchase purchase,
                                 BindingResult result, ModelMap model) {
-
+        if (principalService.isCurrentAuthenticationAnonymous()) {
+            return "login";
+        }
         System.out.println("PurchaseController.purchaseItems");
         if (result.hasErrors()) {
             System.out.println(result.toString());
@@ -90,7 +101,9 @@ public class PurchaseController {
 
     @RequestMapping(value = {"/item/{id}/addtocart"}, method = RequestMethod.GET)
     public String addItemToCart(@PathVariable Integer id, ModelMap model) {
-
+        if (principalService.isCurrentAuthenticationAnonymous()) {
+            return "login";
+        }
         Item item = itemService.findById(id);
         String userName = principalService.getPrincipal();
         User user = userService.findBySSO(userName);
@@ -107,16 +120,34 @@ public class PurchaseController {
     @RequestMapping(value = {"item/{id}/addtocart"}, method = RequestMethod.POST)
     public String addToCart(@Valid Purchase purchase, BindingResult result,
                             ModelMap modelMap) {
+        if (principalService.isCurrentAuthenticationAnonymous()) {
+            return "login";
+        }
+
+        if (result.hasErrors()) {
+            System.out.println(result.toString());
+            return "addtocart";
+        }
 
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
         Item item = itemService.findById(purchase.getItemId());
         Integer quantity = purchase.getQuantity();
+        BigInteger quantityBBigInt = BigInteger.valueOf(purchase.getQuantity());
+
+        if (item.getStock().compareTo(quantityBBigInt) > 0) {
+            FieldError ssoError = new FieldError("item", "stock", messageSource.getMessage(
+                    "quantity.too.large", new String[]{String.valueOf(item.getStock())}, Locale.getDefault()));
+            result.addError(ssoError);
+            return "registration";
+        }
 
         cartService.addItemsToCart(item, quantity, currentUser);
 
         modelMap.addAttribute("cartItems", cartService.getItemsInCart(currentUser));
+        modelMap.addAttribute("itemsValue", cartService.getItemsValue());
+        modelMap.addAttribute("accountBalance", currentUser.getBalance());
 
-        return "addedtocart";
+        return "cart";
     }
 }

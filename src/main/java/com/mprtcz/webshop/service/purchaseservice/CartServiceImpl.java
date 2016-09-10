@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -41,6 +42,11 @@ public class CartServiceImpl implements CartService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public BigInteger getItemsValue() {
+        return cart.getAllItemsPrice();
     }
 }
 
