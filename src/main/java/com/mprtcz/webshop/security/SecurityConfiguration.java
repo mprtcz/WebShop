@@ -37,18 +37,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-                .antMatchers("/user/delete/*")
+                .antMatchers("/user/*/delete/*", "/user/*/edit")
 				    .access("hasRole('ADMIN')")
 				.antMatchers("/item/*/edit/*", "/item/*/delete", "/item/add")
-				.access("hasRole('ADMIN')")
-                .antMatchers("/buyitem", "/users", "item/*/addtocart")
+				    .access("hasRole('ADMIN')")
+                .antMatchers("/buyitem", "/item/*/purchase", "item/*/addtocart")
 				    .access("hasRole('ADMIN') or hasRole('CUSTOMER')")
-				.antMatchers("/item/*/purchase")
-				.access("hasRole('ADMIN') or hasRole('CUSTOMER')")
-                .and().formLogin().loginPage("/login")
-				.loginProcessingUrl("/login").usernameParameter("ssoId").passwordParameter("password").and()
-				.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-				.tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
+				.antMatchers("/users")
+				    .access("hasRole('ADMIN') or hasRole('CUSTOMER')")
+                .and()
+                    .formLogin().loginPage("/login")
+				    .loginProcessingUrl("/login").usernameParameter("ssoId").passwordParameter("password")
+                .and()
+				    .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
+				    .tokenValiditySeconds(86400)
+                .and()
+                    .csrf()
+                .and()
+                    .exceptionHandling().accessDeniedPage("/Access_Denied");
 	}
 
 	@Bean

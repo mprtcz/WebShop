@@ -70,7 +70,9 @@
                         <td><a href="<c:url value='/item/${item.id}/edit' />" class="btn btn-success custom-width">Edit</a></td>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ADMIN')">
-                        <td><a href="<c:url value='/item/${item.id}/delete' />" class="btn btn-danger custom-width">Delete</a></td>
+                        <td><a href="<c:url value='/item/${item.id}/delete' />" class="btn btn
+
+                        danger custom-width">Delete</a></td>
                     </sec:authorize>
                     <td><a href="<c:url value='/item/${item.id}' />" class="btn btn-success custom-width">View</a></td>
                 </tr>

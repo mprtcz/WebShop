@@ -165,7 +165,7 @@ public class AppController {
     }
 
 
-    @RequestMapping(value = {"/user/delete/{ssoId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/{ssoId}/delete"}, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String ssoId) {
         userService.deleteUserBySSO(ssoId);
         return "redirect:/users";
