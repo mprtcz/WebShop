@@ -1,6 +1,7 @@
 package com.mprtcz.webshop.model.usermodel;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
+import com.mprtcz.webshop.model.purchasemodel.Cart;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -59,6 +60,9 @@ public class User implements Serializable {
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "ITEM_ID") })
     private List<Item> boughtItemsList = new ArrayList<>();
+
+    @Transient
+    private Cart cart;
 
 
     public Integer getId() {
@@ -132,6 +136,14 @@ public class User implements Serializable {
 
     public void setBalance(BigInteger balance) {
         this.balance = balance;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     @Override

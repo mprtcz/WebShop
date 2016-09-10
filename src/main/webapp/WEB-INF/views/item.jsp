@@ -18,6 +18,7 @@
     <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <%--
     <style>
         body {
             font: 20px Montserrat, sans-serif;
@@ -61,7 +62,7 @@
         .navbar-nav  li a:hover {
             color: #1abc9c !important;
         }
-    </style>
+    </style> --%>
 </head>
 <body>
 
@@ -100,8 +101,8 @@
 
 <!-- Third Container (Grid) -->
 <div class="container-fluid bg-3 text-center">
-    <h3 class="margin">Buy this item:</h3><br>
-    <a href="<c:url value="/item/${item.id}/purchase"/>" class="btn btn-default btn-lg">
+    <h3 class="margin">Add to cart:</h3><br>
+    <a href="<c:url value="/item/${item.id}/addtocart"/>" class="btn btn-default btn-lg">
         <span class="glyphicon glyphicon-shopping-cart"></span> ${item.price}
     </a>
 </div>

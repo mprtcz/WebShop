@@ -9,7 +9,6 @@ import com.mprtcz.webshop.service.userservice.UserProfileService;
 import com.mprtcz.webshop.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
@@ -46,10 +45,7 @@ public class AppController {
 
     @Autowired
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
-
-    @Autowired
-    AuthenticationTrustResolver authenticationTrustResolver;
-
+    
     @Autowired
     ItemService itemService;
 
@@ -57,7 +53,7 @@ public class AppController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String helloPage(ModelMap model) {
         List<Item> itemsList = itemService.getRandomItems(6);
-        model.addAttribute("isanonymus", isCurrentAuthenticationAnonymous());
+        model.addAttribute("isanonymus", principalService.isCurrentAuthenticationAnonymous());
         model.addAttribute("itemslist", itemsList);
         return "index";
     }
@@ -68,7 +64,7 @@ public class AppController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage() {
-        if (isCurrentAuthenticationAnonymous()) {
+        if (principalService.isCurrentAuthenticationAnonymous()) {
             return "login";
         } else {
             return "redirect:/items";
@@ -178,7 +174,9 @@ public class AppController {
     @RequestMapping(value = {"/user/{ssoId}"}, method = RequestMethod.GET)
     public String viewUser(@PathVariable String ssoId, ModelMap model) {
         User user = userService.findBySSO(ssoId);
+        String currentUserName = principalService.getPrincipal();
         model.addAttribute("user", user);
+        model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("edit", false);
         model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "userprofile";
@@ -186,7 +184,7 @@ public class AppController {
 
     @RequestMapping(value = {"/user"}, method = RequestMethod.GET)
     public String viewCurrentUser(ModelMap model) {
-        if (isCurrentAuthenticationAnonymous()) {
+        if (principalService.isCurrentAuthenticationAnonymous()) {
             return loginPage();
         } else {
             return viewUser(principalService.getPrincipal(), model);
@@ -225,13 +223,7 @@ public class AppController {
         return "registrationsuccess";
     }
 
-    /**
-     * This method returns true if users is already authenticated [logged-in], else false.
-     */
-    private boolean isCurrentAuthenticationAnonymous() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authenticationTrustResolver.isAnonymous(authentication);
-    }
+    
 
     @ModelAttribute("roles")
     public List<UserProfile> initializeProfiles() {

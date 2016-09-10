@@ -3,17 +3,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 <%--
   Created by IntelliJ IDEA.
   User: Azet
-  Date: 2016-09-08
-  Time: 17:49
+  Date: 2016-09-10
+  Time: 11:15
   To change this template use File | Settings | File Templates.
 --%>
 <html>
 <head>
-    <title>Confirm Purchase</title>
+    <title>Add Item(s) to Cart</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -49,43 +48,35 @@
         <div class="col-sm-2 sidenav">
         </div>
         <div class="col-sm-8 text-left">
-            <h1>Confirm Purchase</h1>
+            <h1>Added to cart</h1>
             <p>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <a href="/item/${item.id}/">
-                                <c:out value="${item.itemName}"/>
-                            </a>
-                        </div>
-                        <div class="panel-body">
-                            <img src="<c:url value="/item/${item.id}/image"/>"
-                                 class="img-responsive" style="width:100%" alt="Image">
-                        </div>
-                        <div class="panel-footer">Price: <c:out value="${item.price}"/></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="alert alert-info">
-                    <strong>User Account balance:</strong> <c:out value="${user.balance}"/>
-                </div>
-                <form:form method="POST" modelAttribute="purchase" class="form-horizontal">
-                    <form:input type="hidden" path="userName" value="${user.ssoId}"/>
-                    <form:input type="hidden" path="itemId" value="${item.id}"/>
-                    <label for="quantity">Select Quantity</label>
-                    <form:input type="number" path="quantity" id="quantity" class="form-control input-sm"/>
-                    <input type="submit" value="Add to Cart">
-                </form:form>
-            </div>
-            </p>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading"><span class="lead">List of Items </span></div>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${cartItems}" var="item">
+                            <tr>
+                                <td>${item.itemName}</td>
+                                <td>${item.price}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
+            <a href="<c:url value="/" />">Back to the main page</a></span>
+        </div>
         </div>
         <div class="col-sm-2 sidenav">
         </div>
     </div>
-</div>
-</div>
 </div>
 
 <footer class="container-fluid text-center">

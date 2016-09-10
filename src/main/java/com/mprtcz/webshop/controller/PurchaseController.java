@@ -4,6 +4,7 @@ import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.purchasemodel.Purchase;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.service.itemservice.ItemService;
+import com.mprtcz.webshop.service.purchaseservice.CartService;
 import com.mprtcz.webshop.service.purchaseservice.PurchaseService;
 import com.mprtcz.webshop.service.security.PrincipalService;
 import com.mprtcz.webshop.service.userservice.UserService;
@@ -35,13 +36,17 @@ public class PurchaseController {
     @Autowired
     PrincipalService principalService;
 
+    @Autowired
+    CartService cartService;
+
     @RequestMapping(value = {"/item/{id}/purchase"}, method = RequestMethod.GET)
-    public String prepareItemPurchase(@PathVariable Integer id, ModelMap model){
+    public String prepareItemPurchase(@PathVariable Integer id, ModelMap model) {
+
         Item item = itemService.findById(id);
         String userName = principalService.getPrincipal();
         User user = userService.findBySSO(userName);
         Purchase purchase = new Purchase();
-        System.out.println("Purchase Item: " +item.toString());
+        System.out.println("Purchase Item: " + item.toString());
         System.out.println("Purchase user: " + user.toString());
         model.addAttribute("purchase", purchase);
         model.addAttribute("item", item);
@@ -51,9 +56,10 @@ public class PurchaseController {
 
     @RequestMapping(value = {"/item/{id}/purchase"}, method = RequestMethod.POST)
     public String purchaseItems(@PathVariable Integer id, @Valid Purchase purchase,
-                                BindingResult result, ModelMap model){
+                                BindingResult result, ModelMap model) {
+
         System.out.println("PurchaseController.purchaseItems");
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             System.out.println(result.toString());
             return "confirmpurchase";
         }
@@ -74,11 +80,43 @@ public class PurchaseController {
         model.addAttribute("item", item);
         model.addAttribute("quantity", purchase.getQuantity());
         model.addAttribute("user", currentUser);
-        if(purchaseResult.equals("success")) {
+        if (purchaseResult.equals("success")) {
             return "purchasesuccess";
         } else {
             model.addAttribute("purchaseResult", purchaseResult);
             return "confirmpurchase";
         }
+    }
+
+    @RequestMapping(value = {"/item/{id}/addtocart"}, method = RequestMethod.GET)
+    public String addItemToCart(@PathVariable Integer id, ModelMap model) {
+
+        Item item = itemService.findById(id);
+        String userName = principalService.getPrincipal();
+        User user = userService.findBySSO(userName);
+        Purchase purchase = new Purchase();
+        System.out.println("Purchase Item: " + item.toString());
+        System.out.println("Purchase user: " + user.toString());
+        model.addAttribute("purchase", purchase);
+        model.addAttribute("item", item);
+        model.addAttribute("user", user);
+        return "addtocart";
+
+    }
+
+    @RequestMapping(value = {"item/{id}/addtocart"}, method = RequestMethod.POST)
+    public String addToCart(@Valid Purchase purchase, BindingResult result,
+                            ModelMap modelMap) {
+
+        String currentUserName = principalService.getPrincipal();
+        User currentUser = userService.findBySSO(currentUserName);
+        Item item = itemService.findById(purchase.getItemId());
+        Integer quantity = purchase.getQuantity();
+
+        cartService.addItemsToCart(item, quantity, currentUser);
+
+        modelMap.addAttribute("cartItems", cartService.getItemsInCart(currentUser));
+
+        return "addedtocart";
     }
 }

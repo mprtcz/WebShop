@@ -79,13 +79,10 @@
                     <input type="submit" value="Add to Cart">
                 </form:form>
             </div>
-            </p>
         </div>
         <div class="col-sm-2 sidenav">
         </div>
     </div>
-</div>
-</div>
 </div>
 
 <footer class="container-fluid text-center">
