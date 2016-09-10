@@ -122,7 +122,6 @@
     </div>
 </form:form>
 </p>
-<h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
 <a href="<c:url value="/" />">Back to the main page</a></span>
 </div>
 </body>

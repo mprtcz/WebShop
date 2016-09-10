@@ -31,6 +31,8 @@ public class PrincipalService {
         return userName;
     }
 
+
+
     /**
      * This method returns true if users is already authenticated [logged-in], else false.
      */

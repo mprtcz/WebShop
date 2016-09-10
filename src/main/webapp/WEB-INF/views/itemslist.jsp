@@ -19,6 +19,18 @@
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
 </head>
 
+<sec:authentication property="principal" var="userProfileCurrent"/>
+<c:set value="anonymousUser" var="anonymousUser"/>
+<c:set value="Guest" var="guest"/>
+<c:choose>
+    <c:when test="${!userProfileCurrent.equals(anonymousUser)}">
+        <sec:authentication property="principal.username" var="userProfileCurrent"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="userProfileCurrent" value="Guest"/>
+    </c:otherwise>
+</c:choose>
+
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -37,7 +49,15 @@
                 <li><a href="#">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
+                <c:choose>
+                    <c:when test="${userProfileCurrent.equals(guest)}">
+                        <li><a href="/login"><span class="glyphicon glyphicon-user"></span> Guest</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="/user"><span class="glyphicon glyphicon-user"></span>
+                            <c:out value=" ${userProfileCurrent} "/> </a></li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>
@@ -73,7 +93,6 @@
             </c:forEach>
             </tbody>
         </table>
-        <h5><p align="center">Logged as: <c:out value="${loggedinuser}"/></p></h5>
         <a href="<c:url value="/" />">Back to the main page</a>
         <sec:authorize access="hasRole('ADMIN')">
             <td><a href="<c:url value='/item/add' />" class="btn btn-success">Add another item</a></td>

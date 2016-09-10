@@ -20,6 +20,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
+<sec:authentication property="principal" var="userProfileCurrent"/>
+<c:set value="anonymousUser" var="anonymousUser"/>
+<c:set value="Guest" var="guest"/>
+<c:choose>
+    <c:when test="${!userProfileCurrent.equals(anonymousUser)}">
+        <sec:authentication property="principal.username" var="userProfileCurrent"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="userProfileCurrent" value="Guest"/>
+    </c:otherwise>
+</c:choose>
+
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -38,7 +51,15 @@
                 <li><a href="#">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
+                <c:choose>
+                    <c:when test="${userProfileCurrent.equals(guest)}">
+                        <li><a href="/login"><span class="glyphicon glyphicon-user"></span> Guest</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="/user"><span class="glyphicon glyphicon-user"></span>
+                            <c:out value=" ${userProfileCurrent} "/> </a></li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>

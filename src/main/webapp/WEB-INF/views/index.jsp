@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Azet
@@ -38,8 +39,18 @@
     </style>
 </head>
 
+<sec:authentication property="principal" var="userProfileCurrent"/>
+<c:set value="anonymousUser" var="anonymousUser"/>
+<c:set value="Guest" var="guest"/>
+<c:choose>
+    <c:when test="${!userProfileCurrent.equals(anonymousUser)}">
+        <sec:authentication property="principal.username" var="userProfileCurrent"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="userProfileCurrent" value="Guest"/>
+    </c:otherwise>
+</c:choose>
 
-<body>
 <div class="jumbotron">
     <div class="container text-center">
         <h1>Epic Shop</h1>
@@ -64,7 +75,15 @@
                 <li><a href="#">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
+                <c:choose>
+                    <c:when test="${userProfileCurrent.equals(guest)}">
+                    <li><a href="/login"><span class="glyphicon glyphicon-user"></span> Guest</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="/user"><span class="glyphicon glyphicon-user"></span>
+                            <c:out value=" ${userProfileCurrent} "/> </a></li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>
