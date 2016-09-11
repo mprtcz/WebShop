@@ -13,10 +13,11 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Users List</title>
-    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet">
-    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <sec:authentication property="principal" var="userProfileCurrent"/>
@@ -51,7 +52,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>
                     <c:when test="${userProfileCurrent.equals(guest)}">
-                        <li><a href="/login"><span class="glyphicon glyphicon-user"></span> Guest</a></li>
+                        <li><a href="/login"><span class="glyphicon glyphicon-question-sign"></span> Guest</a></li>
                     </c:when>
                     <c:otherwise>
                         <li><a href="/user"><span class="glyphicon glyphicon-user"></span>

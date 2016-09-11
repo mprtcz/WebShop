@@ -84,7 +84,7 @@ public class Item implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
+/*
     public File getFile() {
         return file;
     }
@@ -92,7 +92,7 @@ public class Item implements Serializable {
     public void setFile(File file) {
         this.file = file;
     }
-
+*/
 
     @Override
     public boolean equals(Object o) {

@@ -52,7 +52,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>
                     <c:when test="${userProfileCurrent.equals(guest)}">
-                        <li><a href="/login"><span class="glyphicon glyphicon-user"></span> Guest</a></li>
+                        <li><a href="/login"><span class="glyphicon glyphicon-question-sign"></span> Guest</a></li>
                     </c:when>
                     <c:otherwise>
                         <li><a href="/user"><span class="glyphicon glyphicon-user"></span>

@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -34,7 +35,7 @@ public class ItemController {
 
     @Autowired
     ImageService imageService;
-    
+
     @Autowired
     PrincipalService principalService;
 
@@ -43,6 +44,7 @@ public class ItemController {
 
     @InitBinder("fileBucket")
     protected void initBinderFileBucket(WebDataBinder binder) {
+        binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
         binder.setValidator(fileValidator);
     }
 
@@ -80,19 +82,25 @@ public class ItemController {
                            @Valid Item item, BindingResult result, String imageAddress) throws IOException {
 
         System.out.println("Item to persist: " + item.toString());
-        System.out.println("Image address: " +imageAddress);
+        System.out.println("Image address: " + imageAddress);
 
         if (result.hasErrors() || result2.hasErrors()) {
+            System.out.println("Result has errors" + result.getFieldError().getCode());
+            System.out.println(result.getClass());
+            System.out.println(result.toString());
+            System.out.println(result.getFieldError().toString());
             model.addAttribute("isfileerror", true);
-            model.addAttribute("errorMsg", result2.getFieldError().getCode());
+            if (result2.getFieldError() != null) {
+                model.addAttribute("errorMsg", result2.getFieldError().getCode());
+            }
             return "additem";
         }
 
         itemService.saveItem(item);
 
-        if(fileBucket.getFile().isEmpty()){
-            if(!Objects.equals(imageAddress, ""))
-            imageService.saveLinkedImage(imageAddress, item);
+        if (fileBucket.getFile().isEmpty()) {
+            if (!Objects.equals(imageAddress, ""))
+                imageService.saveLinkedImage(imageAddress, item);
         } else {
             imageService.saveUploadedImage(fileBucket, item);
         }
@@ -147,7 +155,7 @@ public class ItemController {
         model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "additemsuccess";
     }
-    
+
 
     @RequestMapping("/item/{id}/image")
     public void getItemImage(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
@@ -172,7 +180,7 @@ public class ItemController {
     }
 
     @RequestMapping(value = {"/item/{id}"}, method = RequestMethod.GET)
-    public String viewItem(@PathVariable String id , ModelMap model) {
+    public String viewItem(@PathVariable String id, ModelMap model) {
         Item item = itemService.findById(Integer.parseInt(id));
         model.addAttribute("item", item);
         model.addAttribute("edit", false);
