@@ -177,4 +177,32 @@ public class PurchaseController {
             return "cart";
         }
     }
+
+    @RequestMapping(value = {"/user/cart"}, method = RequestMethod.GET)
+    public String viewUserCart(ModelMap modelMap){
+
+        String currentUserName = principalService.getPrincipal();
+        User currentUser = userService.findBySSO(currentUserName);
+
+        modelMap.addAttribute("cartItems", cartService.getItemsInCart(currentUser));
+        modelMap.addAttribute("itemsValue", cartService.getItemsValue());
+        modelMap.addAttribute("accountBalance", currentUser.getBalance());
+
+        return "cart";
+    }
+
+    @RequestMapping(value = {"/removefromcart/{id}"})
+    public String removeFromCart(ModelMap modelMap, @PathVariable Integer id){
+
+        String currentUserName = principalService.getPrincipal();
+        User currentUser = userService.findBySSO(currentUserName);
+
+        cartService.removeItem(currentUser, id);
+
+        modelMap.addAttribute("cartItems", cartService.getItemsInCart(currentUser));
+        modelMap.addAttribute("itemsValue", cartService.getItemsValue());
+        modelMap.addAttribute("accountBalance", currentUser.getBalance());
+
+        return "cart";
+    }
 }

@@ -48,5 +48,12 @@ public class CartServiceImpl implements CartService {
     public BigInteger getItemsValue() {
         return cart.getAllItemsPrice();
     }
+
+    @Override
+    public void removeItem(User user, Integer id) {
+        if(cart.getCartOwner().equals(user.getSsoId())){
+            cart.removeItem(id);
+        }
+    }
 }
 

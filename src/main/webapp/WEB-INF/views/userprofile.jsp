@@ -79,6 +79,10 @@
             <dd>${user.email}.</dd>
             <dt>SSO ID:</dt>
             <dd>${user.ssoId}</dd>
+            <c:if test="${user.ssoId.equals(userProfileCurrent)}">
+                <dt>Balance:</dt>
+                <dd>${user.balance}</dd>
+            </c:if>
         </dl>
 
         <div class="btn-toolbar text-center" role="toolbar">

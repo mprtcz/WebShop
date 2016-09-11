@@ -37,6 +37,16 @@ public class Cart {
         return price;
     }
 
+    public void removeItem(Integer id){
+        for (Item item :
+                itemsList) {
+            if (item.getId().equals(id)){
+                itemsList.remove(item);
+                break;
+            }
+        }
+    }
+
     public String getCartOwner() {
         return cartOwner;
     }

@@ -15,4 +15,6 @@ public interface CartService {
     List<Item> getItemsInCart(User user);
 
     BigInteger getItemsValue();
+
+    void removeItem(User user, Integer itemId);
 }

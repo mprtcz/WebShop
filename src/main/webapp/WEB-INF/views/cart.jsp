@@ -86,6 +86,8 @@
                             <tr>
                                 <td>${item.itemName}</td>
                                 <td>${item.price}</td>
+                                <td><a href="/removefromcart/${item.id}" class="btn btn-danger" role="button">Remove</a>
+                                </td>
                             </tr>
                         </c:forEach>
                         <tr>
@@ -96,10 +98,10 @@
                     </table>
             <c:if test="${accountBalance < itemsValue}"><p>Warning! Not enough money for all items!</p></c:if>
             <p>Current account balance: ${accountBalance}</p>
-
-            <a href="/buyall" class="btn btn-info" role="button">Purchase all</a> or <a
-                href="<c:url value="/items" />">Buy More</a>
-
+            <p class="text-center">
+                <a href="/buyall" class="btn btn-info" role="button">Purchase all</a> or <a
+                    href="<c:url value="/items" />">Buy More</a>
+            </p>
             <h5>
                 <a href="<c:url value="/" />">Back to the main page</a>
             </h5>

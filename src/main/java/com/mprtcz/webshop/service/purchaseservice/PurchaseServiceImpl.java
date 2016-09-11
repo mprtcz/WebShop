@@ -84,7 +84,7 @@ public class PurchaseServiceImpl implements PurchaseService {
             BigInteger newBalance = (user.getBalance().subtract(item.getPrice()));
 
             BigInteger newStock = item.getStock().subtract(BigInteger.ONE);
-            if (newStock.compareTo(BigInteger.ZERO) > -1) {
+            if (newStock.compareTo(BigInteger.ZERO) > -1 && newBalance.compareTo(BigInteger.ZERO) > -1) {
 
                 user.setBalance(newBalance);
 
@@ -94,6 +94,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                 boughtItemsHistory.add(item);
                 user.setBoughtItemsList(boughtItemsHistory);
 
+                cartService.removeItem(user, item.getId());
                 itemService.updateItem(item);
             }
 
