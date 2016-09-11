@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -133,13 +135,13 @@ public class PurchaseController {
         User currentUser = userService.findBySSO(currentUserName);
         Item item = itemService.findById(purchase.getItemId());
         Integer quantity = purchase.getQuantity();
-        BigInteger quantityBBigInt = BigInteger.valueOf(purchase.getQuantity());
+        BigInteger quantityBigInt = BigInteger.valueOf(purchase.getQuantity());
 
-        if (item.getStock().compareTo(quantityBBigInt) > 0) {
+        if (item.getStock().compareTo(quantityBigInt) < 0) {
             FieldError ssoError = new FieldError("item", "stock", messageSource.getMessage(
                     "quantity.too.large", new String[]{String.valueOf(item.getStock())}, Locale.getDefault()));
             result.addError(ssoError);
-            return "registration";
+            return "addtocart";
         }
 
         cartService.addItemsToCart(item, quantity, currentUser);
@@ -149,5 +151,30 @@ public class PurchaseController {
         modelMap.addAttribute("accountBalance", currentUser.getBalance());
 
         return "cart";
+    }
+
+    @RequestMapping(value = {"/buyall"}, method = RequestMethod.GET)
+    public String purchaseItemsFromChart(ModelMap modelMap){
+        if (principalService.isCurrentAuthenticationAnonymous()) {
+            return "login";
+        }
+
+
+        String currentUserName = principalService.getPrincipal();
+        User currentUser = userService.findBySSO(currentUserName);
+
+        List<Item> itemsToBuy = new ArrayList<>();
+        itemsToBuy.addAll(cartService.getItemsInCart(currentUser));
+
+        String result = purchaseService.purchaseAll(currentUser, itemsToBuy);
+
+        modelMap.addAttribute("result", result);
+
+        if(result.equals("success")){
+            modelMap.addAttribute("items", itemsToBuy);
+            return "purchasesuccess";
+        } else {
+            return "cart";
+        }
     }
 }

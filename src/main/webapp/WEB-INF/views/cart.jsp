@@ -79,7 +79,6 @@
                         <tr>
                             <th>Name</th>
                             <th>Price</th>
-
                         </tr>
                         </thead>
                         <tbody>
@@ -97,6 +96,10 @@
                     </table>
             <c:if test="${accountBalance < itemsValue}"><p>Warning! Not enough money for all items!</p></c:if>
             <p>Current account balance: ${accountBalance}</p>
+
+            <a href="/buyall" class="btn btn-info" role="button">Purchase all</a> or <a
+                href="<c:url value="/items" />">Buy More</a>
+
             <h5>
                 <a href="<c:url value="/" />">Back to the main page</a>
             </h5>

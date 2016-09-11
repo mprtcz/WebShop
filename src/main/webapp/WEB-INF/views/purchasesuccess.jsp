@@ -108,15 +108,23 @@
         </div>
         <div class="col-sm-8 text-left">
             <h1>Purchase success</h1>
-            <p>
-            <div class="col-xs-2">
-                <div class="alert alert-info">
-                    <strong>Item bought: </strong> ${item.itemName}
-                    <strong>Quantity: </strong> ${quantity}
-                    <strong>User Account balance: </strong> ${user.balance}
-                </div>
-            </div>
-            </p>
+            <div class="panel-heading"><span class="lead">List of Items </span></div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${items}" var="item">
+                    <tr>
+                        <td>${item.itemName}</td>
+                        <td>${item.price}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
         <div class="col-sm-2 sidenav">
         </div>
