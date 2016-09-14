@@ -1,4 +1,4 @@
-package com.mprtcz.webshop.confuguration;
+package com.mprtcz.webshop.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

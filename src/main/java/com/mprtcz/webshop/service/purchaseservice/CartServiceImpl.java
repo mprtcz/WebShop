@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Azet on 2016-09-10.
@@ -29,15 +29,13 @@ public class CartServiceImpl implements CartService {
             cart.setCartOwner(currentUser.getSsoId());
         }
         if (cart.getCartOwner().equals(currentUser.getSsoId())) {
-            for (int i = 0; i < quantity; i++) {
-                cart.addItems(item);
-            }
+            cart.addItems(item, quantity);
         }
     }
 
     @Override
-    public List<Item> getItemsInCart(User user){
-        if(cart.getCartOwner().equals(user.getSsoId())){
+    public Map<Item, Integer> getItemsInCart(User user) {
+        if (cart.getCartOwner().equals(user.getSsoId())) {
             return cart.getItemsList();
         } else {
             return null;
@@ -51,7 +49,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeItem(User user, Integer id) {
-        if(cart.getCartOwner().equals(user.getSsoId())){
+        if (cart.getCartOwner().equals(user.getSsoId())) {
             cart.removeItem(id);
         }
     }

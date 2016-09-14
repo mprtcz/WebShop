@@ -1,4 +1,4 @@
-package com.mprtcz.webshop.confuguration;
+package com.mprtcz.webshop.configuration;
 
 import com.mprtcz.webshop.converter.RoleToUserProfileConverter;
 import org.springframework.beans.factory.annotation.Autowired;

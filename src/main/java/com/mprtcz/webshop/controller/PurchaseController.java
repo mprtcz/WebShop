@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by Azet on 2016-09-08.
@@ -163,8 +161,8 @@ public class PurchaseController {
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
 
-        List<Item> itemsToBuy = new ArrayList<>();
-        itemsToBuy.addAll(cartService.getItemsInCart(currentUser));
+        Map<Item, Integer> itemsToBuy = new HashMap<>();
+        itemsToBuy.putAll(cartService.getItemsInCart(currentUser));
 
         String result = purchaseService.purchaseAll(currentUser, itemsToBuy);
 

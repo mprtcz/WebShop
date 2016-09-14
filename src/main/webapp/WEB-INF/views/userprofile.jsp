@@ -92,6 +92,23 @@
         </sec:authorize>
         <c:if test="${currentUserName.equals(user.ssoId)}">
             <a href="<c:url value='/user/${user.ssoId}/edit' />" class="btn btn-danger">Edit</a></td>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${user.boughtItemsList}" var="item">
+                    <tr>
+                        <td>${item.itemName}</td>
+                        <td>${item.price}</td>
+                        <td><a href="<c:url value='/item/${item.id}' />" class="btn btn-success custom-width">View</a></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </c:if>
         <a href="<c:url value="/" />">Back to the main page</a>
     </div>

@@ -98,17 +98,17 @@
 
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="stock">Amount</label>
+                <label class="col-md-3 control-lable" for="item">Amount</label>
                 <div class="col-md-7">
                     <c:choose>
                         <c:when test="${edit}">
-                            <form:input type="number" path="stock" id="stock" class="form-control input-sm"
+                            <form:input type="number" path="item" id="item" class="form-control input-sm"
                                         disabled="true"/>
                         </c:when>
                         <c:otherwise>
-                            <form:input type="number" path="stock" id="stock" class="form-control input-sm"/>
+                            <form:input type="number" path="item" id="item" class="form-control input-sm"/>
                             <div class="has-error">
-                                <form:errors path="stock" class="help-inline"/>
+                                <form:errors path="item" class="help-inline"/>
                             </div>
                         </c:otherwise>
                     </c:choose>

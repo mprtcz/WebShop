@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Azet on 2016-09-08.
@@ -73,7 +75,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         return "success";
     }
 
-    public String purchaseAll(User user, List<Item> itemsList){
+    private String purchaseItemsList(User user, List<Item> itemsList){
         if(cartService.getItemsValue().compareTo(user.getBalance()) > 1){
             return "not.enough.money";
         }
@@ -94,13 +96,23 @@ public class PurchaseServiceImpl implements PurchaseService {
                 boughtItemsHistory.add(item);
                 user.setBoughtItemsList(boughtItemsHistory);
 
-                cartService.removeItem(user, item.getId());
                 itemService.updateItem(item);
+                cartService.removeItem(user, item.getId());
             }
 
             userService.updateUser(user);
 
         }
         return "items.bought.success";
+    }
+
+    public String purchaseAll(User user, Map<Item, Integer> itemsList){
+        List<Item> completeItemsList = new ArrayList<>();
+        for(Map.Entry<Item,Integer> entry : itemsList.entrySet()){
+            for (int i = 0; i < entry.getValue(); i++) {
+                completeItemsList.add(entry.getKey());
+            }
+        }
+        return purchaseItemsList(user, completeItemsList);
     }
 }

@@ -16,49 +16,50 @@ import java.util.List;
  * Created by Azet on 2016-08-27.
  */
 @Entity
-@Table(name="APP_USER")
+@Table(name = "APP_USER")
 public class User implements Serializable {
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty
-    @Column(name="SSO_ID", unique=true, nullable=false)
+    @Column(name = "SSO_ID", unique = true, nullable = false)
     private String ssoId;
 
     @NotEmpty
-    @Column(name="PASSWORD", nullable=false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     @NotEmpty
-    @Column(name="FIRST_NAME", nullable=false)
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
     @NotEmpty
-    @Column(name="LAST_NAME", nullable=false)
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
     @NotEmpty
-    @Column(name="EMAIL", nullable=false)
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Column(name="BALANCE", nullable=false, precision=10, scale=2)
+    @Column(name = "BALANCE", nullable = false, precision = 10, scale = 2)
     @DecimalMin("0")
     private BigInteger balance;
 
     @NotNull
-    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "APP_USER_USER_PROFILE",
-            joinColumns = { @JoinColumn(name = "USER_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_PROFILE_ID")})
     private
     UserProfile userProfile;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "APP_USER_ITEM",
-            joinColumns = { @JoinColumn(name = "USER_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "ITEM_ID") })
+     @JoinTable(name = "APP_USER_ITEM",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ITEM_ID")})
     private List<Item> boughtItemsList = new ArrayList<>();
 
     @Transient
@@ -118,7 +119,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public void setUserProfile (UserProfile userProfile) {
+    public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
 
@@ -175,6 +176,7 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", ssoId='" + ssoId + '\'' +
+                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

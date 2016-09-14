@@ -4,7 +4,7 @@ import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.usermodel.User;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Azet on 2016-09-10.
@@ -12,7 +12,7 @@ import java.util.List;
 public interface CartService {
     void addItemsToCart(Item item, Integer quantity, User currentUser);
 
-    List<Item> getItemsInCart(User user);
+    Map<Item, Integer> getItemsInCart(User user);
 
     BigInteger getItemsValue();
 
