@@ -22,7 +22,9 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		User user = getByKey(id);
 		if(user!=null){
 			Hibernate.initialize(user.getUserProfile());
-			Hibernate.initialize(user.getBoughtItemsList());
+            System.out.println("UserDaoImpl.findById");
+            System.out.println("Initialize list of bought items");
+            Hibernate.initialize(user.getBoughtItemsList());
 		}
 		return user;
 	}
@@ -34,7 +36,9 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		User user = (User)crit.uniqueResult();
 		if(user!=null){
 			Hibernate.initialize(user.getUserProfile());
-			Hibernate.initialize(user.getBoughtItemsList());
+            System.out.println("UserDaoImpl.findBySSO");
+            System.out.println("Initialize list of bought items");
+            Hibernate.initialize(user.getBoughtItemsList());
 		}
 		return user;
 	}

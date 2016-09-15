@@ -21,7 +21,13 @@ public class Cart {
     private String cartOwner;
 
     public void addItems(Item item, Integer quantity){
-        itemsList.put(item, quantity);
+        if(itemsList.containsKey(item)){
+            Integer currentQuantity = itemsList.get(item);
+            currentQuantity = currentQuantity + quantity;
+            itemsList.put(item, currentQuantity);
+        } else {
+            itemsList.put(item, quantity);
+        }
     }
 
     public Map<Item, Integer> getItemsList(){

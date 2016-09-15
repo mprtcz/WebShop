@@ -1,6 +1,8 @@
 package com.mprtcz.webshop.service.purchaseservice;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
+import com.mprtcz.webshop.model.itemmodel.ItemRecord;
+import com.mprtcz.webshop.model.itemmodel.ItemRecordId;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.service.itemservice.ItemService;
 import com.mprtcz.webshop.service.userservice.UserService;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,13 +52,13 @@ public class PurchaseServiceImpl implements PurchaseService {
                 BigInteger initialStock = item.getStock();
                 
 
-                List<Item> itemsList = user.getBoughtItemsList();
+                //List<Item> itemsList = user.getBoughtItemsList();
                 
                 item.setStock(amountBI);
                 
-                itemsList.add(item);
+                //itemsList.add(item);
 
-                user.setBoughtItemsList(itemsList);
+                //user.setBoughtItemsList(itemsList);
                 BigInteger newStock = initialStock.subtract(amountBI);
                 
                 item.setStock(newStock);
@@ -80,7 +83,7 @@ public class PurchaseServiceImpl implements PurchaseService {
             return "not.enough.money";
         }
 
-        List<Item> boughtItemsHistory = user.getBoughtItemsList();
+        List<ItemRecord> boughtItemsHistory = user.getBoughtItemsList();
 
         for (Item item : itemsList) {
             BigInteger newBalance = (user.getBalance().subtract(item.getPrice()));
@@ -92,8 +95,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 
                 item.setStock(newStock);
 
+                ItemRecord itemRecord = new ItemRecord();
 
-                boughtItemsHistory.add(item);
+                itemRecord.setPk(new ItemRecordId(item, user));
+                itemRecord.setValue(item.getPrice());
+                itemRecord.setTransactionTime(new Date());
+                System.out.println(itemRecord.getTransactionTime());
+
+                boughtItemsHistory.add(itemRecord);
                 user.setBoughtItemsList(boughtItemsHistory);
 
                 itemService.updateItem(item);

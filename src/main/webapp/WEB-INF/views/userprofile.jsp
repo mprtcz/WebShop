@@ -86,7 +86,7 @@
         </dl>
 
         <div class="btn-toolbar text-center" role="toolbar">
-        <sec:authorize access="hasRole('ADMIN')">
+            <sec:authorize access="hasRole('ADMIN')">
             <a href="<c:url value='/user/delete/${user.ssoId}' />" class="btn btn-danger">Delete</a></td>
         </div>
         </sec:authorize>
@@ -97,16 +97,21 @@
                 <tr>
                     <th>Name</th>
                     <th>Price</th>
+                    <th>Date</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${user.boughtItemsList}" var="item">
-                    <tr>
-                        <td>${item.itemName}</td>
-                        <td>${item.price}</td>
-                        <td><a href="<c:url value='/item/${item.id}' />" class="btn btn-success custom-width">View</a></td>
-                    </tr>
-                </c:forEach>
+                <c:if test="${user.boughtItemsList!=null}">
+                    <c:forEach items="${user.boughtItemsList}" var="itemRecord">
+                        <tr>
+                            <td>${itemRecord.getPk().item.itemName}</td>
+                            <td>${itemRecord.getPk().item.price}</td>
+                            <td>${itemRecord.transactionTime}</td>
+                            <td><a href="<c:url value='/item/${item.id}' />"
+                                   class="btn btn-success custom-width">View</a></td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
                 </tbody>
             </table>
         </c:if>

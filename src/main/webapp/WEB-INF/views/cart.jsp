@@ -79,13 +79,15 @@
                         <tr>
                             <th>Name</th>
                             <th>Price</th>
+                            <th>Quantity</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${cartItems}" var="item">
+                        <c:forEach items="${cartItems}" var="entry">
                             <tr>
-                                <td>${item.itemName}</td>
-                                <td>${item.price}</td>
+                                <td>${entry.key.itemName}</td>
+                                <td>${entry.key.price}</td>
+                                <td>${entry.value}</td>
                                 <td><a href="/removefromcart/${item.id}" class="btn btn-danger" role="button">Remove</a>
                                 </td>
                             </tr>

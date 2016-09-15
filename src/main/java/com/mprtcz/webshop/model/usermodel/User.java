@@ -1,6 +1,6 @@
 package com.mprtcz.webshop.model.usermodel;
 
-import com.mprtcz.webshop.model.itemmodel.Item;
+import com.mprtcz.webshop.model.itemmodel.ItemRecord;
 import com.mprtcz.webshop.model.purchasemodel.Cart;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -56,11 +56,12 @@ public class User implements Serializable {
     UserProfile userProfile;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
-     @JoinTable(name = "APP_USER_ITEM",
+
+/*    @JoinTable(name = "APP_USER_ITEM",
             joinColumns = {@JoinColumn(name = "USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ITEM_ID")})
-    private List<Item> boughtItemsList = new ArrayList<>();
+            inverseJoinColumns = {@JoinColumn(name = "ITEM_ID")}) */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
+    private List<ItemRecord> boughtItemsList = new ArrayList<>();
 
     @Transient
     private Cart cart;
@@ -123,11 +124,11 @@ public class User implements Serializable {
         this.userProfile = userProfile;
     }
 
-    public List<Item> getBoughtItemsList() {
+    public List<ItemRecord> getBoughtItemsList() {
         return boughtItemsList;
     }
 
-    public void setBoughtItemsList(List<Item> boughtItemsList) {
+    public void setBoughtItemsList(List<ItemRecord> boughtItemsList) {
         this.boughtItemsList = boughtItemsList;
     }
 
