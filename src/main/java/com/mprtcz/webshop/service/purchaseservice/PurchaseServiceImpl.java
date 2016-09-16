@@ -2,7 +2,6 @@ package com.mprtcz.webshop.service.purchaseservice;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.itemmodel.ItemRecord;
-import com.mprtcz.webshop.model.itemmodel.ItemRecordId;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.service.itemservice.ItemService;
 import com.mprtcz.webshop.service.userservice.UserService;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -84,8 +82,13 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
 
         List<ItemRecord> boughtItemsHistory = user.getBoughtItemsList();
+        for (ItemRecord itemRecord :
+                boughtItemsHistory) {
+            System.out.println("BOUGHT ITEM: " +itemRecord.getItem());
+        }
 
         for (Item item : itemsList) {
+            System.out.println("ITEM TO BUY:" +item);
             BigInteger newBalance = (user.getBalance().subtract(item.getPrice()));
 
             BigInteger newStock = item.getStock().subtract(BigInteger.ONE);
@@ -96,7 +99,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                 item.setStock(newStock);
 
                 ItemRecord itemRecord = new ItemRecord();
-
+/*
                 itemRecord.setPk(new ItemRecordId(item, user));
                 itemRecord.setValue(item.getPrice());
                 itemRecord.setTransactionTime(new Date());
@@ -104,7 +107,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
                 boughtItemsHistory.add(itemRecord);
                 user.setBoughtItemsList(boughtItemsHistory);
-
+//*/
                 itemService.updateItem(item);
                 cartService.removeItem(user, item.getId());
             }

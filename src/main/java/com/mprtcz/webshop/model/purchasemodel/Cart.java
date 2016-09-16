@@ -1,10 +1,13 @@
 package com.mprtcz.webshop.model.purchasemodel;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +18,10 @@ import java.util.Map;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart {
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
 
     private Map<Item, Integer> itemsList = new HashMap<>();
 
@@ -59,5 +66,11 @@ public class Cart {
 
     public void setCartOwner(String cartOwner) {
         this.cartOwner = cartOwner;
+    }
+
+    @PostConstruct
+    public void init(){
+        System.out.println("Cart.init");
+        System.out.println("Initialize Cart");
     }
 }
