@@ -1,6 +1,7 @@
 package com.mprtcz.webshop.service.userservice;
 
 import com.mprtcz.webshop.dao.userdao.UserDao;
+import com.mprtcz.webshop.model.itemmodel.ItemRecord;
 import com.mprtcz.webshop.model.usermodel.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
     private PasswordEncoder passwordEncoder;
+
 	
 	public User findById(int id) {
 		return dao.findById(id);
@@ -52,8 +54,13 @@ public class UserServiceImpl implements UserService{
 			entity.setEmail(user.getEmail());
 			entity.setUserProfile(user.getUserProfile());
 			entity.setBalance(user.getBalance());
-			System.out.println("user.getBoughtItemsList() = " + user.getBoughtItemsList());
-			entity.setBoughtItemsList(user.getBoughtItemsList());
+		}
+	}
+
+	public void updateUserHistory(User user, ItemRecord itemRecord){
+		User entity = dao.findById(user.getId());
+		if(entity!=null) {
+			entity.addItemToHistory(itemRecord);
 		}
 	}
 

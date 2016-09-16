@@ -55,17 +55,11 @@ public class User implements Serializable {
     private
     UserProfile userProfile;
 
-
-
-/*    @JoinTable(name = "APP_USER_ITEM",
-            joinColumns = {@JoinColumn(name = "USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ITEM_ID")}) */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
     private List<ItemRecord> boughtItemsList = new ArrayList<>();
 
     @Transient
     private Cart cart;
-
 
     public Integer getId() {
         return id;
@@ -146,6 +140,10 @@ public class User implements Serializable {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public void addItemToHistory(ItemRecord itemRecord){
+        boughtItemsList.add(itemRecord);
     }
 
     @Override

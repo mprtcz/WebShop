@@ -1,6 +1,7 @@
 package com.mprtcz.webshop.service.userservice;
 
 
+import com.mprtcz.webshop.model.itemmodel.ItemRecord;
 import com.mprtcz.webshop.model.usermodel.User;
 
 import java.util.List;
@@ -21,5 +22,7 @@ public interface UserService {
 	List<User> findAllUsers(); 
 	
 	boolean isUserSSOUnique(Integer id, String sso);
+
+	void updateUserHistory(User user, ItemRecord historyList);
 
 }

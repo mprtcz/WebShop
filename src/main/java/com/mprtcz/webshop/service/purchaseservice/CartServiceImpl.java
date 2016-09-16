@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
 import java.math.BigInteger;
 import java.util.Map;
 
@@ -17,8 +15,7 @@ import java.util.Map;
  */
 @Service("cartService")
 @Transactional
-//@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class CartServiceImpl implements CartService , HttpSessionListener {
+public class CartServiceImpl implements CartService{
 
     @Autowired
     Cart cart;
@@ -35,15 +32,9 @@ public class CartServiceImpl implements CartService , HttpSessionListener {
 
     @Override
     public Map<Item, Integer> getItemsInCart(User user) {
-        System.out.println("user.getSsoId() = " + user.getSsoId());
-        System.out.println("cart.getCartOwner() = " + cart.getCartOwner());
         if (cart.getCartOwner().equals(user.getSsoId())) {
-            System.out.println("CartServiceImpl.getItemsInCart");
-            System.out.println("cart.getItemsList() = " + cart.getItemsList());
             return cart.getItemsList();
         } else {
-            System.out.println("CartServiceImpl.getItemsInCart");
-            System.out.println("null");
             return null;
         }
     }
@@ -55,19 +46,10 @@ public class CartServiceImpl implements CartService , HttpSessionListener {
 
     @Override
     public void removeItem(User user, Integer id) {
+        System.out.println("CartServiceImpl.removeItem");
         if (cart.getCartOwner().equals(user.getSsoId())) {
             cart.removeItem(id);
         }
-    }
-
-    @Override
-    public void sessionCreated(HttpSessionEvent se) {
-        System.out.println("CartServiceImpl.sessionCreated");
-    }
-
-    @Override
-    public void sessionDestroyed(HttpSessionEvent se) {
-        System.out.println("CartServiceImpl.sessionDestroyed");
     }
 }
 
