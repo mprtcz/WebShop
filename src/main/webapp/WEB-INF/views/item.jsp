@@ -44,7 +44,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Epic Shop</a>
+            <a class="navbar-brand" href="/">Epic Shop</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
@@ -67,28 +67,47 @@
     </div>
 </nav>
 
-<!-- First Container -->
-<div class="container-fluid bg-1 text-center">
-    <h3 class="margin"><c:out value="${item.itemName}"/></h3>
-    <img src="<c:url value="/item/${item.id}/image"/>" class="img-responsive center-block" style="width:30%" alt="Image">
-</div>
 
-<!-- Second Container -->
-<div class="container-fluid bg-2 text-center">
-    <h3 class="margin">Description</h3>
-    <p><c:out value="${item.description}"/> </p>
-</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="container-fluid bg-1 text-center">
+            <h3 class="margin"><c:out value="${item.itemName}"/></h3>
+            <img src="<c:url value="/item/${item.id}/image"/>" class="img-responsive center-block" style="width:100%"
+                 alt="Image">
+        </div>
+    </div>
 
-<!-- Third Container (Grid) -->
-<div class="container-fluid bg-3 text-center">
-    <h3 class="margin">Add to cart:</h3><br>
-    <a href="<c:url value="/item/${item.id}/addtocart"/>" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-shopping-cart"></span> ${item.price}
-    </a>
-</div>
+    <div class="col-sm-4">
+        <div class="container-fluid bg-2 text-center">
+            <h3 class="margin">Description</h3>
+            <p><c:out value="${item.description}"/></p>
+        </div>
+    </div>
 
-<!-- Footer -->
-<footer class="container-fluid bg-4 text-center">
+    <div class="col-sm-4">
+        <div class="container-fluid bg-3 text-center">
+            <h3 class="margin">Add to cart:</h3><br>
+            <c:choose>
+                <c:when test="${item.stock>0}">
+                    <a href="<c:url value="/item/${item.id}/addtocart"/>" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> ${item.price}
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="<c:url value="#"/>" class="btn btn-default disabled">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> ${item.price}
+                    </a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <div class="container-fluid bg-2 text-center">
+            <h5 class="margin">In stock:
+            <p><c:out value="${item.stock}"/></p></h5>
+        </div>
+</div>
+    <!-- Footer -->
+</div>
+<footer class="container-fluid bg-4">
     <p>Back to top</p>
 </footer>
 <a class="back-to-top glyphicon glyphicon-arrow-up" href="/item/${item.id}" title="Top"></a>

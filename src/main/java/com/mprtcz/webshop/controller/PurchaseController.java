@@ -120,10 +120,11 @@ public class PurchaseController {
     @RequestMapping(value = {"item/{id}/addtocart"}, method = RequestMethod.POST)
     public String addToCart(@Valid Purchase purchase, BindingResult result,
                             ModelMap modelMap) {
+        /*
         if (principalService.isCurrentAuthenticationAnonymous()) {
             return "login";
         }
-
+//*/
         if (result.hasErrors()) {
             System.out.println(result.toString());
             return "addtocart";

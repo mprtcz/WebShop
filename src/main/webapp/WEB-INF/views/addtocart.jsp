@@ -84,21 +84,23 @@
                             <img src="<c:url value="/item/${item.id}/image"/>"
                                  class="img-responsive" style="width:100%" alt="Image">
                         </div>
-                        <div class="panel-footer">Price: <c:out value="${item.price}"/></div>
+                        <div class="panel-footer">Price: <c:out value="${item.price}"/>
+                            Stcck: <c:out value="${item.stock}"/></div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="alert alert-info">
-                    <strong>User Account balance:</strong> <c:out value="${user.balance}"/>
+
+                <div class="col-sm-4">
+                    <div class="alert alert-info">
+                        <strong>User Account balance:</strong> <c:out value="${user.balance}"/>
+                    </div>
+                    <form:form method="POST" modelAttribute="purchase" class="form-horizontal">
+                        <form:input type="hidden" path="userName" value="${user.ssoId}"/>
+                        <form:input type="hidden" path="itemId" value="${item.id}"/>
+                        <label for="quantity">Select Quantity</label>
+                        <form:input type="number" path="quantity" id="quantity" class="form-control input-sm"/>
+                        <input type="submit" value="Add to Cart">
+                    </form:form>
                 </div>
-                <form:form method="POST" modelAttribute="purchase" class="form-horizontal">
-                    <form:input type="hidden" path="userName" value="${user.ssoId}"/>
-                    <form:input type="hidden" path="itemId" value="${item.id}"/>
-                    <label for="quantity">Select Quantity</label>
-                    <form:input type="number" path="quantity" id="quantity" class="form-control input-sm"/>
-                    <input type="submit" value="Add to Cart">
-                </form:form>
             </div>
         </div>
         <div class="col-sm-2 sidenav">
