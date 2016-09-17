@@ -33,6 +33,13 @@
     </c:otherwise>
 </c:choose>
 
+<c:set value="alert-info" var="balancePanelColor"/>
+<c:if test="${user.balance<item.price}">
+    <c:set value="alert-danger" var="balancePanelColor"/>
+</c:if>
+
+
+
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -90,7 +97,7 @@
                 </div>
 
                 <div class="col-sm-4">
-                    <div class="alert alert-info">
+                    <div class="alert ${balancePanelColor}">
                         <strong>User Account balance:</strong> <c:out value="${user.balance}"/>
                     </div>
                     <form:form method="POST" modelAttribute="purchase" class="form-horizontal">
@@ -98,6 +105,9 @@
                         <form:input type="hidden" path="itemId" value="${item.id}"/>
                         <label for="quantity">Select Quantity</label>
                         <form:input type="number" path="quantity" id="quantity" class="form-control input-sm"/>
+                        <div class="has-error">
+                            <form:errors path="quantity" class="help-inline"/>
+                        </div>
                         <input type="submit" value="Add to Cart">
                     </form:form>
                 </div>

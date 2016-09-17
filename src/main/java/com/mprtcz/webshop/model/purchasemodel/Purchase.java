@@ -9,7 +9,8 @@ import javax.validation.constraints.NotNull;
 public class Purchase {
 
     @NotNull
-    @Min(1)
+    @Min(value = 1,
+        message = "You must order at least 1 item")
     private Integer quantity;
 
     @NotNull

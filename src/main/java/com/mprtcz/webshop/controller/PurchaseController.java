@@ -120,15 +120,8 @@ public class PurchaseController {
     @RequestMapping(value = {"item/{id}/addtocart"}, method = RequestMethod.POST)
     public String addToCart(@Valid Purchase purchase, BindingResult result,
                             ModelMap modelMap) {
-        /*
-        if (principalService.isCurrentAuthenticationAnonymous()) {
-            return "login";
-        }
-//*/
-        if (result.hasErrors()) {
-            System.out.println(result.toString());
-            return "addtocart";
-        }
+
+        List<String> errorsList = new ArrayList<>();
 
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
@@ -136,8 +129,17 @@ public class PurchaseController {
         Integer quantity = purchase.getQuantity();
         BigInteger quantityBigInt = BigInteger.valueOf(purchase.getQuantity());
 
+        modelMap.addAttribute("purchase", purchase);
+        modelMap.addAttribute("item", item);
+        modelMap.addAttribute("user", currentUser);
+
+        if (result.hasErrors()) {
+            System.out.println(result.toString());
+            return "addtocart";
+        }
+
         if (item.getStock().compareTo(quantityBigInt) < 0) {
-            FieldError ssoError = new FieldError("item", "stock", messageSource.getMessage(
+            FieldError ssoError = new FieldError("item", "quantity", messageSource.getMessage(
                     "quantity.too.large", new String[]{String.valueOf(item.getStock())}, Locale.getDefault()));
             result.addError(ssoError);
             return "addtocart";

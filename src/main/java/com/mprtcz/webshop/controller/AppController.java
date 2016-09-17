@@ -121,20 +121,6 @@ public class AppController {
             return "registration";
         }
 
-        /*
-        User currentUser = userService.findBySSO(principalService.getPrincipal());
-        UserProfile userProfile = new UserProfile();
-        userProfile.setType("CUSTOMER");
-        if (currentUser == null) {
-            System.out.println("Current User: null");
-            user.setUserProfile(userProfile);
-        } else if (!Objects.equals(currentUser.getUserProfile().getType(), "ADMIN")){
-            System.out.println("Current user profile: " + currentUser.getUserProfile().getType());
-            user.setUserProfile(userProfile);
-        } else {
-            System.out.println("Current user profile: " + currentUser.getUserProfile().getType());
-        }
-//*/
         System.out.println("User to persist: " + user.toString());
         userService.saveUser(user);
 
