@@ -57,6 +57,10 @@
                     <c:otherwise>
                         <li><a href="/user"><span class="glyphicon glyphicon-user"></span>
                             <c:out value=" ${userProfileCurrent} "/> </a></li>
+                        <li><a href="/user/cart"><span class="glyphicon glyphicon-shopping-cart"></span>
+                            Cart </a></li>
+                        <li><a href="/logout"><span class="glyphicon glyphicon-off"></span>
+                            Logout </a></li>
                     </c:otherwise>
                 </c:choose>
             </ul>

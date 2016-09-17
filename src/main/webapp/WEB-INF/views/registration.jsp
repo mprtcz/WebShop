@@ -14,6 +14,42 @@
 </head>
 
 <body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Epic Shop</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/items">Products</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <c:choose>
+                    <c:when test="${userProfileCurrent.equals(guest)}">
+                        <li><a href="/login"><span class="glyphicon glyphicon-question-sign"></span> Guest</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="/user"><span class="glyphicon glyphicon-user"></span>
+                            <c:out value=" ${userProfileCurrent} "/> </a></li>
+                        <li><a href="/user/cart"><span class="glyphicon glyphicon-shopping-cart"></span>
+                            Cart </a></li>
+                        <li><a href="/logout"><span class="glyphicon glyphicon-off"></span>
+                            Logout </a></li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="generic-container">
     <%@include file="authheader.jsp" %>
 

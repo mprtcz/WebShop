@@ -25,7 +25,7 @@ public class Cart {
 
     private Map<Item, Integer> itemsList = new HashMap<>();
 
-    private String cartOwner;
+    private String cartOwner = "";
 
     public void addItems(Item item, Integer quantity){
         if(itemsList.containsKey(item)){
