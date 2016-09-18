@@ -1,7 +1,7 @@
 package com.mprtcz.webshop.service.userservice;
 
 import com.mprtcz.webshop.dao.userdao.UserDao;
-import com.mprtcz.webshop.model.itemmodel.ItemRecord;
+import com.mprtcz.webshop.model.itemmodel.Record;
 import com.mprtcz.webshop.model.usermodel.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService{
 	 * It will be updated in db once transaction ends. 
 	 */
 	public void updateUser(User user) {
+		System.out.println("UserServiceImpl.updateUser");
 		User entity = dao.findById(user.getId());
 		if(entity!=null){
 			entity.setSsoId(user.getSsoId());
@@ -54,10 +55,13 @@ public class UserServiceImpl implements UserService{
 			entity.setEmail(user.getEmail());
 			entity.setUserProfile(user.getUserProfile());
 			entity.setBalance(user.getBalance());
+			entity.setBoughtItemsList(user.getBoughtItemsList());
+			System.out.println("UserServiceImpl.updateUser EXITS");
 		}
 	}
 
-	public void updateUserHistory(User user, ItemRecord itemRecord){
+	public void updateUserHistory(User user, Record itemRecord){
+		System.out.println("UserServiceImpl.updateUserHistory");
 		User entity = dao.findById(user.getId());
 		if(entity!=null) {
 			entity.addItemToHistory(itemRecord);

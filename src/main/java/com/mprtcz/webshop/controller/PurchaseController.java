@@ -82,14 +82,14 @@ public class PurchaseController {
         Item item = itemService.findById(purchase.getItemId());
         Integer quantity = purchase.getQuantity();
 
-        System.out.println("quantity = " + quantity);
+        System.out.println("stock = " + quantity);
         System.out.println("item = " + item);
         System.out.println("currentUser = " + currentUser);
 
         String purchaseResult = purchaseService.purchase(currentUser, item, quantity);
 
         model.addAttribute("item", item);
-        model.addAttribute("quantity", purchase.getQuantity());
+        model.addAttribute("stock", purchase.getQuantity());
         model.addAttribute("user", currentUser);
         if (purchaseResult.equals("success")) {
             return "purchasesuccess";
@@ -139,15 +139,15 @@ public class PurchaseController {
         }
 
         if (item.getStock().compareTo(quantityBigInt) < 0) {
-            FieldError ssoError = new FieldError("item", "quantity", messageSource.getMessage(
-                    "quantity.too.large", new String[]{String.valueOf(item.getStock())}, Locale.getDefault()));
+            FieldError ssoError = new FieldError("item", "stock", messageSource.getMessage(
+                    "stock.too.large", new String[]{String.valueOf(item.getStock())}, Locale.getDefault()));
             result.addError(ssoError);
             return "addtocart";
         }
 
-        cartService.addItemsToCart(item, quantity, currentUser);
+        cartService.addItemsToCart(item, quantity);
 
-        modelMap.addAttribute("cartItems", cartService.getItemsInCart(currentUser));
+        modelMap.addAttribute("cartItems", cartService.getItemsInCart());
         modelMap.addAttribute("itemsValue", cartService.getItemsValue());
         modelMap.addAttribute("accountBalance", currentUser.getBalance());
 
@@ -160,14 +160,21 @@ public class PurchaseController {
             return "login";
         }
 
-
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
 
         Map<Item, Integer> itemsToBuy = new HashMap<>();
-        itemsToBuy.putAll(cartService.getItemsInCart(currentUser));
+        if(!cartService.getItemsInCart().isEmpty()) {
+            System.out.println("cartService.getItemsInCart(currentUser).isEmpty() = " + cartService.getItemsInCart().isEmpty());
+            itemsToBuy.putAll(cartService.getItemsInCart());
+        }
 
-        String result = purchaseService.purchaseAll(currentUser, itemsToBuy);
+        if(cartService.getItemsValue().compareTo(currentUser.getBalance()) > 0){
+            //TODO error code not enough balance
+            return "cart";
+        }
+
+        String result = purchaseService.purchaseAllCartItems(currentUser, itemsToBuy);
 
         modelMap.addAttribute("result", result);
 
@@ -185,7 +192,7 @@ public class PurchaseController {
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
 
-        modelMap.addAttribute("cartItems", cartService.getItemsInCart(currentUser));
+        modelMap.addAttribute("cartItems", cartService.getItemsInCart());
         modelMap.addAttribute("itemsValue", cartService.getItemsValue());
         modelMap.addAttribute("accountBalance", currentUser.getBalance());
 
@@ -198,9 +205,9 @@ public class PurchaseController {
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
 
-        cartService.removeItem(currentUser, id);
+        cartService.removeItem(id);
 
-        modelMap.addAttribute("cartItems", cartService.getItemsInCart(currentUser));
+        modelMap.addAttribute("cartItems", cartService.getItemsInCart());
         modelMap.addAttribute("itemsValue", cartService.getItemsValue());
         modelMap.addAttribute("accountBalance", currentUser.getBalance());
 

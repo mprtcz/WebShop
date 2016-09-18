@@ -1,10 +1,12 @@
 package com.mprtcz.webshop.service.purchaseservice;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
-import com.mprtcz.webshop.model.itemmodel.ItemRecord;
 import com.mprtcz.webshop.model.itemmodel.ItemRecordId;
+import com.mprtcz.webshop.model.itemmodel.ItemRecordOld;
+import com.mprtcz.webshop.model.itemmodel.Record;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.service.itemservice.ItemService;
+import com.mprtcz.webshop.service.itemservice.RecordService;
 import com.mprtcz.webshop.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Autowired
     CartService cartService;
+
+    @Autowired
+    RecordService recordService;
 
     @Override
     public String purchase(User user, Item item, Integer amount) {
@@ -65,16 +70,76 @@ public class PurchaseServiceImpl implements PurchaseService {
         return "success";
     }
 
+    public String purchaseAllCartItems(User user, Map<Item, Integer> itemsToBuyMap){
+        if (cartService.getItemsValue().compareTo(user.getBalance()) > 1) {
+            System.out.println("PurchaseServiceImpl.purchaseAllCartItems");
+            System.out.println("not enough money");
+            return "not.enough.money";
+        }
+        if(itemsToBuyMap.isEmpty()){
+            System.out.println("PurchaseServiceImpl.purchaseAllCartItems");
+            System.out.println("Cart empty");
+            return "cart.empty";
+        }
+
+        for (Map.Entry entry :
+                itemsToBuyMap.entrySet()) {
+
+            List<Record> boughtItemsHistory = user.getBoughtItemsList();
+            System.out.println("boughtItemsHistory = " + boughtItemsHistory);
+
+            if(!(entry.getKey() instanceof Item)){
+               throw new ClassCastException();
+            }
+
+            if(!(entry.getValue() instanceof Integer)){
+                throw new ClassCastException();
+            }
+
+            Item item = (Item) entry.getKey();
+            System.out.println("ITEM TO BUY:" + item);
+
+
+            BigInteger transactionValue = item.getPrice().multiply(BigInteger.valueOf((Integer) entry.getValue()));
+
+            BigInteger newBalance = (user.getBalance().subtract(transactionValue));
+
+            BigInteger newStock = item.getStock().subtract(BigInteger.ONE);
+
+            if (newStock.compareTo(BigInteger.ZERO) > -1 && newBalance.compareTo(BigInteger.ZERO) > -1) {
+
+                user.setBalance(newBalance);
+
+                item.setStock(newStock);
+
+                Record purchaseRecord = Record.getInstance(user, item, (Integer) entry.getValue());
+
+                boughtItemsHistory.add(purchaseRecord);
+
+                user.setBoughtItemsList(boughtItemsHistory);
+                //userService.updateUserHistory(user, purchaseRecord);
+                recordService.saveRecord(purchaseRecord);
+                itemService.updateItem(item);
+                cartService.removeItem(item.getId());
+            }
+            userService.updateUser(user);
+        }
+        return "items.bought.success";
+    }
+
     private String purchaseItemsList(User user, List<Item> itemsList) {
         if (cartService.getItemsValue().compareTo(user.getBalance()) > 1) {
             return "not.enough.money";
         }
 
-        List<ItemRecord> boughtItemsHistory = user.getBoughtItemsList();
-        for (ItemRecord itemRecord :
-                boughtItemsHistory) {
-            System.out.println("BOUGHT ITEM: " + itemRecord.getItem());
+        if(itemsList.isEmpty()){
+            return "cart.empty";
         }
+
+        List<Record> boughtItemsHistory = user.getBoughtItemsList();
+        System.out.println("boughtItemsHistory = " + boughtItemsHistory);
+
+        System.out.println("itemsList = " + itemsList);
 
         for (Item item : itemsList) {
             System.out.println("ITEM TO BUY:" + item);
@@ -87,17 +152,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 
                 item.setStock(newStock);
 
-                ItemRecord itemRecord = new ItemRecord();
+                ItemRecordOld itemRecord = new ItemRecordOld();
                 itemRecord.setPk(new ItemRecordId(item, user));
                 itemRecord.setValue(item.getPrice());
                 itemRecord.setTransactionTime(new Date(System.currentTimeMillis()));
                 System.out.println("TRANSACTION TIME: " + itemRecord.getTransactionTime());
 
-                boughtItemsHistory.add(itemRecord);
+                //boughtItemsHistory.add(itemRecord);
 
-                userService.updateUserHistory(user, itemRecord);
+                //userService.updateUserHistory(user, itemRecord);
                 itemService.updateItem(item);
-                cartService.removeItem(user, item.getId());
+                cartService.removeItem(item.getId());
             }
             userService.updateUser(user);
 
@@ -114,4 +179,6 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
         return purchaseItemsList(user, completeItemsList);
     }
+
+
 }

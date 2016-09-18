@@ -100,7 +100,8 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Price</th>
+                    <th>Overall Price</th>
+                    <th>Quantity</th>
                     <th>Date</th>
                 </tr>
                 </thead>
@@ -108,10 +109,11 @@
                 <c:if test="${user.boughtItemsList!=null}">
                     <c:forEach items="${user.boughtItemsList}" var="itemRecord">
                         <tr>
-                            <td>${itemRecord.getPk().item.itemName}</td>
-                            <td>${itemRecord.getPk().item.price}</td>
+                            <td>${itemRecord.itemName}</td>
+                            <td>${itemRecord.price}</td>
+                            <td>${itemRecord.quantity}</td>
                             <td>${itemRecord.transactionTime}</td>
-                            <td><a href="<c:url value='/item/${item.id}' />"
+                            <td><a href="<c:url value='/item/${itemRecord.originalItemId}' />"
                                    class="btn btn-success custom-width">View</a></td>
                         </tr>
                     </c:forEach>

@@ -1,6 +1,6 @@
 package com.mprtcz.webshop.model.usermodel;
 
-import com.mprtcz.webshop.model.itemmodel.ItemRecord;
+import com.mprtcz.webshop.model.itemmodel.Record;
 import com.mprtcz.webshop.model.purchasemodel.Cart;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -55,8 +55,14 @@ public class User implements Serializable {
     private
     UserProfile userProfile;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
-    private List<ItemRecord> boughtItemsList = new ArrayList<>();
+    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
+    @OneToMany
+    @JoinTable(
+            name="APP_USER_RECORD",
+            joinColumns = @JoinColumn( name="USER_ID"),
+            inverseJoinColumns = @JoinColumn( name="RECORD_ID")
+    )
+    private List<Record> boughtItemsList = new ArrayList<>();
 
     @Transient
     private Cart cart;
@@ -118,11 +124,11 @@ public class User implements Serializable {
         this.userProfile = userProfile;
     }
 
-    public List<ItemRecord> getBoughtItemsList() {
+    public List<Record> getBoughtItemsList() {
         return boughtItemsList;
     }
 
-    public void setBoughtItemsList(List<ItemRecord> boughtItemsList) {
+    public void setBoughtItemsList(List<Record> boughtItemsList) {
         this.boughtItemsList = boughtItemsList;
     }
 
@@ -142,7 +148,7 @@ public class User implements Serializable {
         this.cart = cart;
     }
 
-    public void addItemToHistory(ItemRecord itemRecord){
+    public void addItemToHistory(Record itemRecord){
         boughtItemsList.add(itemRecord);
     }
 

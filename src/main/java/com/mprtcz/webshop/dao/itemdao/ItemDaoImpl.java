@@ -22,7 +22,7 @@ public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Item> findItemsByNameFragment(String nameFragment) {
+    public List<Item> findInstancesByNameFragment(String nameFragment) {
         Criteria criteria = createEntityCriteria().add(Restrictions.like("name", nameFragment));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Item>) criteria.list();
@@ -43,17 +43,18 @@ public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Item> findAllItems() {
+    public List<Item> findAllInstances() {
         Criteria criteria = createEntityCriteria().addOrder(Order.asc("itemName"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Item>) criteria.list();
     }
-
+/*
     @Override
     @SuppressWarnings("unchecked")
-    public List<Item> findItemsBySellerId(Integer sellerId) {
+    public List<Item> findInstancesBySellerId(Integer sellerId) {
         Criteria criteria = createEntityCriteria().add(Restrictions.eq("SELLER_ID", sellerId));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Item>) criteria.list();
     }
+    //*/
 }

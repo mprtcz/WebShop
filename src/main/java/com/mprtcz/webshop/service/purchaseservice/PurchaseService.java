@@ -13,4 +13,6 @@ public interface PurchaseService {
     String purchase(User user, Item item, Integer amount);
 
     String purchaseAll(User user, Map<Item, Integer> itemsList);
+
+    String purchaseAllCartItems(User user, Map<Item, Integer> itemsToBuyMap);
 }

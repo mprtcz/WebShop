@@ -2,7 +2,7 @@ package com.mprtcz.webshop.service.purchaseservice;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.model.purchasemodel.Cart;
-import com.mprtcz.webshop.model.usermodel.User;
+import com.mprtcz.webshop.service.security.PrincipalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,19 +20,25 @@ public class CartServiceImpl implements CartService{
     @Autowired
     Cart cart;
 
+    @Autowired
+    PrincipalService principalService;
+
     @Override
-    public void addItemsToCart(Item item, Integer quantity, User currentUser) {
+    public void addItemsToCart(Item item, Integer quantity) {
         if (cart.getCartOwner() == null) {
-            cart.setCartOwner(currentUser.getSsoId());
+            setCartOwner();
         }
-        if (cart.getCartOwner().equals(currentUser.getSsoId())) {
+        if (cart.getCartOwner().equals(principalService.getPrincipal())) {
             cart.addItems(item, quantity);
         }
     }
 
     @Override
-    public Map<Item, Integer> getItemsInCart(User user) {
-        if (cart.getCartOwner().equals(user.getSsoId())) {
+    public Map<Item, Integer> getItemsInCart() {
+        if (cart.getCartOwner() == null) {
+            setCartOwner();
+        }
+        if (cart.getCartOwner().equals(principalService.getPrincipal())) {
             return cart.getItemsList();
         } else {
             return null;
@@ -41,15 +47,29 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public BigInteger getItemsValue() {
+        if (cart.getCartOwner() == null) {
+            setCartOwner();
+        }
         return cart.getAllItemsPrice();
     }
 
     @Override
-    public void removeItem(User user, Integer id) {
+    public void removeItem(Integer id) {
+        if (cart.getCartOwner() == null) {
+            setCartOwner();
+        }
         System.out.println("CartServiceImpl.removeItem");
-        if (cart.getCartOwner().equals(user.getSsoId())) {
+        if (cart.getCartOwner().equals(principalService.getPrincipal())) {
             cart.removeItem(id);
         }
     }
+
+    private void setCartOwner(){
+        if (cart.getCartOwner() == null) {
+            cart.setCartOwner(principalService.getPrincipal());
+        }
+    }
+
+
 }
 

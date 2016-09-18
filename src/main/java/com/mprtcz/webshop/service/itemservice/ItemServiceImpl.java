@@ -28,10 +28,6 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.findById(id);
     }
 
-    @Override
-    public List<Item> findItemsBySellerId(Integer sellerId) {
-        return itemDao.findItemsBySellerId(sellerId);
-    }
 
     @Override
     public void saveItem(Item item) {
@@ -40,6 +36,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(Item item) {
+        System.out.println("ItemServiceImpl.updateItem");
         Item entity = itemDao.findById(item.getId());
         if(entity!=null){
             entity.setId(item.getId());
@@ -57,7 +54,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> findAllItems() {
-        return itemDao.findAllItems();
+        return itemDao.findAllInstances();
     }
 
     @Override

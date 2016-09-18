@@ -25,7 +25,7 @@ public class Cart {
 
     private Map<Item, Integer> itemsList = new HashMap<>();
 
-    private String cartOwner = "";
+    private String cartOwner;
 
     public void addItems(Item item, Integer quantity){
         if(itemsList.containsKey(item)){
@@ -52,12 +52,14 @@ public class Cart {
     }
 
     public void removeItem(Integer id){
+        System.out.println("Cart.removeItem");
         for (Map.Entry<Item, Integer> entry : itemsList.entrySet()){
             if(entry.getKey().getId().equals(id)){
                 itemsList.remove(entry.getKey());
                 break;
             }
         }
+        System.out.println("itemsList = " + itemsList);
     }
 
     public String getCartOwner() {

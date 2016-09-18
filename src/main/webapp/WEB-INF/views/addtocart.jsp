@@ -96,7 +96,7 @@
                                  class="img-responsive" style="width:100%" alt="Image">
                         </div>
                         <div class="panel-footer">Price: <c:out value="${item.price}"/>
-                            Stcck: <c:out value="${item.stock}"/></div>
+                            Stock: <c:out value="${item.stock}"/></div>
                     </div>
                 </div>
 

@@ -11,7 +11,7 @@ import java.util.Date;
 @AssociationOverrides({
 		@AssociationOverride(name = "pk.item", joinColumns = @JoinColumn(name = "ITEM_ID")),
 		@AssociationOverride(name = "pk.user", joinColumns = @JoinColumn(name = "USER_ID")) })
-public class ItemRecord implements java.io.Serializable {
+public class ItemRecordOld implements java.io.Serializable {
 
 	private ItemRecordId pk = new ItemRecordId();
 
@@ -19,7 +19,7 @@ public class ItemRecord implements java.io.Serializable {
 
 	private BigInteger value;
 
-	public ItemRecord() {
+	public ItemRecordOld() {
 	}
 
 	@EmbeddedId
@@ -72,9 +72,9 @@ public class ItemRecord implements java.io.Serializable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof ItemRecord)) return false;
+		if (!(o instanceof ItemRecordOld)) return false;
 
-		ItemRecord that = (ItemRecord) o;
+		ItemRecordOld that = (ItemRecordOld) o;
 
 		if (pk != null ? !pk.equals(that.pk) : that.pk != null) return false;
 		if (transactionTime != null ? !transactionTime.equals(that.transactionTime) : that.transactionTime != null)
