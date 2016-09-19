@@ -188,5 +188,20 @@ public class ItemController {
         return "item";
     }
 
-
+    @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
+    public String searchForItem(@RequestParam String expression,
+                                @RequestParam(value = "searchdescriptions", required = false)String searchdescriptions,
+                                ModelMap modelMap){
+        System.out.println("searchdescriptions = " +searchdescriptions);
+        List<Item> itemsList;
+        if(searchdescriptions==null) {
+            itemsList = itemService.searchItemsByName(expression);
+        } else {
+            itemsList = itemService.searchItemsByNameAndDescription(expression);
+        }
+        modelMap.addAttribute("items", itemsList);
+        modelMap.addAttribute("loggedinuser", principalService.getPrincipal());
+        modelMap.addAttribute("expression", expression);
+        return "itemslist";
+    }
 }

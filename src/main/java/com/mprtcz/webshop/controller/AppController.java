@@ -54,7 +54,7 @@ public class AppController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String helloPage(ModelMap model) {
+    public String mainPage(ModelMap model) {
         List<Item> itemsList = itemService.getRandomItems(6);
         model.addAttribute("isanonymus", principalService.isCurrentAuthenticationAnonymous());
         model.addAttribute("itemslist", itemsList);

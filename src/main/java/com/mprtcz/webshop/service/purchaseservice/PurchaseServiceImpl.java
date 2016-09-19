@@ -117,7 +117,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                 boughtItemsHistory.add(purchaseRecord);
 
                 user.setBoughtItemsList(boughtItemsHistory);
-                //userService.updateUserHistory(user, purchaseRecord);
+
                 recordService.saveRecord(purchaseRecord);
                 itemService.updateItem(item);
                 cartService.removeItem(item.getId());

@@ -9,7 +9,6 @@ public interface RecordItemDao<T> {
 
     T findById(int id);
 
-    List<T> findInstancesByNameFragment(String nameFragment);
 
     void save(T t);
 

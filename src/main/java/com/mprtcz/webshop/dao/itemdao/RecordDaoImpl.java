@@ -19,12 +19,6 @@ public class RecordDaoImpl extends AbstractDao<Integer, Record> implements Recor
         return getByKey(id);
     }
 
-    @Override
-    public List<Record> findInstancesByNameFragment(String nameFragment) {
-        Criteria criteria = createEntityCriteria().add(Restrictions.like("item_Name", nameFragment));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return (List<Record>) criteria.list();
-    }
 
     @Override
     public void save(Record record) {

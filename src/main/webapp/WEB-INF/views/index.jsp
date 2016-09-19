@@ -77,7 +77,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>
                     <c:when test="${userProfileCurrent.equals(guest)}">
-                    <li><a href="/login"><span class="glyphicon glyphicon-question-sign"></span> Guest</a></li>
+                        <li><a href="/login"><span class="glyphicon glyphicon-question-sign"></span> Guest</a></li>
                     </c:when>
                     <c:otherwise>
                         <li><a href="/user"><span class="glyphicon glyphicon-user"></span>
@@ -104,7 +104,7 @@
                 </div>
                 <div class="panel-body">
                     <img src="<c:url value="/item/${itemslist[0].id}/image"/>"
-                                             class="img-responsive" style="width:100%" alt="Image">
+                         class="img-responsive" style="width:100%" alt="Image">
                 </div>
                 <div class="panel-footer"><c:out value="${itemslist[0].description}"/></div>
             </div>
@@ -137,7 +137,7 @@
                 <div class="panel-footer"><c:out value="${itemslist[2].description}"/></div>
             </div>
         </div>
-</div>
+    </div>
 </div>
 <br>
 
@@ -191,10 +191,14 @@
 
 <footer class="container-fluid text-center">
     <p>Search for an item all by yourself</p>
-    <form class="form-inline">Just type the name:
-        <input type="text" class="form-control" size="50" placeholder="Search...">
-        <button type="button" class="btn btn-danger">Search</button>
-    </form>
+    <form name="search" action="/search" method="get" class="form-inline">Just type here:
+        <input type="text" class="form-control" size="50" name="expression" placeholder="Search...">
+        <div class="checkbox">
+            <label><input type="checkbox" name="searchdescriptions"> Search descriptions</label>
+        </div>
+        <input type="submit" class="btn btn-danger" value="Search">
+
+</form>
 </footer>
 
 </body>

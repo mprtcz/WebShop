@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Azet on 2016-08-29.
@@ -68,5 +69,24 @@ public class ItemServiceImpl implements ItemService {
             pickedItems.add(item);
         }
         return pickedItems;
+    }
+
+    @Override
+    public List<Item> searchItemsByName(String expression) {
+        List<Item> items = findAllItems();
+        List<Item> result = items.stream()
+                .filter(item -> item.getItemName().toLowerCase().contains(expression))
+                .collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public List<Item> searchItemsByNameAndDescription(String expression) {
+        List<Item> items = findAllItems();
+        List<Item> result = items.stream()
+                .filter(item -> item.getItemName().toLowerCase().contains(expression) ||
+                        item.getDescription().toLowerCase().contains(expression))
+                .collect(Collectors.toList());
+        return result;
     }
 }

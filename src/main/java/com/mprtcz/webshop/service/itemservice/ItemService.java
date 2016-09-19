@@ -20,4 +20,8 @@ public interface ItemService {
     List<Item> findAllItems();
 
     List<Item> getRandomItems(int amount);
+
+    List<Item> searchItemsByName(String expression);
+
+    List<Item> searchItemsByNameAndDescription(String expression);
 }

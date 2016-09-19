@@ -70,7 +70,14 @@
 
 <div class="container-fluid text-center">
         <!-- Default panel contents -->
-        <div class="panel-heading"><span class="lead">List of Items </span></div>
+    <c:choose>
+        <c:when test="${expression!=null}">
+            <div class="panel-heading"><span class="lead">Search results for ${expression}</span></div>
+        </c:when>
+        <c:otherwise>
+            <div class="panel-heading"><span class="lead">List of Items </span></div>
+        </c:otherwise>
+    </c:choose>
         <table class="table table-hover">
             <thead>
             <tr>

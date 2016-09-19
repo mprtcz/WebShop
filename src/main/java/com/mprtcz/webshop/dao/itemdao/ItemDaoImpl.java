@@ -20,13 +20,6 @@ public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
         return getByKey(id);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Item> findInstancesByNameFragment(String nameFragment) {
-        Criteria criteria = createEntityCriteria().add(Restrictions.like("name", nameFragment));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return (List<Item>) criteria.list();
-    }
 
     @Override
     public void save(Item item) {
