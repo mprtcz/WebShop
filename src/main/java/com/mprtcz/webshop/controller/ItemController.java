@@ -81,14 +81,8 @@ public class ItemController {
     public String saveItem(ModelMap model, @Valid @ModelAttribute("fileBucket") FileBucket fileBucket, BindingResult result2,
                            @Valid Item item, BindingResult result, String imageAddress) throws IOException {
 
-        System.out.println("Item to persist: " + item.toString());
-        System.out.println("Image address: " + imageAddress);
 
         if (result.hasErrors() || result2.hasErrors()) {
-            System.out.println("Result has errors" + result.getFieldError().getCode());
-            System.out.println(result.getClass());
-            System.out.println(result.toString());
-            System.out.println(result.getFieldError().toString());
             model.addAttribute("isfileerror", true);
             if (result2.getFieldError() != null) {
                 model.addAttribute("errorMsg", result2.getFieldError().getCode());
@@ -165,7 +159,6 @@ public class ItemController {
 
         String imagePath = imageService.getImagePathByItemId(item.getId());
 
-        System.out.println(imagePath);
 
         // open a file and read it as a byte array
         image = Files.readAllBytes(Paths.get(imagePath));
@@ -190,11 +183,10 @@ public class ItemController {
 
     @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
     public String searchForItem(@RequestParam String expression,
-                                @RequestParam(value = "searchdescriptions", required = false)String searchdescriptions,
-                                ModelMap modelMap){
-        System.out.println("searchdescriptions = " +searchdescriptions);
+                                @RequestParam(value = "searchdescriptions", required = false) String searchdescriptions,
+                                ModelMap modelMap) {
         List<Item> itemsList;
-        if(searchdescriptions==null) {
+        if (searchdescriptions == null) {
             itemsList = itemService.searchItemsByName(expression);
         } else {
             itemsList = itemService.searchItemsByNameAndDescription(expression);

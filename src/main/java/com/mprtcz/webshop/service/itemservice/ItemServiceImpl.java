@@ -39,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
     public void updateItem(Item item) {
         System.out.println("ItemServiceImpl.updateItem");
         Item entity = itemDao.findById(item.getId());
-        if(entity!=null){
+        if (entity != null) {
             entity.setId(item.getId());
             entity.setItemName(item.getItemName());
             entity.setPrice(item.getPrice());

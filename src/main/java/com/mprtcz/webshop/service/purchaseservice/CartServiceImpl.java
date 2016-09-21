@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Service("cartService")
 @Transactional
-public class CartServiceImpl implements CartService{
+public class CartServiceImpl implements CartService {
 
     @Autowired
     Cart cart;
@@ -64,7 +64,7 @@ public class CartServiceImpl implements CartService{
         }
     }
 
-    private void setCartOwner(){
+    private void setCartOwner() {
         if (cart.getCartOwner() == null) {
             cart.setCartOwner(principalService.getPrincipal());
         }

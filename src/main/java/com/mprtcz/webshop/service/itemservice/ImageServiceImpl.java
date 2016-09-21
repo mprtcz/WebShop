@@ -12,9 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Azet on 2016-09-04.
@@ -78,9 +76,7 @@ public class ImageServiceImpl implements ImageService {
                     String name = id + ".";
                     System.out.println("Name: " + name);
                     if (file1.getName().contains(name)) {
-                        System.out.println("CONTAINS!");
                         File file = new File(file1.getPath());
-                        System.out.println("FILEPATH " + file.getAbsolutePath());
                         file1.delete();
                         break;
                     }
@@ -100,14 +96,6 @@ public class ImageServiceImpl implements ImageService {
         return getImageByItemId(id).getAbsolutePath();
     }
 
-
-    public List<File> getImagesByItemsNames(List<Item> itemsList) {
-        List<File> filesList = new ArrayList<>();
-        for (Item i : itemsList) {
-            filesList.add(getFileByName(String.valueOf(i.getId())));
-        }
-        return filesList;
-    }
 
     private File getFileByName(String name) {
 

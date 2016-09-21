@@ -58,11 +58,11 @@ public class Record {
         this.itemName = itemName;
     }
 
-    public BigInteger getprice() {
+    public BigInteger getPrice() {
         return price;
     }
 
-    public void setprice(BigInteger price) {
+    public void setPrice(BigInteger price) {
         this.price = price;
     }
 
@@ -98,11 +98,14 @@ public class Record {
         this.buyerId = buyerId;
     }
 
+    private Record() {
+    }
+
     public static Record getInstance(User user, Item item, Integer quantity){
         Record record = new Record();
         BigInteger quantityBigInt = BigInteger.valueOf(quantity);
         record.setItemName(item.getItemName());
-        record.setprice(item.getPrice().multiply(quantityBigInt));
+        record.setPrice(item.getPrice().multiply(quantityBigInt));
         record.setQuantity(quantity);
         record.setTransactionTime(new Date(System.currentTimeMillis()));
         record.setBuyerId(user.getId());

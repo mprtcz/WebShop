@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -21,7 +20,6 @@ public class Cart {
 
     @Autowired
     HttpServletRequest httpServletRequest;
-
 
     private Map<Item, Integer> itemsList = new HashMap<>();
 
@@ -68,11 +66,5 @@ public class Cart {
 
     public void setCartOwner(String cartOwner) {
         this.cartOwner = cartOwner;
-    }
-
-    @PostConstruct
-    public void init(){
-        System.out.println("Cart.init");
-        System.out.println("Initialize Cart");
     }
 }

@@ -12,37 +12,37 @@ import java.math.BigInteger;
  * Created by Azet on 2016-08-27.
  */
 @Entity
-@Table(name="ITEMS")
+@Table(name = "ITEMS")
 public class Item implements Serializable {
 
     @Transient
     private static final String IMAGES_LOCATION = "C:/Users/Azet/Documents/SpringTutorial/WebShop/IMAGES/";
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty
-    @Column(name="ITEM_NAME", nullable=false)
+    @Column(name = "ITEM_NAME", nullable = false)
     private
     String itemName;
 
     @NotNull
-    @Column(name="PRICE", nullable=false, precision = 2)
+    @Column(name = "PRICE", nullable = false, precision = 2)
     private
     BigInteger price;
 
     @NotNull
-    @Column(name="STOCK", nullable = false)
+    @Column(name = "STOCK", nullable = false)
     private
     BigInteger stock;
 
-    @Column(name="DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private
     String description;
 
     @Transient
-    private File file = new File(IMAGES_LOCATION + id +".png");
+    private File file = new File(IMAGES_LOCATION + id + ".png");
 
 
     public Integer getId() {

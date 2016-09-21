@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Service("userProfileService")
 @Transactional
-public class UserProfileServiceImpl implements UserProfileService{
+public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     UserProfileDao dao;

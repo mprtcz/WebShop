@@ -20,8 +20,8 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.mprtcz.webshop.configuration" })
-@PropertySource(value = { "classpath:application.properties" })
+@ComponentScan({"com.mprtcz.webshop.configuration"})
+@PropertySource(value = {"classpath:application.properties"})
 public class HibernateConfiguration {
 
     @Autowired
@@ -35,6 +35,7 @@ public class HibernateConfiguration {
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();

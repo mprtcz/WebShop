@@ -46,58 +46,6 @@ public class PurchaseController {
     @Autowired
     MessageSource messageSource;
 
-    @RequestMapping(value = {"/item/{id}/purchase"}, method = RequestMethod.GET)
-    public String prepareItemPurchase(@PathVariable Integer id, ModelMap model) {
-        if (principalService.isCurrentAuthenticationAnonymous()) {
-            return "login";
-        }
-        Item item = itemService.findById(id);
-        String userName = principalService.getPrincipal();
-        User user = userService.findBySSO(userName);
-        Purchase purchase = new Purchase();
-        System.out.println("Purchase Item: " + item.toString());
-        System.out.println("Purchase user: " + user.toString());
-        model.addAttribute("purchase", purchase);
-        model.addAttribute("item", item);
-        model.addAttribute("user", user);
-        return "confirmpurchase";
-    }
-
-    @RequestMapping(value = {"/item/{id}/purchase"}, method = RequestMethod.POST)
-    public String purchaseItems(@PathVariable Integer id, @Valid Purchase purchase,
-                                BindingResult result, ModelMap model) {
-        if (principalService.isCurrentAuthenticationAnonymous()) {
-            return "login";
-        }
-        System.out.println("PurchaseController.purchaseItems");
-        if (result.hasErrors()) {
-            System.out.println(result.toString());
-            return "confirmpurchase";
-        }
-
-        //TODO other errors
-
-        String currentUserName = principalService.getPrincipal();
-        User currentUser = userService.findBySSO(currentUserName);
-        Item item = itemService.findById(purchase.getItemId());
-        Integer quantity = purchase.getQuantity();
-
-        System.out.println("stock = " + quantity);
-        System.out.println("item = " + item);
-        System.out.println("currentUser = " + currentUser);
-
-        String purchaseResult = purchaseService.purchase(currentUser, item, quantity);
-
-        model.addAttribute("item", item);
-        model.addAttribute("stock", purchase.getQuantity());
-        model.addAttribute("user", currentUser);
-        if (purchaseResult.equals("success")) {
-            return "purchasesuccess";
-        } else {
-            model.addAttribute("purchaseResult", purchaseResult);
-            return "confirmpurchase";
-        }
-    }
 
     @RequestMapping(value = {"/item/{id}/addtocart"}, method = RequestMethod.GET)
     public String addItemToCart(@PathVariable Integer id, ModelMap model) {
@@ -108,8 +56,6 @@ public class PurchaseController {
         String userName = principalService.getPrincipal();
         User user = userService.findBySSO(userName);
         Purchase purchase = new Purchase();
-        System.out.println("Purchase Item: " + item.toString());
-        System.out.println("Purchase user: " + user.toString());
         model.addAttribute("purchase", purchase);
         model.addAttribute("item", item);
         model.addAttribute("user", user);
@@ -134,7 +80,6 @@ public class PurchaseController {
         modelMap.addAttribute("user", currentUser);
 
         if (result.hasErrors()) {
-            System.out.println(result.toString());
             return "addtocart";
         }
 
@@ -155,7 +100,7 @@ public class PurchaseController {
     }
 
     @RequestMapping(value = {"/buyall"}, method = RequestMethod.GET)
-    public String purchaseItemsFromChart(ModelMap modelMap){
+    public String purchaseItemsFromChart(ModelMap modelMap) {
         if (principalService.isCurrentAuthenticationAnonymous()) {
             return "login";
         }
@@ -164,12 +109,11 @@ public class PurchaseController {
         User currentUser = userService.findBySSO(currentUserName);
 
         Map<Item, Integer> itemsToBuy = new HashMap<>();
-        if(!cartService.getItemsInCart().isEmpty()) {
-            System.out.println("cartService.getItemsInCart(currentUser).isEmpty() = " + cartService.getItemsInCart().isEmpty());
+        if (!cartService.getItemsInCart().isEmpty()) {
             itemsToBuy.putAll(cartService.getItemsInCart());
         }
 
-        if(cartService.getItemsValue().compareTo(currentUser.getBalance()) > 0){
+        if (cartService.getItemsValue().compareTo(currentUser.getBalance()) > 0) {
             //TODO error code not enough balance
             return "cart";
         }
@@ -178,7 +122,7 @@ public class PurchaseController {
 
         modelMap.addAttribute("result", result);
 
-        if(result.equals("success")){
+        if (result.equals("success")) {
             modelMap.addAttribute("items", itemsToBuy);
             return "purchasesuccess";
         } else {
@@ -187,7 +131,7 @@ public class PurchaseController {
     }
 
     @RequestMapping(value = {"/user/cart"}, method = RequestMethod.GET)
-    public String viewUserCart(ModelMap modelMap){
+    public String viewUserCart(ModelMap modelMap) {
 
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
@@ -200,7 +144,7 @@ public class PurchaseController {
     }
 
     @RequestMapping(value = {"/removefromcart/{id}"})
-    public String removeFromCart(ModelMap modelMap, @PathVariable Integer id){
+    public String removeFromCart(ModelMap modelMap, @PathVariable Integer id) {
 
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);

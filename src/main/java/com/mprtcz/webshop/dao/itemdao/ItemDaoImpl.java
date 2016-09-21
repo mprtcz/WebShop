@@ -30,7 +30,7 @@ public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
     public void deleteById(Integer id) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("id", id));
-        Item item = (Item)crit.uniqueResult();
+        Item item = (Item) crit.uniqueResult();
         delete(item);
     }
 
@@ -41,13 +41,4 @@ public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Item>) criteria.list();
     }
-/*
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Item> findInstancesBySellerId(Integer sellerId) {
-        Criteria criteria = createEntityCriteria().add(Restrictions.eq("SELLER_ID", sellerId));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return (List<Item>) criteria.list();
-    }
-    //*/
 }

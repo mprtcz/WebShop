@@ -37,7 +37,7 @@ public class AppController {
 
     @Autowired
     UserProfileService userProfileService;
-    
+
     @Autowired
     PrincipalService principalService;
 
@@ -46,11 +46,9 @@ public class AppController {
 
     @Autowired
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
-    
+
     @Autowired
     ItemService itemService;
-
-
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -111,7 +109,6 @@ public class AppController {
     public String saveUser(@Valid User user, BindingResult result,
                            ModelMap model) {
         if (result.hasErrors()) {
-            System.out.println("errors with result: " + result.toString());
             return "registration";
         }
 
@@ -121,7 +118,6 @@ public class AppController {
             return "registration";
         }
 
-        System.out.println("User to persist: " + user.toString());
         userService.saveUser(user);
 
         model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " registered successfully");
@@ -139,7 +135,6 @@ public class AppController {
         model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "accessDenied";
     }
-
 
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -205,7 +200,6 @@ public class AppController {
             return "registration";
         }
 
-        System.out.println("User to persist: " + user.toString());
         userService.updateUser(user);
 
         model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
@@ -213,7 +207,6 @@ public class AppController {
         return "registrationsuccess";
     }
 
-    
 
     @ModelAttribute("roles")
     public List<UserProfile> initializeProfiles() {
