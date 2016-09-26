@@ -3,6 +3,7 @@ package com.mprtcz.webshop.model.itemmodel;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.Serializable;
@@ -29,11 +30,13 @@ public class Item implements Serializable {
 
     @NotNull
     @Column(name = "PRICE", nullable = false, precision = 2)
+    @Min(0)
     private
     BigInteger price;
 
     @NotNull
     @Column(name = "STOCK", nullable = false)
+    @Min(0)
     private
     BigInteger stock;
 

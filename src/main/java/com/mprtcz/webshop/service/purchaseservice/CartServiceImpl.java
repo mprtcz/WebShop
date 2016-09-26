@@ -41,6 +41,7 @@ public class CartServiceImpl implements CartService {
         if (cart.getCartOwner().equals(principalService.getPrincipal())) {
             return cart.getItemsList();
         } else {
+            System.out.println("Principal:" +principalService.getPrincipal());
             return null;
         }
     }
@@ -69,7 +70,5 @@ public class CartServiceImpl implements CartService {
             cart.setCartOwner(principalService.getPrincipal());
         }
     }
-
-
 }
 

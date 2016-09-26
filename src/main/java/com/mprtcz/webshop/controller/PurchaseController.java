@@ -67,8 +67,6 @@ public class PurchaseController {
     public String addToCart(@Valid Purchase purchase, BindingResult result,
                             ModelMap modelMap) {
 
-        List<String> errorsList = new ArrayList<>();
-
         String currentUserName = principalService.getPrincipal();
         User currentUser = userService.findBySSO(currentUserName);
         Item item = itemService.findById(purchase.getItemId());
@@ -89,6 +87,11 @@ public class PurchaseController {
             result.addError(ssoError);
             return "addtocart";
         }
+
+        BigInteger newStock = item.getStock().subtract(quantityBigInt);
+        item.setStock(newStock);
+
+        itemService.updateItem(item);
 
         cartService.addItemsToCart(item, quantity);
 
