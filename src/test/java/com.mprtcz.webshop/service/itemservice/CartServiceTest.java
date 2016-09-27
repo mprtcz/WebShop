@@ -18,7 +18,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -81,6 +81,9 @@ public class CartServiceTest {
         initilizeCart();
 
         assertEquals(cartService.getItemsInCart() , cart.getItemsMap());
+
+        verify(principalService, times(2)).getPrincipal();
+        verify(principalService, never()).isCurrentAuthenticationAnonymous();
     }
 
     @Test
@@ -89,5 +92,8 @@ public class CartServiceTest {
 
         initilizeCart();
         assertEquals(cartService.getItemsValue() , BigInteger.valueOf(3));
+
+        verify(principalService).getPrincipal();
+        verify(principalService, never()).isCurrentAuthenticationAnonymous();
     }
 }
