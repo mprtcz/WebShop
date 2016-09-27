@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.testng.annotations.BeforeMethod;
 
@@ -30,8 +31,9 @@ public class CartServiceTest {
     @InjectMocks
     CartService cartService = new CartServiceImpl();
 
-    @Mock
-    Cart cart;
+    @InjectMocks
+            @Spy
+    Cart cart = new Cart();
 
     @Mock
     PrincipalService principalService;
@@ -62,13 +64,30 @@ public class CartServiceTest {
         return itemsMap;
     }
 
+    private void initilizeCart(){
+        cart.setCartOwner("Azot");
+
+        Map<Item, Integer> itemsMap = createItemsMap();
+
+        for (Map.Entry entrySet : itemsMap.entrySet()) {
+            cart.addItems((Item)entrySet.getKey(), (Integer)entrySet.getValue());
+        }
+    }
+
 
     @Test
     public void itemsMapTest(){
-        when(cart.getItemsList()).thenReturn(createItemsMap());
-        when(cart.getCartOwner()).thenReturn("Azot");
+        when(principalService.getPrincipal()).thenReturn("Azot");
+        initilizeCart();
+
+        assertEquals(cartService.getItemsInCart() , cart.getItemsMap());
+    }
+
+    @Test
+    public void itemsValueTest(){
         when(principalService.getPrincipal()).thenReturn("Azot");
 
-        assertEquals(cartService.getItemsInCart() , cart.getItemsList());
+        initilizeCart();
+        assertEquals(cartService.getItemsValue() , BigInteger.valueOf(3));
     }
 }

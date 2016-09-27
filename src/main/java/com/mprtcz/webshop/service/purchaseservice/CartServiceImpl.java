@@ -39,7 +39,7 @@ public class CartServiceImpl implements CartService {
             setCartOwner();
         }
         if (cart.getCartOwner().equals(principalService.getPrincipal())) {
-            return cart.getItemsList();
+            return cart.getItemsMap();
         } else {
             System.out.println("Principal:" +principalService.getPrincipal());
             return null;

@@ -38,7 +38,7 @@ public class Cart {
         }
     }
 
-    public Map<Item, Integer> getItemsList() {
+    public Map<Item, Integer> getItemsMap() {
         return itemsList;
     }
 
