@@ -64,9 +64,7 @@ public class CartServiceTest {
         return itemsMap;
     }
 
-    private void initilizeCart(){
-        cart.setCartOwner("Azot");
-
+    private void initializeCart(){
         Map<Item, Integer> itemsMap = createItemsMap();
 
         for (Map.Entry entrySet : itemsMap.entrySet()) {
@@ -78,7 +76,7 @@ public class CartServiceTest {
     @Test
     public void itemsMapTest(){
         when(principalService.getPrincipal()).thenReturn("Azot");
-        initilizeCart();
+        initializeCart();
 
         assertEquals(cartService.getItemsInCart() , cart.getItemsMap());
 
@@ -90,7 +88,7 @@ public class CartServiceTest {
     public void itemsValueTest(){
         when(principalService.getPrincipal()).thenReturn("Azot");
 
-        initilizeCart();
+        initializeCart();
         assertEquals(cartService.getItemsValue() , BigInteger.valueOf(3));
 
         verify(principalService).getPrincipal();
