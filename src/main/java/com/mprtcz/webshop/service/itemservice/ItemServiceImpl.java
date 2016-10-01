@@ -24,6 +24,15 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     ImageService imageService;
 
+    @Autowired
+    public ItemServiceImpl(ItemDao itemDao, ImageService imageService) {
+        this.itemDao = itemDao;
+        this.imageService = imageService;
+    }
+
+    public ItemServiceImpl() {
+    }
+
     @Override
     public Item findById(int id) {
         return itemDao.findById(id);
@@ -37,7 +46,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(Item item) {
-        System.out.println("ItemServiceImpl.updateItem");
         Item entity = itemDao.findById(item.getId());
         if (entity != null) {
             entity.setId(item.getId());
@@ -65,8 +73,13 @@ public class ItemServiceImpl implements ItemService {
         Collections.shuffle(allItemsList);
 
         for (int i = 0; i < amount; i++) {
-            Item item = allItemsList.get(i);
-            pickedItems.add(item);
+            if(allItemsList.get(i)!=null) {
+                Item item = allItemsList.get(i);
+                pickedItems.add(item);
+            }
+            else {
+                pickedItems.add(new Item());
+            }
         }
         return pickedItems;
     }
@@ -74,19 +87,17 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> searchItemsByName(String expression) {
         List<Item> items = findAllItems();
-        List<Item> result = items.stream()
+        return items.stream()
                 .filter(item -> item.getItemName().toLowerCase().contains(expression))
                 .collect(Collectors.toList());
-        return result;
     }
 
     @Override
     public List<Item> searchItemsByNameAndDescription(String expression) {
         List<Item> items = findAllItems();
-        List<Item> result = items.stream()
+        return items.stream()
                 .filter(item -> item.getItemName().toLowerCase().contains(expression) ||
                         item.getDescription().toLowerCase().contains(expression))
                 .collect(Collectors.toList());
-        return result;
     }
 }

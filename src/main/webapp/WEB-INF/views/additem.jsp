@@ -9,7 +9,6 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 
@@ -20,56 +19,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<sec:authentication property="principal" var="userProfileCurrent"/>
-<c:set value="anonymousUser" var="anonymousUser"/>
-<c:set value="Guest" var="guest"/>
-<c:choose>
-    <c:when test="${!userProfileCurrent.equals(anonymousUser)}">
-        <sec:authentication property="principal.username" var="userProfileCurrent"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="userProfileCurrent" value="Guest"/>
-    </c:otherwise>
-</c:choose>
 
 <body>
-
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Epic Shop</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/items">Products</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <c:choose>
-                    <c:when test="${userProfileCurrent.equals(guest)}">
-                        <li><a href="/login"><span class="glyphicon glyphicon-question-sign"></span> Guest</a></li>
-                    </c:when>
-                    <c:otherwise>
-                        <li><a href="/user"><span class="glyphicon glyphicon-user"></span>
-                            <c:out value=" ${userProfileCurrent} "/> </a></li>
-                        <li><span class="glyphicon glyphicon-user"></span>
-                            <c:out value=" ${userProfileCurrent.balance} "/> </a></li>
-                        <li><a href="/user/cart"><span class="glyphicon glyphicon-shopping-cart"></span>
-                            Cart </a></li>
-                        <li><a href="/logout"><span class="glyphicon glyphicon-off"></span>
-                            Logout> </a></li>
-                    </c:otherwise>
-                </c:choose>
-            </ul>
-        </div>
-    </div>
-</nav>
+<%@include file="navBar.jsp" %>
 
 <div class="well lead">Add Items to sell</div>
 <div class="col-sm-2 sidenav">
@@ -108,13 +60,13 @@
                 <div class="col-md-7">
                     <c:choose>
                         <c:when test="${edit}">
-                            <form:input type="number" path="item" id="item" class="form-control input-sm"
+                            <form:input type="number" path="id" id="item" class="form-control input-sm"
                                         disabled="true"/>
                         </c:when>
                         <c:otherwise>
-                            <form:input type="number" path="item" id="item" class="form-control input-sm"/>
+                            <form:input type="number" path="id" id="item" class="form-control input-sm"/>
                             <div class="has-error">
-                                <form:errors path="item" class="help-inline"/>
+                                <form:errors path="id" class="help-inline"/>
                             </div>
                         </c:otherwise>
                     </c:choose>
