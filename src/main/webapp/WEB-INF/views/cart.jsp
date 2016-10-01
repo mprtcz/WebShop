@@ -20,9 +20,13 @@
 </head>
 
 
-
 <body>
 <%@include file="navBar.jsp" %>
+
+<c:set value="danger" var="trClass"/>
+<c:if test="${accountBalance > itemsValue}" var="affordable">
+    <c:set value="info" var="trClass"/>
+</c:if>
 
 <div class="container-fluid text-center">
     <div class="row content">
@@ -33,7 +37,10 @@
             <p>
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
-                    <div class="panel-heading"><span class="lead">List of Items </span></div>
+                    <div class="panel-heading"><span class="lead">
+                        Total items' value: ${itemsValue},
+                        Current account balance: ${accountBalance}
+                    </span></div>
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -44,7 +51,7 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${cartItems}" var="entry">
-                            <tr>
+                            <tr class="${trClass}">
                                 <td>${entry.key.itemName}</td>
                                 <td>${entry.key.price}</td>
                                 <td>${entry.value}</td>
@@ -52,14 +59,11 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                        <tr>
-                            <td>Total items' value:</td>
-                            <td><c:out value="${itemsValue}"/></td>
-                        </tr>
                         </tbody>
                     </table>
-            <c:if test="${accountBalance < itemsValue}"><p>Warning! Not enough money for all items!</p></c:if>
-            <p>Current account balance: ${accountBalance}</p>
+            <c:if test="${!affordable}">
+                <p class="bg-danger">Warning! Not enough money for all items!</p>
+            </c:if>
             <p class="text-center">
                 <a href="/buyall" class="btn btn-info" role="button">Purchase all</a> or <a
                     href="<c:url value="/items" />">Buy More</a>
@@ -74,7 +78,7 @@
 </div>
 
 <footer class="container-fluid text-center">
-    <p>Footer Text</p>
+    <p>Kopyrajt 2080 ©</p>
 </footer>
 
 </body>
