@@ -60,11 +60,11 @@
                 <div class="col-md-7">
                     <c:choose>
                         <c:when test="${edit}">
-                            <form:input type="number" path="id" id="item" class="form-control input-sm"
+                            <form:input type="number" path="stock" id="item" class="form-control input-sm"
                                         disabled="true"/>
                         </c:when>
                         <c:otherwise>
-                            <form:input type="number" path="id" id="item" class="form-control input-sm"/>
+                            <form:input type="number" path="stock" id="item" class="form-control input-sm"/>
                             <div class="has-error">
                                 <form:errors path="id" class="help-inline"/>
                             </div>

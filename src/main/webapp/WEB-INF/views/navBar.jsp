@@ -36,6 +36,9 @@
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="/items">Products</a></li>
                 <li><a href="#">Contact</a></li>
+                <sec:authorize access="hasRole('ADMIN')">
+                    <li><a href="/item/add">Add item</a></li>
+                </sec:authorize>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>
