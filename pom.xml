@@ -167,6 +167,12 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit47</artifactId>
+            <version>2.8</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -194,6 +200,46 @@
             </plugins>
         </pluginManagement>
         <finalName>WebShop</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+
+    <profiles>
+        <profile>
+            <id>PostgreSQL</id>
+            <properties>
+                <db.driverClass>org.postgresql.Driver</db.driverClass>
+                <db.connectionURL>jdbc:postgresql://localhost:5432/PROJECT1DB4</db.connectionURL>
+                <db.username>postgres</db.username>
+                <db.password>password</db.password>
+                <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+            </properties>
+        </profile>
+        <profile>
+            <id>HSQL</id>
+            <properties>
+                <db.driverClass>org.hsqldb.jdbcDriver</db.driverClass>
+                <db.connectionURL>jdbc:hsqldb:mem:testdb</db.connectionURL>
+                <db.username>user</db.username>
+                <db.password>password</db.password>
+                <hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
+            </properties>
+        </profile>
+        <profile>
+            <id>MySQL</id>
+            <properties>
+                <db.driverClass>com.mysql.jdbc.Driver</db.driverClass>
+                <db.connectionURL>jdbc:mysql://localhost:3306/webshopdb_3</db.connectionURL>
+                <db.username>root</db.username>
+                <db.password>password</db.password>
+                <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
