@@ -14,7 +14,7 @@ Application which allows selling and purchasing items available in the shop. The
 The application allows users to register and log in to their account using spring Security
 
 
- ![login](http://i.giphy.com/l2JhKPP5953KsBAhW.gif)
+ ![login](https://media.giphy.com/media/l2JhKPP5953KsBAhW/source.gif)
  
  
  
@@ -23,6 +23,8 @@ The application allows users to register and log in to their account using sprin
   * Items can be purchased by regular users after registration, but can be viewed by anyone using the application with default `Guest` account.
 
   * Every user has a custom credit balance om their account which can be changed only by a user with `admin` role or by transaction within the application. Every user has a cart in which the items to buy are stored and when the user logs out or the session expires and items are not purchased, they are added again to items pool.
+
+##Tech details
 
 Views are provided by the backend via [JSP pages](https://en.wikipedia.org/wiki/JavaServer_Pages).
 
