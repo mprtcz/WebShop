@@ -28,7 +28,7 @@ The application allows users to register and log in to their account using sprin
 
 Views are provided by the backend via [JSP pages](https://en.wikipedia.org/wiki/JavaServer_Pages).
 
-The project's persistence is provided by [Hibernate framework](http://hibernate.org/) operating on MySQL database, however there are several maven profiles configuring databases for hsqdb, prostgresql and mysql db providers.
+The project's persistence is provided by [Hibernate framework](http://hibernate.org/) operating on MySQL database, however there are several maven profiles configuring databases for HSQLDB, PostgreSQL and MySQL db providers.
 
 Tests written using [junit](http://junit.org/junit4/) and [mockito](http://site.mockito.org/) APIs. 
 
