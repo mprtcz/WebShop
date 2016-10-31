@@ -53,14 +53,12 @@ public class Cart {
     }
 
     public void removeItem(Integer id) {
-        System.out.println("Cart.removeItem");
         for (Map.Entry<Item, Integer> entry : itemsList.entrySet()) {
             if (entry.getKey().getId().equals(id)) {
                 itemsList.remove(entry.getKey());
                 break;
             }
         }
-        System.out.println("itemsList = " + itemsList);
     }
 
     public String getCartOwner() {
@@ -73,15 +71,10 @@ public class Cart {
 
     @PostConstruct
     public void init() {
-        System.out.println("Cart.init");
-        System.out.println("Initialize Cart");
     }
 
     @PreDestroy
     public void dest() {
-        System.out.println("Cart.dest");
-        System.out.println("Destroy Cart");
-
         if(!itemsList.isEmpty()){
             for (Map.Entry<Item, Integer> entry : itemsList.entrySet()){
                 Item item = itemService.findById(entry.getKey().getId());

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 /**
  * Created by Azet on 2016-09-04.
@@ -44,7 +43,6 @@ public class ImageServiceImpl implements ImageService {
             item.setId(1);
         }
         String writePath = UPLOAD_LOCATION + String.valueOf(item.getId()) + ".png";
-        System.out.println(writePath);
         if (!Files.exists(Paths.get(UPLOAD_LOCATION))) {
             File dir = new File(UPLOAD_LOCATION);
             dir.mkdirs();
@@ -68,13 +66,11 @@ public class ImageServiceImpl implements ImageService {
     public void deleteImage(Integer id) {
         File folder = new File(UPLOAD_LOCATION);
         File[] listOfFiles = folder.listFiles();
-        System.out.println(Arrays.toString(listOfFiles));
 
         if (listOfFiles != null && listOfFiles.length > 0) {
             for (File file1 : listOfFiles) {
                 if (file1.isFile()) {
                     String name = id + ".";
-                    System.out.println("Name: " + name);
                     if (file1.getName().contains(name)) {
                         File file = new File(file1.getPath());
                         file1.delete();
@@ -87,7 +83,6 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public File getImageByItemId(Integer id) {
-        System.out.println("ImageServiceImpl.getImageByItemId");
         return getFileByName(String.valueOf(id));
     }
 

@@ -1,8 +1,6 @@
 package com.mprtcz.webshop.service.purchaseservice;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
-import com.mprtcz.webshop.model.itemmodel.ItemRecordId;
-import com.mprtcz.webshop.model.itemmodel.ItemRecordOld;
 import com.mprtcz.webshop.model.itemmodel.Record;
 import com.mprtcz.webshop.model.usermodel.User;
 import com.mprtcz.webshop.service.itemservice.ItemService;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,52 +35,30 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     public String purchaseAllCartItems(User user, Map<Item, Integer> itemsToBuyMap) {
         if (cartService.getItemsValue().compareTo(user.getBalance()) > 1) {
-            System.out.println("PurchaseServiceImpl.purchaseAllCartItems");
-            System.out.println("not enough money");
             return "not.enough.money";
         }
         if (itemsToBuyMap.isEmpty()) {
-            System.out.println("PurchaseServiceImpl.purchaseAllCartItems");
-            System.out.println("Cart empty");
             return "cart.empty";
         }
-
         for (Map.Entry entry :
                 itemsToBuyMap.entrySet()) {
-
             List<Record> boughtItemsHistory = user.getBoughtItemsList();
-            System.out.println("boughtItemsHistory = " + boughtItemsHistory);
-
             if (!(entry.getKey() instanceof Item)) {
                 throw new ClassCastException();
             }
-
             if (!(entry.getValue() instanceof Integer)) {
                 throw new ClassCastException();
             }
-
             Item item = (Item) entry.getKey();
-            System.out.println("ITEM TO BUY:" + item);
-
-
             BigInteger transactionValue = item.getPrice().multiply(BigInteger.valueOf((Integer) entry.getValue()));
-
             BigInteger newBalance = (user.getBalance().subtract(transactionValue));
-
             BigInteger newStock = item.getStock().subtract(BigInteger.ONE);
-
             if (newStock.compareTo(BigInteger.ZERO) > -1 && newBalance.compareTo(BigInteger.ZERO) > -1) {
-
                 user.setBalance(newBalance);
-
                 item.setStock(newStock);
-
                 Record purchaseRecord = Record.getInstance(user, item, (Integer) entry.getValue());
-
                 boughtItemsHistory.add(purchaseRecord);
-
                 user.setBoughtItemsList(boughtItemsHistory);
-
                 recordService.saveRecord(purchaseRecord);
                 itemService.updateItem(item);
                 cartService.removeItem(item.getId());

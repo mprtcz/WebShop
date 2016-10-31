@@ -58,7 +58,6 @@ public class CartServiceImpl implements CartService {
         if (cart.getCartOwner() == null) {
             setCartOwner();
         }
-        System.out.println("CartServiceImpl.removeItem");
         if (cart.getCartOwner().equals(principalService.getPrincipal())) {
             cart.removeItem(id);
         }

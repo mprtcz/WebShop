@@ -46,7 +46,6 @@ public class ItemServiceImplTest {
         int itemsQuantity = 5;
 
         //Mockito.when(sessionFactory.openSession()).thenReturn(session);
-        System.out.println(session);
         Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
         List<Item> items = itemService.getRandomItems(itemsQuantity);
         assertEquals(items.size(), itemsQuantity);

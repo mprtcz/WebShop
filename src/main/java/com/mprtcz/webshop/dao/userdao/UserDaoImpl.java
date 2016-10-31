@@ -58,7 +58,6 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     }
 
     public void save(User user) {
-        System.out.println("user = [" + user.toString() + "]");
         persist(user);
     }
 

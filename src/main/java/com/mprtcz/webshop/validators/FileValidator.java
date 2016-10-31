@@ -20,7 +20,6 @@ public class FileValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         FileBucket file = (FileBucket) obj;
 
-        System.out.println(", isEmpty=" + file.getFile().isEmpty());
         if (!file.getFile().isEmpty()) {
 /* //enable if picture is required
             if (file.getFile().getSize() == 0) {
@@ -28,7 +27,6 @@ public class FileValidator implements Validator {
             }
 //*/
             if(!containsExtension(file.getFile().getOriginalFilename())){
-                System.out.println("wrong.extension");
                 errors.rejectValue("file", "Wrong extension!");
             }
         }
@@ -36,7 +34,6 @@ public class FileValidator implements Validator {
 
     private boolean containsExtension(String name) {
         for (String s : EXTENSIONS) {
-            System.out.println("FILENAME: " + name + " EXTENSION: " + s);
             if (name.toLowerCase().contains(s)) {
                 return true;
             }
