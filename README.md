@@ -1,6 +1,5 @@
 # WebShop
 
-## Web shop project
 
 A java web application project based on [Spring](https://spring.io/) framework.
 
