@@ -28,9 +28,9 @@ public class ItemDaoImpl extends AbstractDao<Integer, Item> implements ItemDao {
 
     @Override
     public void deleteById(Integer id) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("id", id));
-        Item item = (Item) crit.uniqueResult();
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("id", id));
+        Item item = (Item) criteria.uniqueResult();
         delete(item);
     }
 

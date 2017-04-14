@@ -96,6 +96,9 @@ public class Item implements Serializable {
         this.file = file;
     }
 */
+    public void addStock(BigInteger quantity) {
+        this.stock.add(quantity);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,6 +2,7 @@ package com.mprtcz.webshop.service.itemservice;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -24,4 +25,10 @@ public interface ItemService {
     List<Item> searchItemsByName(String expression);
 
     List<Item> searchItemsByNameAndDescription(String expression);
+
+    void extendItemStock(Integer itemID, Integer quantity);
+
+    void subtractItemStock(Item item, BigInteger quantityToSubtract);
+
+    boolean isEnoughItemsInStock(Item item, BigInteger quantityToCheck);
 }

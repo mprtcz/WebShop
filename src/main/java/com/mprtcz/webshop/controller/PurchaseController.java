@@ -67,8 +67,7 @@ public class PurchaseController {
     public String addToCart(@Valid Purchase purchase, BindingResult result,
                             ModelMap modelMap) {
 
-        String currentUserName = principalService.getPrincipal();
-        User currentUser = userService.findBySSO(currentUserName);
+        User currentUser = userService.findBySSO(principalService.getPrincipal());
         Item item = itemService.findById(purchase.getItemId());
         Integer quantity = purchase.getQuantity();
         BigInteger quantityBigInt = BigInteger.valueOf(purchase.getQuantity());
@@ -81,20 +80,14 @@ public class PurchaseController {
             return "addtocart";
         }
 
-        if (item.getStock().compareTo(quantityBigInt) < 0) {
+        if(!itemService.isEnoughItemsInStock(item, quantityBigInt)) {
             FieldError ssoError = new FieldError("item", "stock", messageSource.getMessage(
                     "stock.too.large", new String[]{String.valueOf(item.getStock())}, Locale.getDefault()));
             result.addError(ssoError);
             return "addtocart";
         }
-
-        BigInteger newStock = item.getStock().subtract(quantityBigInt);
-        item.setStock(newStock);
-
-        itemService.updateItem(item);
-
+        itemService.subtractItemStock(item, quantityBigInt);
         cartService.addItemsToCart(item, quantity);
-
         modelMap.addAttribute("cartItems", cartService.getItemsInCart());
         modelMap.addAttribute("itemsValue", cartService.getItemsValue());
         modelMap.addAttribute("accountBalance", currentUser.getBalance());

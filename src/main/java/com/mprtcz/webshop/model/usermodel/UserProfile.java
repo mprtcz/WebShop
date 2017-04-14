@@ -1,14 +1,13 @@
 package com.mprtcz.webshop.model.usermodel;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created by Azet on 2016-08-27.
  */
 @Entity
 @Table(name="USER_PROFILE")
-public class UserProfile implements Serializable {
+public class UserProfile {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

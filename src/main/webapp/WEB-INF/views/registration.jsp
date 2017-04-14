@@ -17,6 +17,13 @@
 
 <%@include file="navBar.jsp" %>
 
+
+
+
+
+
+
+
 <div class="generic-container">
     <%@include file="authheader.jsp" %>
 

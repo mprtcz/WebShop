@@ -1,12 +1,11 @@
 package com.mprtcz.webshop.model.usermodel;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name="PERSISTENT_LOGINS")
-public class PersistentLogin implements Serializable{
+public class PersistentLogin {
 
 	@Id
 	private String series;
@@ -51,6 +50,4 @@ public class PersistentLogin implements Serializable{
 	public void setLast_used(Date last_used) {
 		this.last_used = last_used;
 	}
-	
-	
 }

@@ -113,7 +113,8 @@ public class AppController {
         }
 
         if (!userService.isUserSSOUnique(user.getId(), user.getSsoId())) {
-            FieldError ssoError = new FieldError("user", "ssoId", messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
+            FieldError ssoError = new FieldError("user", "ssoId",
+                    messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
             result.addError(ssoError);
             return "registration";
         }
@@ -195,13 +196,10 @@ public class AppController {
     @RequestMapping(value = {"/user/{ssoId}/edit"}, method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result,
                              ModelMap model, @PathVariable String ssoId) {
-
         if (result.hasErrors()) {
             return "registration";
         }
-
         userService.updateUser(user);
-
         model.addAttribute("success", "User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
         model.addAttribute("loggedinuser", principalService.getPrincipal());
         return "registrationsuccess";

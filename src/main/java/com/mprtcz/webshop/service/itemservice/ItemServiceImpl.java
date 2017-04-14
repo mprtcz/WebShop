@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,9 +29,6 @@ public class ItemServiceImpl implements ItemService {
     public ItemServiceImpl(ItemDao itemDao, ImageService imageService) {
         this.itemDao = itemDao;
         this.imageService = imageService;
-    }
-
-    public ItemServiceImpl() {
     }
 
     @Override
@@ -69,19 +67,24 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getRandomItems(int amount) {
         List<Item> allItemsList = findAllItems();
-        List<Item> pickedItems = new ArrayList<>();
+        List<Item> pickedItems = populateListWithNewItems(amount);
         Collections.shuffle(allItemsList);
 
-        for (int i = 0; i < amount; i++) {
+        for (int i = 0; i < pickedItems.size(); i++) {
             if(allItemsList.get(i)!=null) {
                 Item item = allItemsList.get(i);
-                pickedItems.add(item);
-            }
-            else {
-                pickedItems.add(new Item());
+                pickedItems.set(i, item);
             }
         }
         return pickedItems;
+    }
+
+    private List<Item> populateListWithNewItems(int size) {
+        List<Item> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            list.add(new Item());
+        }
+        return list;
     }
 
     @Override
@@ -99,5 +102,24 @@ public class ItemServiceImpl implements ItemService {
                 .filter(item -> item.getItemName().toLowerCase().contains(expression) ||
                         item.getDescription().toLowerCase().contains(expression))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void extendItemStock(Integer itemID, Integer quantity) {
+        Item item = findById(itemID);
+        item.addStock(BigInteger.valueOf(quantity));
+        updateItem(item);
+    }
+
+    @Override
+    public void subtractItemStock(Item item, BigInteger quantityToSubtract) {
+        BigInteger newStock = item.getStock().subtract(quantityToSubtract);
+        item.setStock(newStock);
+        updateItem(item);
+    }
+
+    @Override
+    public boolean isEnoughItemsInStock(Item item, BigInteger quantityToCheck) {
+        return item.getStock().compareTo(quantityToCheck) >= 0;
     }
 }

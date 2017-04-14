@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Created by Azet on 2016-09-18.
@@ -38,10 +36,10 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public List<Record> findRecordsByUser(User user) {
-        List<Record> records = recordDao.findAllInstances();
-        List<Record> result = records.stream()
-                .filter(record -> Objects.equals(user.getId(), record.getBuyerId()))
-                .collect(Collectors.toList());
-        return result;
+        return recordDao.findInstancesByBuyerId(user.getId());
+//        List<Record> records = recordDao.findAllInstances();
+//        return records.stream()
+//                .filter(record -> Objects.equals(user.getId(), record.getBuyerId()))
+//                .collect(Collectors.toList());
     }
 }

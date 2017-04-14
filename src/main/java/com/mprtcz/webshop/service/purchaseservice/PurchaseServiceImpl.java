@@ -40,23 +40,16 @@ public class PurchaseServiceImpl implements PurchaseService {
         if (itemsToBuyMap.isEmpty()) {
             return "cart.empty";
         }
-        for (Map.Entry entry :
-                itemsToBuyMap.entrySet()) {
+        for (Map.Entry<Item, Integer> entry : itemsToBuyMap.entrySet()) {
             List<Record> boughtItemsHistory = user.getBoughtItemsList();
-            if (!(entry.getKey() instanceof Item)) {
-                throw new ClassCastException();
-            }
-            if (!(entry.getValue() instanceof Integer)) {
-                throw new ClassCastException();
-            }
-            Item item = (Item) entry.getKey();
-            BigInteger transactionValue = item.getPrice().multiply(BigInteger.valueOf((Integer) entry.getValue()));
-            BigInteger newBalance = (user.getBalance().subtract(transactionValue));
+            Item item = entry.getKey();
+            BigInteger transactionValue = item.getPrice().multiply(BigInteger.valueOf(entry.getValue()));
+            BigInteger newBalance = user.getBalance().subtract(transactionValue);
             BigInteger newStock = item.getStock().subtract(BigInteger.ONE);
-            if (newStock.compareTo(BigInteger.ZERO) > -1 && newBalance.compareTo(BigInteger.ZERO) > -1) {
+            if(areValuesEqualToZeroOrGreater(newStock, newBalance)) {
                 user.setBalance(newBalance);
                 item.setStock(newStock);
-                Record purchaseRecord = Record.getInstance(user, item, (Integer) entry.getValue());
+                Record purchaseRecord = Record.getInstance(user, item, entry.getValue());
                 boughtItemsHistory.add(purchaseRecord);
                 user.setBoughtItemsList(boughtItemsHistory);
                 recordService.saveRecord(purchaseRecord);
@@ -66,5 +59,15 @@ public class PurchaseServiceImpl implements PurchaseService {
             userService.updateUser(user);
         }
         return "items.bought.success";
+    }
+
+    private boolean areValuesEqualToZeroOrGreater(BigInteger... values) {
+        for (BigInteger bigInteger :
+                values) {
+            if(bigInteger.signum() == -1) {
+                return false;
+            }
+        }
+        return true;
     }
 }

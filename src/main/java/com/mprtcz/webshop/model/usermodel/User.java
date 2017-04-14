@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "APP_USER")
-public class User implements Serializable {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +64,7 @@ public class User implements Serializable {
     private List<Record> boughtItemsList = new ArrayList<>();
 
     @Transient
-    private Cart cart;
+    private Cart cart = new Cart();
 
     public Integer getId() {
         return id;
@@ -94,7 +93,6 @@ public class User implements Serializable {
     public UserProfile getUserProfile() {
         return userProfile;
     }
-
 
     public void setId(Integer id) {
         this.id = id;

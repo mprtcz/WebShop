@@ -25,48 +25,50 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addItemsToCart(Item item, Integer quantity) {
-        if (cart.getCartOwner() == null) {
+        if (cart.getCartOwnerPrincipal() == null) {
             setCartOwner();
         }
-        if (cart.getCartOwner().equals(principalService.getPrincipal())) {
+        if (cart.getCartOwnerPrincipal().equals(principalService.getPrincipal())) {
             cart.addItems(item, quantity);
         }
     }
 
     @Override
     public Map<Item, Integer> getItemsInCart() {
-        if (cart.getCartOwner() == null) {
+        if (cart.getCartOwnerPrincipal() == null) {
             setCartOwner();
         }
-        if (cart.getCartOwner().equals(principalService.getPrincipal())) {
+        if (cart.getCartOwnerPrincipal().equals(principalService.getPrincipal())) {
             return cart.getItemsMap();
         } else {
             return null;
         }
     }
 
+
     @Override
     public BigInteger getItemsValue() {
-        if (cart.getCartOwner() == null) {
+        if (cart.getCartOwnerPrincipal() == null) {
             setCartOwner();
         }
         return cart.getAllItemsPrice();
     }
 
+
     @Override
     public void removeItem(Integer id) {
-        if (cart.getCartOwner() == null) {
+        if (cart.getCartOwnerPrincipal() == null) {
             setCartOwner();
         }
-        if (cart.getCartOwner().equals(principalService.getPrincipal())) {
+        if (cart.getCartOwnerPrincipal().equals(principalService.getPrincipal())) {
             cart.removeItem(id);
         }
     }
 
+
     private void setCartOwner() {
-        if (cart.getCartOwner() == null) {
-            cart.setCartOwner(principalService.getPrincipal());
+        if (cart.getCartOwnerPrincipal() == null) {
+            cart.setCartOwnerPrincipal(principalService.getPrincipal());
         }
     }
 }
-

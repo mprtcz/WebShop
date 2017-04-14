@@ -2,6 +2,8 @@ package com.mprtcz.webshop.model.purchasemodel;
 
 import com.mprtcz.webshop.model.itemmodel.Item;
 import com.mprtcz.webshop.service.itemservice.ItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -19,68 +21,62 @@ import java.util.Map;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart {
-
-
-    private Map<Item, Integer> itemsList = new HashMap<>();
-
-    private String cartOwner;
-
+    static final Logger logger = LoggerFactory.getLogger(Cart.class);
+    private Map<Item, Integer> items = new HashMap<>();
+    private String cartOwnerPrincipal;
     @Autowired
     ItemService itemService;
 
     public void addItems(Item item, Integer quantity) {
-        if (itemsList.containsKey(item)) {
-            Integer currentQuantity = itemsList.get(item);
-            currentQuantity = currentQuantity + quantity;
-            itemsList.put(item, currentQuantity);
+        if (items.containsKey(item)) {
+            Integer numberOfItems = items.get(item);
+            numberOfItems = numberOfItems + quantity;
+            items.put(item, numberOfItems);
         } else {
-            itemsList.put(item, quantity);
+            items.put(item, quantity);
         }
     }
 
     public Map<Item, Integer> getItemsMap() {
-        return itemsList;
+        return items;
     }
 
     public BigInteger getAllItemsPrice() {
         BigInteger price = BigInteger.ZERO;
-
-        for (Map.Entry<Item, Integer> entry : itemsList.entrySet()) {
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
             price = price.add(entry.getKey().getPrice().multiply(BigInteger.valueOf(entry.getValue())));
         }
-
         return price;
     }
 
     public void removeItem(Integer id) {
-        for (Map.Entry<Item, Integer> entry : itemsList.entrySet()) {
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
             if (entry.getKey().getId().equals(id)) {
-                itemsList.remove(entry.getKey());
+                items.remove(entry.getKey());
                 break;
             }
         }
     }
 
-    public String getCartOwner() {
-        return cartOwner;
+    public String getCartOwnerPrincipal() {
+        return cartOwnerPrincipal;
     }
 
-    public void setCartOwner(String cartOwner) {
-        this.cartOwner = cartOwner;
+    public void setCartOwnerPrincipal(String cartOwnerPrincipal) {
+        this.cartOwnerPrincipal = cartOwnerPrincipal;
     }
 
     @PostConstruct
-    public void init() {
+    public void construct() {
+        logger.info("Creating cart for " +cartOwnerPrincipal);
     }
 
     @PreDestroy
     public void dest() {
-        if(!itemsList.isEmpty()){
-            for (Map.Entry<Item, Integer> entry : itemsList.entrySet()){
-                Item item = itemService.findById(entry.getKey().getId());
-                BigInteger newStock = item.getStock().add(BigInteger.valueOf(entry.getValue()));
-                item.setStock(newStock);
-                itemService.updateItem(item);
+        logger.info("Destroying cart for " +this.cartOwnerPrincipal);
+        if(!items.isEmpty()){
+            for (Map.Entry<Item, Integer> entry : items.entrySet()){
+                itemService.extendItemStock(entry.getKey().getId(), entry.getValue());
             }
         }
     }
